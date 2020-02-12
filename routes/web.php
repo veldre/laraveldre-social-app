@@ -11,10 +11,33 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+//
+//Route::get('/', function () {
+//    return view('index');
+//});
+//
+//Route::get('/about', function () {
+//    return view('about');
+//});
+
+Route::get('users', 'UsersController@index')->name('users.index');  // visi juzeri
+Route::get('users/{id}/show', 'UsersController@show')->name('users.show'); // konkrets juzeris
+
+Route::get('users/{id}/user-posts', 'UsersController@showPosts')->name('users.user-posts');  // visi viena juzera posti
+
+
+Route::get('posts', 'PostsController@index')->name('posts.index');  // visi posti
+Route::get('posts/{id}/show', 'PostsController@show')->name('posts.show');  //kokrets posts
+
+
+
+
+

@@ -1,0 +1,34 @@
+@extends('layouts/app')
+
+
+@section('content')
+    <div class="container justify-content-center text-center">
+        <h1>Info on {{$user->name}}</h1>
+    </div>
+
+    <div class="info-on-user">
+        <ul>
+            <div class="user-data">
+                <label for="name">Name:</label>
+                <li id="name">{{ $user->name }}</li>
+            </div>
+            <div class="user-data">
+                <label for="surname">Surname:</label>
+                <li id="name">{{ $user->surname }}</li>
+            </div>
+            <div class="user-data">
+                <label for="email">Email:</label>
+                <li id="email">{{ $user->email }}</li>
+            </div>
+            <div class="user-data">
+                <label for="registered-at">Registered:</label>
+                <li id="registered-at">{{  strftime("%d %b %Y",strtotime($user->created_at)) }}</li>
+            </div>
+
+        </ul>
+    </div>
+
+    <a href="user-posts" class="btn btn-success btn-lg btn-block">Show all posts by {{$user->name}}</a>
+
+
+@endsection
