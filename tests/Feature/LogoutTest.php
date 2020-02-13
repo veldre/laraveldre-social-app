@@ -9,8 +9,6 @@ use Tests\TestCase;
 
 class LogoutTest extends TestCase
 {
-//    use RefreshDatabase;
-
     public function testLogout(): void
     {
         $this->actingAs(factory(User::class)->make());

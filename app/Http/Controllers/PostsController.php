@@ -22,18 +22,19 @@ class PostsController extends Controller
         ]);
     }
 
-
-    public function create()
+    public function createPost()
     {
-        //
+        return view('posts.create-post');
     }
 
-
-    public function store(Request $request)
+    public function storePost(Request $request)
     {
-        //
+        $post = new Post();
+        $post->title = $request['post-title'];
+        $post->text = $request['post-text'];
+        $request->user()->posts()->save($post);
+        return redirect()->route('posts.index');
     }
-
 
     public function show(Post $id)
     {

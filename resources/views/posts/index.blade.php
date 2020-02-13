@@ -9,10 +9,10 @@
             <thead class="thead-dark">
 
             <tr class="row text-center justify-content-center">
-                <th class="col-md-2">Posted by</th>
-                <th class="col-md-3">Title</th>
-                <th class="col-md-5">Text</th>
-                <th class="col-md-2">Posted at</th>
+                <th class="header col-md-2">Posted by</th>
+                <th class="header col-md-3">Title</th>
+                <th class="header col-md-5">Text</th>
+                <th class="header col-md-2">Posted at</th>
             </tr>
             </thead>
 
@@ -24,7 +24,7 @@
                     </td>
                     <td class="col-md-3"><a href="/posts/{{$post->id}}/show">{{$post->title}}</a></td>
                     <td class="col-md-5">{{$post->text}}</td>
-                    <td class="col-md-2">{{  strftime("%d %b %Y",strtotime($post->updated_at)) }}</td>
+                    <td class="col-md-2">{{  strftime("%d %b %Y %H:%M",strtotime($post->updated_at)) }}</td>
                 </tr>
             @endforeach
             </tbody>

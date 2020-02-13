@@ -10,7 +10,7 @@
             <br>
             <a href="/users" class="btn btn-success btn-lg btn-block">Show all users</a>
             <a href="/posts" class="btn btn-success btn-lg btn-block">Show all posts</a>
-            <a href="/posts/{{(auth()->user()->id)}}/create-post" class="btn btn-info btn-lg btn-block">Create post</a>
+            <a href="/posts/create-post" class="btn btn-info btn-lg btn-block">Create post</a>
         </div>
     </div>
 

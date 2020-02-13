@@ -9,12 +9,16 @@ use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
-//    use RefreshDatabase;
-
     public function testRouteExists()
     {
         $response = $this->get('/login');
         $response->assertStatus(200);
+    }
+
+    public function testOnlyLoggedUsersCanSeePage()
+    {
+        $this->get('/')
+            ->assertRedirect('login');
     }
 
     public function testInvalidLogin()
@@ -25,7 +29,6 @@ class LoginTest extends TestCase
             ->assertOk()
             ->assertSeeText("The email field is required.")
             ->assertSeeText("The password field is required.");
-
     }
 
     public function testInvalidCredentialsLogin(): void
