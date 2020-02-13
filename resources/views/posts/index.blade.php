@@ -14,7 +14,6 @@
                 <th class="col-md-5">Text</th>
                 <th class="col-md-2">Posted at</th>
             </tr>
-
             </thead>
 
             <tbody>
@@ -23,13 +22,12 @@
                     <td class="col-md-2"><a
                             href="/users/{{$post->user_id}}/user-posts">{{$post->user->name}} {{$post->user->surname}}</a>
                     </td>
-                    <td class="col-md-2"><a href="/posts/{{$post->id}}/show">{{$post->title}}</a></td>
-                    <td class="col-md-2">{{$post->text}}</td>
+                    <td class="col-md-3"><a href="/posts/{{$post->id}}/show">{{$post->title}}</a></td>
+                    <td class="col-md-5">{{$post->text}}</td>
                     <td class="col-md-2">{{  strftime("%d %b %Y",strtotime($post->updated_at)) }}</td>
                 </tr>
             @endforeach
             </tbody>
-
         </table>
     </div>
 

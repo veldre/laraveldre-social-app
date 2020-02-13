@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class LogoutTest extends TestCase
 {
-    use RefreshDatabase;
+//    use RefreshDatabase;
 
     public function testLogout(): void
     {

@@ -25,7 +25,9 @@ class UsersController extends Controller
             'title'=>'izmeginajums',
             'text'=>'bez formas'
         ]);
+
         var_dump($user->posts);die;
+
     }
 
 

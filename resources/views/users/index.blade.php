@@ -7,14 +7,12 @@
         </div>
         <table class="table table-hover">
             <thead class="thead-dark">
-
             <tr class="row text-center justify-content-center">
                 <th class="col-md-3">Name</th>
                 <th class="col-md-4">Surname</th>
                 <th class="col-md-3">Email</th>
                 <th class="col-md-2">Registered</th>
             </tr>
-
             </thead>
 
             <tbody>

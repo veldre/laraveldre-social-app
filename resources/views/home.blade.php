@@ -7,8 +7,6 @@
         </div>
         <div class="col-md-4">
             <img class="user-image" src="/images/yourAd.png">
-
-
             <br>
             <a href="/users" class="btn btn-success btn-lg btn-block">Show all users</a>
             <a href="/posts" class="btn btn-success btn-lg btn-block">Show all posts</a>

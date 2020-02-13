@@ -39,7 +39,7 @@ class User extends Authenticatable
 
     public function posts()
     {
-        return $this->hasMany(Post::class, 'user_id'); // tas pats, kas SELECT * FROM posts WHERE user_id = jūzera instances id (1, ja userim id ir 1)
+        return $this->hasMany(Post::class); // tas pats, kas SELECT * FROM posts WHERE user_id = jūzera instances id (1, ja userim id ir 1)
     }
 
 }

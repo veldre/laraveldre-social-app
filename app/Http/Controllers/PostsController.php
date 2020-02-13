@@ -19,7 +19,6 @@ class PostsController extends Controller
         $ordered = Post::all()->sortByDesc('updated_at');
         return view('posts.index', [
             'posts' => $ordered,
-
         ]);
     }
 
