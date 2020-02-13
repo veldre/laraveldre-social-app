@@ -17,11 +17,8 @@ class PostsController extends Controller
     public function index()
     {
         $ordered = Post::all()->sortByDesc('updated_at');
-//        $postedBy = $ordered->where('user_id',)
-//        var_dump($postedBy);die;
         return view('posts.index', [
             'posts' => $ordered,
-
         ]);
     }
 

@@ -24,6 +24,10 @@
                 <label for="registered-at">Registered:</label>
                 <li id="registered-at">{{  strftime("%d %b %Y",strtotime($user->created_at)) }}</li>
             </div>
+            <div class="user-data">
+                <label for="posts-count">Posts count:</label>
+                <li id="posts-count">{{  $user->posts->count() }}</li>
+            </div>
 
         </ul>
     </div>
