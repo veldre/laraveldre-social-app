@@ -36,11 +36,10 @@ class PostsController extends Controller
         return redirect()->route('posts.index');
     }
 
-    public function show(Post $id)
+    public function show($id)
     {
-        $post = Post::findOrFail($id);
-        $postedBy = $post->find($id)->user;
-
+        $post = Post::where('id', $id)->first();
+        $postedBy = $post->where('user_id', $post->user_id)->first()->user;
         return view('posts.show',
             ['post' => $post,
                 'postedBy' => $postedBy]);
