@@ -17,9 +17,15 @@ class UsersController extends Controller
     }
 
 
-    public function create()
+    public function createPost($id)
     {
-        //
+        $user = User::findOrFail($id);
+        var_dump($user->posts);
+        $user->posts->create([
+            'title'=>'izmeginajums',
+            'text'=>'bez formas'
+        ]);
+        var_dump($user->posts);die;
     }
 
 

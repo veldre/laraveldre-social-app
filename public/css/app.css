@@ -137,26 +137,10 @@ p {
     border: none;
 }
 
-.poster {
-    width: 10%;
-
+.user-image {
+    height: 150px;
+    margin-bottom: 10px;
 }
-
-.title {
-    width: 30%;
-
-}
-
-.text {
-    width: 50%;
-
-  }
-
-.time {
-    width: 10%;
-
-}
-
 
 abbr[title],
 abbr[data-original-title] {

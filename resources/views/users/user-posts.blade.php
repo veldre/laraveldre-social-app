@@ -8,11 +8,11 @@
         <table class="table table-hover">
             <thead class="thead-dark">
 
-            <tr class="row text-center">
+            <tr class="row text-center justify-content-center">
 
-                <th class="header title">Title</th>
-                <th class="header title">Text</th>
-                <th class="header title">Posted</th>
+                <th class="col-md-3">Title</th>
+                <th class="col-md-4">Text</th>
+                <th class="col-md-5">Posted</th>
             </tr>
 
             </thead>
@@ -20,9 +20,9 @@
             @foreach($userPosts as $post)
                 <tr class="row text-center">
 
-                    <td class="title"><a href="/posts/{{$post->id}}/show">{{$post->title}}</a></td>
-                    <td class="title">{{$post->text}}</td>
-                    <td class="title">{{  strftime("%d %b %Y",strtotime($post->created_at)) }}</td>
+                    <td class="col-md-3"><a href="/posts/{{$post->id}}/show">{{$post->title}}</a></td>
+                    <td class="col-md-4">{{$post->text}}</td>
+                    <td class="col-md-5">{{  strftime("%d %b %Y",strtotime($post->created_at)) }}</td>
                 </tr>
             @endforeach
             </tbody>
