@@ -2,10 +2,11 @@
 
 
 @section('content')
+
     <div class="container justify-content-center text-center">
 
         <h1>Create a post</h1>
-
+        @include('includes.message-block')
         <form action="" method="post">
             <div class="form-group">
                 <label for="post-title">Title:</label>

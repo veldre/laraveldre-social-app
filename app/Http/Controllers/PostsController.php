@@ -24,11 +24,17 @@ class PostsController extends Controller
 
     public function storePost(Request $request)
     {
+        $this->validate($request, [     // validation
+            'post-title' => 'required|min:10|max:100',
+            'post-text' => 'required|min:10'
+        ]);
         $post = new Post();
         $post->title = $request['post-title'];
         $post->text = $request['post-text'];
-        $request->user()->posts()->save($post);
-        return redirect()->route('posts.index');
+        if ($request->user()->posts()->save($post)) {
+            $message = 'Post was successfully created!';
+        }
+        return redirect()->route('posts.create-post')->with(['message' => $message]);  //redirekto kopā ar mesidžu
     }
 
     public function show($id)
