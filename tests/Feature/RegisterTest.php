@@ -3,8 +3,10 @@
 namespace Tests\Feature;
 
 use App\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Notifications\Notification;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -78,15 +80,14 @@ class RegisterTest extends TestCase
         // create ievieto datubāzē, make izveido objektu
         $user = factory(User::class)->make();
 
-        $this->followingRedirects()
-            ->from('/register')
+        $this->from('/register')
             ->post('/register', [
                 'email' => $user->email,
                 'name' => $user->name,
                 'surname' => $user->surname,
                 'password' => '12345678',
                 'password_confirmation' => '12345678'])
-            ->assertOk();
+            ->assertStatus(302);
 
         $this->assertDatabaseHas('users', [
             'email' => $user->email,
@@ -94,4 +95,8 @@ class RegisterTest extends TestCase
         ]);
         $this->assertTrue(auth()->check());
     }
+
+
+
+
 }

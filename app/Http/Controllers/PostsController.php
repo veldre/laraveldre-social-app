@@ -9,11 +9,6 @@ use Illuminate\Http\Response;
 
 class PostsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return array|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function index()
     {
         $ordered = Post::all()->sortByDesc('updated_at');
