@@ -28,6 +28,10 @@ Route::get('/', 'HomeController@index')->name('home');
 //    return view('about');
 //});
 
+//Route::get('/{slug}', 'UsersController@show');
+//Route::get('/{user}', 'UsersController@show');
+
+
 Route::get('users', 'UsersController@index')->name('users.index');  // visi juzeri
 Route::get('users/{user}/show', 'UsersController@show')->name('users.show'); // konkrets juzeris
 Route::get('users/{id}/user-posts', 'UsersController@showPosts')->name('users.user-posts');  // visi viena juzera posti

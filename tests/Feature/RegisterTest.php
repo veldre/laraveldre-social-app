@@ -11,11 +11,11 @@ use Tests\TestCase;
 
 class RegisterTest extends TestCase
 {
+    use RefreshDatabase;
 
     public function testExample()
     {
         $response = $this->get('/register');
-
         $response->assertStatus(200);
     }
 
@@ -95,8 +95,6 @@ class RegisterTest extends TestCase
         ]);
         $this->assertTrue(auth()->check());
     }
-
-
 
 
 }

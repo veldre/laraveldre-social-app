@@ -33,6 +33,18 @@ class UsersController extends Controller
     }
 
 
+//    public function show(string $slug)
+//    {
+//       [$id, $name] = explode('-', $slug);
+//       return User::findOrFail($id);
+//    }
+//
+//    public function show(User::$user)
+//    {
+//     return $user;
+//    }
+
+
     public function edit($id)
     {
         //
