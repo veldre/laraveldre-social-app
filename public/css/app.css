@@ -111,7 +111,7 @@ hr {
 }
 
 li {
-    display:inline;
+    display: inline;
 }
 
 h1,
@@ -139,7 +139,25 @@ p {
 
 .user-image {
     height: 150px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+}
+
+.alert {
+    text-align: center;
+}
+
+.alert ul {
+    padding: 0;
+    margin: 0;
+}
+
+.action-buttons {
+    display:inherit;
+    justify-content: space-evenly;
+}
+
+.btn-sm {
+    width: 5em;
 }
 
 abbr[title],
@@ -162,7 +180,7 @@ address {
 ol,
 ul,
 dl {
-    margin-top: 0;
+
     margin-bottom: 1rem;
 }
 
@@ -5982,7 +6000,7 @@ a.badge-dark.focus {
 .alert-success {
     color: #1d643b;
     background-color: #d7f3e3;
-    border-color: #c7eed8;
+    border: 1px solid #1d643b;
 }
 
 .alert-success hr {
@@ -6024,7 +6042,7 @@ a.badge-dark.focus {
 .alert-danger {
     color: #761b18;
     background-color: #f9d6d5;
-    border-color: #f7c6c5;
+    border: 1px solid #761b18;
 }
 
 .alert-danger hr {

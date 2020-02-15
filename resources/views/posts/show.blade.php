@@ -3,17 +3,10 @@
 
 @section('content')
     <div class="container justify-content-center text-center">
-        <h5>Posted by: {{$postedBy->name}} {{$postedBy->surname}}</h5>
-        <h1>{{ $post->first()->title }}</h1>
-
-        <h2>{{ $post->first()->text }} </h2>
-
-
-{{--        @php(var_dump($postedBy));--}}
-
+        <h5>Posted by: {{$postedBy->name}} {{$postedBy->surname}}
+            on {{  strftime("%d %b %Y %H:%M",strtotime($postedBy->created_at)) }}</h5>
+        <h1>{{ $post->title }}</h1>
+        <h2>{{ $post->text }} </h2>
     </div>
-
-
-
 
 @endsection

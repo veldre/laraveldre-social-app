@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function index()
     {
@@ -17,27 +21,15 @@ class UsersController extends Controller
     }
 
 
-    public function createPost($id)
-    {
-        $user = User::findOrFail($id);
-        var_dump($user->posts);
-        $user->posts->create([
-            'title'=>'izmeginajums',
-            'text'=>'bez formas'
-        ]);
-
-    }
-
-
     public function store(Request $request)
     {
         //
     }
 
-    public function show($id)
+    public function show($user)
     {
-        $user = User::findOrFail($id);
-        return view('users.show', ['user' => $user]);
+        $singleUser = User::findOrFail($user);
+        return view('users.show', ['user' => $singleUser]);
     }
 
 
