@@ -9,6 +9,11 @@ use Illuminate\Http\Response;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $ordered = Post::all()->sortByDesc('updated_at');
@@ -28,6 +33,7 @@ class PostsController extends Controller
             'post-title' => 'required|min:10|max:100',
             'post-text' => 'required|min:10'
         ]);
+
         $post = new Post();
         $post->title = $request['post-title'];
         $post->text = $request['post-text'];
@@ -36,6 +42,8 @@ class PostsController extends Controller
         }
         return redirect()->route('posts.create-post')->with(['message' => $message]);  //redirekto kopā ar mesidžu
     }
+
+//return back()->withInput();
 
     public function show($id)
     {
@@ -47,38 +55,27 @@ class PostsController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Post $post
-     * @return Response
-     */
+
     public function edit(Post $post)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param Post $post
-     * @return Response
-     */
+
     public function update(Request $request, Post $post)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Post $post
-     * @return Response
-     */
+
     public function destroy(Post $post)
     {
-        //
+        $userPosts = $post->user->all()->where('id', $post->user_id);
+        $deletablePost = $post->where('id', $post->id)->first();
+        $deletablePost->delete();
+
+        return redirect()->route('users.user-posts', $post->user_id)->with(['userPosts' => $userPosts,
+            'user' => $post->user, 'message' => 'Your post was successfully deleted!']);
     }
 
 
