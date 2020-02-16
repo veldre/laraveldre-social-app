@@ -8,7 +8,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Post::class, function (Faker $faker) {
     return [
-        'user_id' => rand(2, 15),
+//        'user_id' => rand(2, 15),
+        'user_id' => 22,
         'title' => $faker->slug,
         'text' => $faker->paragraph,
     ];

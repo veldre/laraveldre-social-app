@@ -28,22 +28,9 @@ class UsersController extends Controller
 
     public function show($user)
     {
-        $singleUser = User::findOrFail($user);
-        return view('users.show', ['user' => $singleUser]);
+        $user = User::where('id', $user)->first();
+        return view('users.show', ['user' => $user]);
     }
-
-
-//    public function show(string $slug)
-//    {
-//       [$id, $name] = explode('-', $slug);
-//       return User::findOrFail($id);
-//    }
-//
-//    public function show(User::$user)
-//    {
-//     return $user;
-//    }
-
 
     public function edit($id)
     {
@@ -65,9 +52,12 @@ class UsersController extends Controller
 
     public function showPosts($id)
     {
+//        dd($id);
         $user = User::findOrFail($id);
+//        dd($user);
         $userPosts = $user->find($id)->posts;
-        return view('users.user-posts', [
+//        dd($userPosts);
+        return view('users.posts', [
             'userPosts' => $userPosts,
             'user' => $user
         ]);

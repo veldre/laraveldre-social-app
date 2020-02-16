@@ -29,8 +29,8 @@
 
             <nav id="main-nav" class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
 
-                    <img id="logo" src="/images/svg/meeting.svg" alt="site_icon">
-                    <a class="navbar-brand" href="{{ url('/users') }}">Laraveldre social</a>
+                <img id="logo" src="/images/svg/meeting.svg" alt="site_icon">
+                <a class="navbar-brand" href="{{ url('/users') }}">Laraveldre social</a>
 
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -65,6 +65,12 @@
                             @endif
                         @else
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('users.index') }}">Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('posts.index') }}">Posts</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('home') }}">My account</a>
                             </li>
                             <li class="nav-item dropdown">
@@ -89,7 +95,7 @@
                         @endguest
                     </ul>
                 </div>
-                </div>
+
             </nav>
 
             <main class="py-4">
@@ -97,5 +103,12 @@
             </main>
             </div>
         </header>
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
+                integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+                crossorigin="anonymous"></script>
 </body>
 </html>

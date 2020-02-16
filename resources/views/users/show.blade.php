@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="container justify-content-center text-center">
-        <h1>Info on {{$user->name}}</h1>
+        <h1>Info on {{$user->name}} {{$user->surname}}</h1>
     </div>
 
     <div class="info-on-user">
@@ -32,7 +32,7 @@
         </ul>
     </div>
 
-    <a href="user-posts" class="btn btn-success btn-lg btn-block">Show all posts by {{$user->name}}</a>
+    <a href="{{route('users.posts',[$user,$user->name,$user->surname])}}" class="btn btn-success btn-lg btn-block">Show all posts by {{$user->name}}</a>
 
 
 @endsection

@@ -20,9 +20,10 @@
             @foreach($posts as $post)
                 <tr class="row text-center justify-content-center">
                     <td class="col-md-2"><a
-                            href={{route('users.user-posts',$post->user_id)}}>{{$post->user->name}} {{$post->user->surname}}</a>
+                            href={{route('users.posts',[$post->user_id,$post->user->name,$post->user->surname])}}>
+                            {{$post->user->name}} {{$post->user->surname}}</a>
                     </td>
-                    <td class="col-md-3"><a href={{route('posts.show',$post->id)}}>{{$post->title}}</a></td>
+                    <td class="col-md-3"><a href={{route('posts.show',[$post->id,$post->title])}}>{{$post->title}}</a></td>
                     <td class="col-md-5">{{$post->text}}</td>
                     <td class="col-md-2">{{  strftime("%d %b %Y %H:%M",strtotime($post->updated_at)) }}</td>
                 </tr>

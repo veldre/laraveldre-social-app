@@ -45,7 +45,7 @@ class PostsController extends Controller
 
 //return back()->withInput();
 
-    public function show($id)
+    public function show(int $id)
     {
         $post = Post::where('id', $id)->first();
         $postedBy = $post->where('user_id', $post->user_id)->first()->user;
@@ -64,7 +64,7 @@ class PostsController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        //
+
     }
 
 
@@ -74,7 +74,7 @@ class PostsController extends Controller
         $deletablePost = $post->where('id', $post->id)->first();
         $deletablePost->delete();
 
-        return redirect()->route('users.user-posts', $post->user_id)->with(['userPosts' => $userPosts,
+        return redirect()->route('users.posts', $post->user_id)->with(['userPosts' => $userPosts,
             'user' => $post->user, 'message' => 'Your post was successfully deleted!']);
     }
 

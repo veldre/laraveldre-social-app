@@ -8,7 +8,7 @@
         <div class="col-md-4">
             <img class="user-image" src="/images/yourAd.png">
             <br>
-            <a href="{{route('users.user-posts',auth()->user()->id)}}" class="btn btn-success btn-lg btn-block">Show all
+            <a href="{{route('users.posts', [auth()->user()->id,auth()->user()->name,auth()->user()->surname])}}" class="btn btn-success btn-lg btn-block">Show all
             my posts</a>
             <a href="/posts" class="btn btn-success btn-lg btn-block">Show all posts</a>
             <a href="/users" class="btn btn-success btn-lg btn-block">Show all users</a>
