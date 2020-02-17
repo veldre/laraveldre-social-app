@@ -22,8 +22,9 @@ class PostsController extends Controller
         ]);
     }
 
-    public function createPost()
+    public function createPost(Request $request)
     {
+//        dd($request);
         return view('posts.create-post');
     }
 
@@ -56,7 +57,6 @@ class PostsController extends Controller
 
     public function edit(int $id)
     {
-
         $post = Post::findOrFail($id);
         if (auth()->user()->id == $post->user_id) {
             return view('posts.edit-post', ['post' => $post]);
@@ -93,6 +93,11 @@ class PostsController extends Controller
         return redirect()->route('users.posts', [$post->user_id, $post->user->name, $post->user->surname])
             ->with(['userPosts' => $userPosts,
                 'user' => $post->user, 'message' => 'Your post was successfully deleted!']);
+    }
+
+    public function redirect()
+    {
+        return redirect()->route('users.posts', [auth()->user()->id, auth()->user()->name, auth()->user()->surname]);
     }
 
 }

@@ -15,7 +15,7 @@
             </div>
             <div class="form-group">
                 <label for="post-text">Your post:</label>
-                <textarea class="form-control" name="post-text" id="post-text" rows="5">{{$post->text}}</textarea>
+                <textarea class="form-control" name="post-text" id="editor" rows="5">{{$post->text}}</textarea>
             </div>
 
             <button type="submit" class="btn btn-success btn-lg btn-block">Update post</button>

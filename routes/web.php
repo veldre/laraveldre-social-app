@@ -30,36 +30,23 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('posts/redirect', 'PostsController@redirect')->name('posts.redirect');  // izlaiž cauri redirektam, lai nokļūtu 'users.posts' no navbar
 
 Route::get('users', 'UsersController@index')->name('users.index');  // visi juzeri
 Route::get('users/{id}-{name}-{surname}', 'UsersController@show')->name('users.show'); // konkrets juzeris
 Route::get('users/{id}-{name}-{surname}/posts', 'UsersController@showPosts')->name('users.posts');  // visi viena juzera posti
 
+Route::get('posts', 'PostsController@index')->name('posts.index');  // visi posti
 Route::get('posts/create-post', 'PostsController@createPost')->name('posts.create-post'); // jauna posta izveides lapa
-
+Route::post('posts/create-post', 'PostsController@storePost'); //jauna posta ievietosana DB
+Route::get('posts/{id}-{title}', 'PostsController@show')->name('posts.show');  //kokrets posts
 Route::get('posts/{id}-{title}/edit-post', 'PostsController@edit')->name('posts.edit-post');
 Route::put('posts/{id}/update', 'PostsController@update')->name('posts.update-post');
-
-Route::post('posts/create-post', 'PostsController@storePost'); //jauna posta ievietosana DB
 Route::delete('posts/{post}', 'PostsController@destroy')->name('posts.destroy');  // konkrēta posta dzēšana
 
 
-Route::get('tasks/{id}/edit', 'TasksController@edit')->name('tasks.edit');
-
-Route::put('tasks/{id}/update', 'TasksController@update')->name('tasks.update');
-
-
-//Route::put('posts/{post}', 'PostsController@update')->name('posts.update');
-Route::get('posts', 'PostsController@index')->name('posts.index');  // visi posti
-Route::get('posts/{id}-{title}', 'PostsController@show')->name('posts.show');  //kokrets posts
-
-
-//Route::get('users/{user}', 'UsersController@show')->name('users.show'); // konkrets juzeris
-//Route::get('users/{id}/posts', 'UsersController@showPosts')->name('users.posts');  // visi viena juzera posti
-
-
 //Route::resource('users', 'UsersController');
-Route::resource('posts', 'PostsController');
+//Route::resource('posts', 'PostsController');
 
 
 

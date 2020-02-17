@@ -7,9 +7,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laraveldre Social') }}</title>
 
     <!-- Scripts -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
@@ -64,18 +65,41 @@
                             </li>
                         @endif
                     @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('users.index') }}">Users</a>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Users <span class="caret"></span> </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" id="posts" href="{{ route('users.index') }}"
+                                   onclick="location.href = 'users'">{{'All users'}}
+                                </a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('posts.index') }}">Posts</a>
-                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Posts <span class="caret"></span> </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" id="all-posts" href="{{ route('posts.index') }}"
+                                   onclick="location.href = 'posts'">{{'All posts'}}
+                                </a>
+                                <a class="dropdown-item" id="my-posts" href="{{ route('posts.redirect') }}"
+                                   onclick="location.href ='posts/redirect'">{{'My posts'}}
+                                </a>
+                                <a class="dropdown-item" id="create-post" href="{{ route('posts.create-post') }}"
+                                   onclick="location.href = 'posts/create-post'">{{'Create new post'}}
+                                </a>
+                            </div>
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">My account</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
@@ -104,15 +128,22 @@
 
     </section>
 </header>
-<script
-    src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"></script>
+
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
         integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
         crossorigin="anonymous"></script>
 
+{{--<script>--}}
+{{--    ClassicEditor--}}
+{{--        .create(document.querySelector('#editor'));--}}
+{{--           config.fillEmptyBlocks = false;--}}
+{{--    config.fillEmptyBlocks = function (element) {--}}
+{{--        if (element.attributes['class'].indexOf('clear-both') !== -1)--}}
+{{--            return false;--}}
+{{--    }--}}
 
+{{--</script>--}}
 
 </body>
 </html>
+

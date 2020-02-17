@@ -23,7 +23,7 @@
                     <td class="col-md-3">{{$user->surname}}</td>
                     <td class="col-md-2"> <a href={{route('users.posts',[$user->id,$user->name,$user->surname])}}>
                             <img id="posts-icon" src="/images/svg/paper-note.svg" alt="posts_icon">({{$user->posts->count('post')}})</a></td>
-                    <td class="col-md-2">{{$user->email}}</td>
+                    <td class="col-md-2 text-left">{{$user->email}}</td>
                     <td class="col-md-2">{{  strftime("%d %b %Y",strtotime($user->created_at)) }}</td>
                 </tr>
             @endforeach
