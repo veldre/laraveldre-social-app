@@ -92,6 +92,10 @@ body {
     padding-bottom: 9px;
 }
 
+#posts-icon {
+    height: 20px;
+}
+
 #main-nav {
     align-items: center;
     display: flex;
@@ -102,6 +106,10 @@ body {
 
 .navbar-brand {
     margin-left: 90px;
+}
+
+.modal-content {
+    padding: 15px;
 }
 
 hr {
@@ -152,7 +160,7 @@ p {
 }
 
 .action-buttons {
-    display:inherit;
+    display: inherit;
     justify-content: space-evenly;
 }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -52,11 +53,8 @@ class UsersController extends Controller
 
     public function showPosts($id)
     {
-//        dd($id);
         $user = User::findOrFail($id);
-//        dd($user);
-        $userPosts = $user->find($id)->posts;
-//        dd($userPosts);
+        $userPosts = $user->find($id)->posts->sortByDesc('updated_at');
         return view('users.posts', [
             'userPosts' => $userPosts,
             'user' => $user

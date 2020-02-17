@@ -36,9 +36,20 @@ Route::get('users/{id}-{name}-{surname}', 'UsersController@show')->name('users.s
 Route::get('users/{id}-{name}-{surname}/posts', 'UsersController@showPosts')->name('users.posts');  // visi viena juzera posti
 
 Route::get('posts/create-post', 'PostsController@createPost')->name('posts.create-post'); // jauna posta izveides lapa
+
+Route::get('posts/{id}-{title}/edit-post', 'PostsController@edit')->name('posts.edit-post');
+Route::put('posts/{id}/update', 'PostsController@update')->name('posts.update-post');
+
 Route::post('posts/create-post', 'PostsController@storePost'); //jauna posta ievietosana DB
 Route::delete('posts/{post}', 'PostsController@destroy')->name('posts.destroy');  // konkrēta posta dzēšana
-Route::put('posts/{post}', 'PostsController@update')->name('posts.update');
+
+
+Route::get('tasks/{id}/edit', 'TasksController@edit')->name('tasks.edit');
+
+Route::put('tasks/{id}/update', 'TasksController@update')->name('tasks.update');
+
+
+//Route::put('posts/{post}', 'PostsController@update')->name('posts.update');
 Route::get('posts', 'PostsController@index')->name('posts.index');  // visi posti
 Route::get('posts/{id}-{title}', 'PostsController@show')->name('posts.show');  //kokrets posts
 
@@ -48,6 +59,7 @@ Route::get('posts/{id}-{title}', 'PostsController@show')->name('posts.show');  /
 
 
 //Route::resource('users', 'UsersController');
+Route::resource('posts', 'PostsController');
 
 
 

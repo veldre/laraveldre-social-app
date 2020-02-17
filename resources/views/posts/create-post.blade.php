@@ -15,7 +15,7 @@
 
             <div class="form-group">
                 <label for="post-text">Your post:</label>
-                <textarea class="form-control" name="post-text" id="post-text" rows="3"></textarea>
+                <textarea class="form-control" name="post-text" id="post-text" rows="5"></textarea>
             </div>
 
             <button type="submit" class="btn btn-success btn-lg btn-block">Create post</button>
