@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="testing@localhost" uuid="62254e40-1aac-4ab2-9d0c-6014d39f99bf">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/testing</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="facebook@localhost" uuid="cc115c63-cc8a-4bf5-a39a-f01ec1a0154c">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/facebook</jdbc-url>
+    </data-source>
+  </component>
+</project>

@@ -13,7 +13,9 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laraveldre social'),
+//    'name' => env('APP_NAME', 'Laraveldre social'),
+
+    'name' => 'Laraveldre social',
 
     /*
     |--------------------------------------------------------------------------

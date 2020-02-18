@@ -16,7 +16,7 @@ class UsersController extends Controller
 
     public function index()
     {
-        $ordered = User::all()->sortByDesc('updated_at');
+        $ordered = User::orderBy('updated_at', 'DESC')->where('id', '>', 0)->simplePaginate(10);
         return view('users.index', [
             'users' => $ordered,
         ]);

@@ -16,28 +16,27 @@ class PostsController extends Controller
 
     public function index()
     {
-        $ordered = Post::all()->sortByDesc('updated_at');
+        $ordered = Post::orderBy('updated_at', 'DESC')->where('id', '>', 0)->simplePaginate(10);
         return view('posts.index', [
-            'posts' => $ordered,
+            'posts' => $ordered
         ]);
     }
 
-    public function createPost(Request $request)
+    public function createPost()
     {
-//        dd($request);
         return view('posts.create-post');
     }
 
-    public function storePost(Request $request)
+    public function storePost()
     {
-        $this->validate($request, [     // validation
+        request()->validate([
             'post-title' => 'required|min:10|max:100',
             'post-text' => 'required|min:10'
         ]);
         $post = new Post();
-        $post->title = $request['post-title'];
-        $post->text = $request['post-text'];
-        if ($request->user()->posts()->save($post)) {
+        $post->title = request('post-title');
+        $post->text = request('post-text');
+        if (request()->user()->posts()->save($post)) {
             $message = 'Post was successfully created!';
         }
         return redirect()->route('posts.create-post')->with(['message' => $message]);  //redirekto kopā ar mesidžu
@@ -65,18 +64,15 @@ class PostsController extends Controller
         }
     }
 
-
-    public function update(Request $request, $id)
+    public function update(int $id)
     {
-        $this->validate($request, [
+        request()->validate([
             'post-title' => 'required|min:10|max:100',
             'post-text' => 'required|min:10'
         ]);
         $post = Post::findOrFail($id);
-        $post->title = $request['post-title'];
-        $post->text = $request['post-text'];
         $userPosts = $post->user->all()->where('id', $post->user_id);
-//        $post->fill($request->all());
+        $post->fill(['title' => request('post-title'), 'text' => request('post-text')]);
         $post->save();
 
         return redirect()->route('users.posts', [$post->user_id, $post->user->name, $post->user->surname])
@@ -94,10 +90,4 @@ class PostsController extends Controller
             ->with(['userPosts' => $userPosts,
                 'user' => $post->user, 'message' => 'Your post was successfully deleted!']);
     }
-
-    public function redirect()
-    {
-        return redirect()->route('users.posts', [auth()->user()->id, auth()->user()->name, auth()->user()->surname]);
-    }
-
 }
