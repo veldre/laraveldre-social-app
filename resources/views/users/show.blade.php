@@ -1,4 +1,4 @@
-@extends('layouts/app')
+@extends('layouts/app', ['title' => $user->name . ' ' . $user->surname])
 
 
 @section('content')
@@ -32,7 +32,8 @@
         </ul>
     </div>
 
-    <a href="{{route('users.posts',[$user,$user->name,$user->surname])}}" class="btn btn-success btn-lg btn-block">Show all posts by {{$user->name}}</a>
+    <a href="{{route('users.posts',[$user,$user->name,$user->surname])}}" class="btn btn-success btn-lg btn-block">Show
+        all posts by {{$user->name}}</a>
 
 
 @endsection

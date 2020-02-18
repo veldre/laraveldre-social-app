@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class UsersController extends Controller
 {
@@ -60,5 +62,18 @@ class UsersController extends Controller
             'userPosts' => $userPosts,
             'user' => $user
         ]);
+    }
+
+    public function addProfileImage()
+    {
+        $user = User::where('id', auth()->user()->id)->first();
+        request()->validate([
+            'image' => 'file|image|max:5000'
+        ]);
+        $user->update([
+            'image' => request()->image->store('uploads', 'public')
+        ]);
+
+        return back()->with(['message' => 'Profile picture changed!']);
     }
 }

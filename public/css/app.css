@@ -145,9 +145,16 @@ p {
     border: none;
 }
 
-.user-image {
+.profile-image {
     height: 150px;
     margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.btn.btn-info.btn-sm.profile-image-button {
+    display: block;
+    width: 150px;
+    text-align: center;
 }
 
 .alert {
