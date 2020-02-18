@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -28,10 +30,9 @@ class UsersController extends Controller
 
     public function show($user)
     {
-        $singleUser = User::findOrFail($user);
-        return view('users.show', ['user' => $singleUser]);
+        $user = User::where('id', $user)->first();
+        return view('users.show', ['user' => $user]);
     }
-
 
     public function edit($id)
     {
@@ -54,8 +55,8 @@ class UsersController extends Controller
     public function showPosts($id)
     {
         $user = User::findOrFail($id);
-        $userPosts = $user->find($id)->posts;
-        return view('users.user-posts', [
+        $userPosts = $user->find($id)->posts->sortByDesc('updated_at');
+        return view('users.posts', [
             'userPosts' => $userPosts,
             'user' => $user
         ]);

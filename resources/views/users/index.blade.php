@@ -19,10 +19,11 @@
             <tbody>
             @foreach($users as $user)
                 <tr class="row text-center justify-content-center">
-                    <td class="col-md-3"><a href={{route('users.show',$user)}}>{{$user->name}}</a></td>
+                    <td class="col-md-3"><a href={{route('users.show',[$user,$user->name,$user->surname])}}>{{$user->name}}</a></td>
                     <td class="col-md-3">{{$user->surname}}</td>
-                    <td class="col-md-2">Activity icons coming</td>
-                    <td class="col-md-2">{{$user->email}}</td>
+                    <td class="col-md-2"> <a href={{route('users.posts',[$user->id,$user->name,$user->surname])}}>
+                            <img id="posts-icon" src="/images/svg/paper-note.svg" alt="posts_icon">({{$user->posts->count('post')}})</a></td>
+                    <td class="col-md-2 text-left">{{$user->email}}</td>
                     <td class="col-md-2">{{  strftime("%d %b %Y",strtotime($user->created_at)) }}</td>
                 </tr>
             @endforeach

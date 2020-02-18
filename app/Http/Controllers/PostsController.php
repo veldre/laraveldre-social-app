@@ -22,8 +22,9 @@ class PostsController extends Controller
         ]);
     }
 
-    public function createPost()
+    public function createPost(Request $request)
     {
+//        dd($request);
         return view('posts.create-post');
     }
 
@@ -33,7 +34,6 @@ class PostsController extends Controller
             'post-title' => 'required|min:10|max:100',
             'post-text' => 'required|min:10'
         ]);
-
         $post = new Post();
         $post->title = $request['post-title'];
         $post->text = $request['post-text'];
@@ -45,7 +45,7 @@ class PostsController extends Controller
 
 //return back()->withInput();
 
-    public function show($id)
+    public function show(int $id)
     {
         $post = Post::where('id', $id)->first();
         $postedBy = $post->where('user_id', $post->user_id)->first()->user;
@@ -55,18 +55,34 @@ class PostsController extends Controller
 
     }
 
-
-    public function edit(Post $post)
+    public function edit(int $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        if (auth()->user()->id == $post->user_id) {
+            return view('posts.edit-post', ['post' => $post]);
+        } else {
+            return redirect('home');
+        }
     }
 
 
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
-    }
+        $this->validate($request, [
+            'post-title' => 'required|min:10|max:100',
+            'post-text' => 'required|min:10'
+        ]);
+        $post = Post::findOrFail($id);
+        $post->title = $request['post-title'];
+        $post->text = $request['post-text'];
+        $userPosts = $post->user->all()->where('id', $post->user_id);
+//        $post->fill($request->all());
+        $post->save();
 
+        return redirect()->route('users.posts', [$post->user_id, $post->user->name, $post->user->surname])
+            ->with(['userPosts' => $userPosts,
+                'user' => $post->user, 'message' => 'Your post was successfully updated!']);
+    }
 
     public function destroy(Post $post)
     {
@@ -74,9 +90,14 @@ class PostsController extends Controller
         $deletablePost = $post->where('id', $post->id)->first();
         $deletablePost->delete();
 
-        return redirect()->route('users.user-posts', $post->user_id)->with(['userPosts' => $userPosts,
-            'user' => $post->user, 'message' => 'Your post was successfully deleted!']);
+        return redirect()->route('users.posts', [$post->user_id, $post->user->name, $post->user->surname])
+            ->with(['userPosts' => $userPosts,
+                'user' => $post->user, 'message' => 'Your post was successfully deleted!']);
     }
 
+    public function redirect()
+    {
+        return redirect()->route('users.posts', [auth()->user()->id, auth()->user()->name, auth()->user()->surname]);
+    }
 
 }
