@@ -7,7 +7,7 @@
         </div>
         @include('includes.message-block')
         <div class="col-md-3 pt-4">
-            <div id="profile">
+
                 @if(auth()->user()->image)
                     <img class="profile-image" src="{{asset('storage/'. auth()->user()->image)}}" alt="profile image">
                 @else
@@ -25,7 +25,7 @@
                         </button>
                     </div>
                 </form>
-            </div>
+
             <a href="{{route('users.posts', [auth()->user()->id,auth()->user()->name,auth()->user()->surname])}}"
                class="btn btn-success btn-md btn-block">Show all
                 my posts</a>

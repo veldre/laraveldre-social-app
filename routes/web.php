@@ -31,7 +31,9 @@ Auth::routes(['verify' => true]);
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::patch('','UsersController@addProfileImage')->name('users.addProfileImage');
+Route::patch('','UsersController@addProfileImage')->name('users.addProfileImage');  // pievieno profila bildi
+Route::post('users/add-friend/{id}','UsersController@addFriend')->name('users.addFriend');
+
 Route::get('users', 'UsersController@index')->name('users.index');  // visi juzeri
 Route::get('users/{id}-{name}-{surname}', 'UsersController@show')->name('users.show'); // konkrets juzeris
 Route::get('users/{id}-{name}-{surname}/posts', 'UsersController@showPosts')->name('users.posts');  // visi viena juzera posti

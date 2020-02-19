@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Friend;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
@@ -76,4 +77,18 @@ class UsersController extends Controller
 
         return back()->with(['message' => 'Profile picture changed!']);
     }
+
+    public function addFriend(int $id)
+    {
+        $user = User::where('id', $id)->first();
+        $user_id = auth()->user()->id;
+        $friend_id = $user->id;
+        $friend = new Friend();
+        $friend->user_id = $user_id;
+        $friend->friend_id = $friend_id;
+
+        $friend->save();
+        return back()->with(['message' => 'Friend request sent to ' . $user->name .'!']);
+    }
+
 }
