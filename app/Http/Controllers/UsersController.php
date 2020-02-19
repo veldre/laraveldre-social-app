@@ -31,9 +31,9 @@ class UsersController extends Controller
         //
     }
 
-    public function show($user)
+    public function show(int $id)
     {
-        $user = User::where('id', $user)->first();
+        $user = User::find($id);
         return view('users.show', ['user' => $user]);
     }
 
@@ -55,9 +55,9 @@ class UsersController extends Controller
     }
 
 
-    public function showPosts($id)
+    public function showPosts(int $id)
     {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         $userPosts = $user->find($id)->posts->sortByDesc('updated_at');
         return view('users.posts', [
             'userPosts' => $userPosts,
@@ -67,7 +67,7 @@ class UsersController extends Controller
 
     public function addProfileImage()
     {
-        $user = User::where('id', auth()->user()->id)->first();
+        $user = User::find(auth()->user()->id);
         request()->validate([
             'image' => 'file|image|max:5000'
         ]);
@@ -78,17 +78,6 @@ class UsersController extends Controller
         return back()->with(['message' => 'Profile picture changed!']);
     }
 
-    public function addFriend(int $id)
-    {
-        $user = User::where('id', $id)->first();
-        $user_id = auth()->user()->id;
-        $friend_id = $user->id;
-        $friend = new Friend();
-        $friend->user_id = $user_id;
-        $friend->friend_id = $friend_id;
 
-        $friend->save();
-        return back()->with(['message' => 'Friend request sent to ' . $user->name .'!']);
-    }
 
 }

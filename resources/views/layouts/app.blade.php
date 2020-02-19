@@ -139,16 +139,15 @@
         integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
         crossorigin="anonymous"></script>
 
-{{--<script>--}}
-{{--    ClassicEditor--}}
-{{--        .create(document.querySelector('#editor'));--}}
-{{--           config.fillEmptyBlocks = false;--}}
-{{--    config.fillEmptyBlocks = function (element) {--}}
-{{--        if (element.attributes['class'].indexOf('clear-both') !== -1)--}}
-{{--            return false;--}}
-{{--    }--}}
-
-{{--</script>--}}
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'));
+           config.fillEmptyBlocks = false;
+    config.fillEmptyBlocks = function (element) {
+        if (element.attributes['class'].indexOf('clear-both') !== -1)
+            return false;
+    }
+</script>
 
 </body>
 </html>

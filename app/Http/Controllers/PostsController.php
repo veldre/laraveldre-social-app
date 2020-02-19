@@ -42,11 +42,9 @@ class PostsController extends Controller
         return redirect()->route('posts.create-post')->with(['message' => $message]);  //redirekto kopā ar mesidžu
     }
 
-//return back()->withInput();
-
     public function show(int $id)
     {
-        $post = Post::where('id', $id)->first();
+        $post = Post::find($id);
         $postedBy = $post->where('user_id', $post->user_id)->first()->user;
         return view('posts.show',
             ['post' => $post,
@@ -56,7 +54,7 @@ class PostsController extends Controller
 
     public function edit(int $id)
     {
-        $post = Post::findOrFail($id);
+        $post = Post::find($id);
         if (auth()->user()->id == $post->user_id) {
             return view('posts.edit-post', ['post' => $post]);
         } else {
@@ -70,7 +68,7 @@ class PostsController extends Controller
             'post-title' => 'required|min:10|max:100',
             'post-text' => 'required|min:10'
         ]);
-        $post = Post::findOrFail($id);
+        $post = Post::find($id);
         $userPosts = $post->user->all()->where('id', $post->user_id);
         $post->fill(['title' => request('post-title'), 'text' => request('post-text')]);
         $post->save();

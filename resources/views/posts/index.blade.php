@@ -25,7 +25,7 @@
                     </td>
                     <td class="col-md-3 text-left"><a
                             href={{route('posts.show',[$post->id,$post->title])}}>{{$post->title}}</a></td>
-                    <td class="col-md-5 text-left">{{$post->text}}</td>
+                    <td class="col-md-5 text-left">{!!$post->text!!}</td>
                     <td class="col-md-2">{{  strftime("%d %b %Y %H:%M",strtotime($post->updated_at)) }}</td>
                 </tr>
             @endforeach

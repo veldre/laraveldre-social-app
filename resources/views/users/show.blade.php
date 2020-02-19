@@ -15,12 +15,19 @@
                 <img class="profile-image" src="/images/yourAd.png" alt="profile image">
             @endif
             @if ($user != auth()->user())
-                <form action="{{route('users.addFriend',['id' => $user->id])}}" method="post">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-info btn-sm profile-image-button ">Send friend request
-                        </button>
-                    </div>
-                </form>
+
+                @if((new App\Friend)->checkFriendRequest($user->id) == null)
+                    <form action="{{route('friends.addFriend',[$user->id])}}" method="post">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info btn-sm profile-image-button">Send friend request
+                            </button>
+                        </div>
+                    </form>
+                @else
+                    <button type="submit" class="btn btn-info btn-sm profile-image-button" disabled="disabled">
+                        Friend request sent
+                    </button>
+                @endif
             @endif
         </div>
 
@@ -44,6 +51,10 @@
             <div class="user-data">
                 <label for="posts-count">Posts count:</label>
                 <li id="posts-count">{{  $user->posts->count() }}</li>
+            </div>
+            <div class="user-data">
+                <label for="posts-count">Friends count:</label>
+                <li id="friends-count"></li>
             </div>
             <a href="{{route('users.posts',[$user,$user->name,$user->surname])}}"
                class="btn btn-success btn-md btn-block">Show

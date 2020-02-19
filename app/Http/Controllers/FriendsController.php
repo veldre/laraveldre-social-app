@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Friend;
+use App\User;
 use Illuminate\Http\Request;
 
 class FriendsController extends Controller
@@ -81,6 +82,19 @@ class FriendsController extends Controller
     public function destroy(Friend $friend)
     {
         //
+    }
+
+    public function addFriend(int $id)
+    {
+        $user = User::find($id);
+        $user_id = auth()->user()->id;
+        $friend_id = $user->id;
+        $friend = new Friend();
+        $friend->user_id = $user_id;
+        $friend->friend_id = $friend_id;
+
+        $friend->save();
+        return back()->with(['message' => 'Friend request sent to ' . $user->name . '!']);
     }
 
 
