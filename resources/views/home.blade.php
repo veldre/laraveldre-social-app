@@ -8,20 +8,27 @@
         @include('includes.message-block')
         <div class="col-md-3 pt-4">
 
-                @if(auth()->user()->image)
-                    <img class="profile-image" src="{{asset('storage/'. auth()->user()->image)}}" alt="profile image">
-                @else
-                    <img class="profile-image" src="/images/yourAd.png" alt="profile image">
-                @endif
+            @if(auth()->user()->image)
+                <img class="profile-image" src="{{asset('storage/'. auth()->user()->image)}}" alt="profile image">
+            @else
+                <img class="profile-image" src="/images/yourAd.png" alt="profile image">
+            @endif
 
-                <form action="{{action('UsersController@addProfileImage')}}" method="post"
-                      enctype="multipart/form-data">
-                    @method('PATCH')
+            <form action="{{action('UsersController@addProfileImage')}}" method="post"
+                  enctype="multipart/form-data">
+                @method('PATCH')
+                <div class="form-group">
+                    <label for="image" class="text-muted">Profile image</label>
+                    <input type="file" name="image" class="mb-3 text-muted">
+
+                    <button type="submit" class="btn btn-info btn-sm profile-image-button ">Change profile image
+                    </button>
+                </div>
+            </form>
+
+                <form action="" method="post">
                     <div class="form-group">
-                        <label for="image" class="text-muted">Profile image</label>
-                        <input type="file" name="image" class="mb-3 text-muted">
-
-                        <button type="submit" class="btn btn-info btn-sm profile-image-button ">Change profile image
+                        <button type="submit" class="btn btn-warning btn-sm profile-image-button">Incoming friend request
                         </button>
                     </div>
                 </form>

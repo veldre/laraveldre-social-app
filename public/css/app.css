@@ -157,6 +157,13 @@ p {
     text-align: center;
 }
 
+.btn.btn-warning.btn-sm.profile-image-button {
+    display: block;
+    width: 150px;
+    text-align: center;
+    font-weight: 900;
+}
+
 .alert {
     text-align: center;
 }

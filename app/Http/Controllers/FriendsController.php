@@ -31,7 +31,7 @@ class FriendsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -42,7 +42,7 @@ class FriendsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Friend  $friend
+     * @param \App\Friend $friend
      * @return \Illuminate\Http\Response
      */
     public function show(Friend $friend)
@@ -53,7 +53,7 @@ class FriendsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Friend  $friend
+     * @param \App\Friend $friend
      * @return \Illuminate\Http\Response
      */
     public function edit(Friend $friend)
@@ -64,8 +64,8 @@ class FriendsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Friend  $friend
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Friend $friend
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Friend $friend)
@@ -76,7 +76,7 @@ class FriendsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Friend  $friend
+     * @param \App\Friend $friend
      * @return \Illuminate\Http\Response
      */
     public function destroy(Friend $friend)
@@ -96,6 +96,7 @@ class FriendsController extends Controller
         $friend->save();
         return back()->with(['message' => 'Friend request sent to ' . $user->name . '!']);
     }
+
 
 
 }

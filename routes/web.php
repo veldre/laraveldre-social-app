@@ -18,21 +18,12 @@
 Auth::routes(['verify' => true]);
 
 
-//
-//Route::get('/', function () {
-//    return view('index');
-//});
-//
-//Route::get('/about', function () {
-//    return view('about');
-//});
-
-
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::patch('','UsersController@addProfileImage')->name('users.addProfileImage');  // pievieno profila bildi
 Route::post('users/add-friend/{id}','FriendsController@addFriend')->name('friends.addFriend');  // pievieno draugu
+Route::post('add-friend/{id}','FriendsController@checkIfFriends')->name('friends.checkIfFriends');
 
 Route::get('users', 'UsersController@index')->name('users.index');  // visi juzeri
 Route::get('users/{id}-{name}-{surname}', 'UsersController@show')->name('users.show'); // konkrets juzeris

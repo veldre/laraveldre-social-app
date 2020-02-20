@@ -8,29 +8,45 @@
         </div>
         @include('includes.message-block')
         <div class="col-md-3 pt-4">
+
             @if($user->image)
-                <img class="profile-image" src="{{asset('storage/'. auth()->user()->image)}}"
+                <img class="profile-image" src="{{asset('storage/'.$user->image)}}"
                      alt="profile image">
             @else
                 <img class="profile-image" src="/images/yourAd.png" alt="profile image">
             @endif
             @if ($user != auth()->user())
 
-                @if((new App\Friend)->checkFriendRequest($user->id) == null)
+                @if((new App\Friend)->checkIfFriends($user->id) == false)
+
+                    @if((new App\Friend)->checkFriendRequest($user->id) == false)
+                        <form action="{{route('friends.addFriend',[$user->id])}}" method="post">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info btn-sm profile-image-button">Send friend
+                                    request
+                                </button>
+                            </div>
+                        </form>
+                    @else
+                        <button class="btn btn-info btn-sm profile-image-button" disabled="disabled">
+                            Friend request sent
+                        </button>
+                    @endif
+                @else
                     <form action="{{route('friends.addFriend',[$user->id])}}" method="post">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-info btn-sm profile-image-button">Send friend request
+                            <button type="submit" class="btn btn-info btn-sm profile-image-button">Unfriend
                             </button>
                         </div>
                     </form>
-                @else
-                    <button type="submit" class="btn btn-info btn-sm profile-image-button" disabled="disabled">
-                        Friend request sent
-                    </button>
+
+                    {{--                    <form action={{action('FriendsController@checkIfFriends',[$user->id])}} method="post">--}}
+                    {{--                        <button type="submit" class="btn btn-info btn-sm profile-image-button">CHECK FRIENDSHIP STATUS--}}
+                    {{--                        </button>--}}
+                    {{--                    </form>--}}
                 @endif
             @endif
         </div>
-
         <ul class="col-md-3 pt-2">
             <div class="user-data">
                 <label for="name">Name:</label>
@@ -61,5 +77,6 @@
                 all posts by {{$user->name}}</a>
         </ul>
     </div>
+
 
 @endsection
