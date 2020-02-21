@@ -16,14 +16,83 @@ class FriendsController extends Controller
 
     public function index()
     {
-        $unconfirmedFriends = Friend::orderBy('created_at', 'DESC')
+        $friends = Friend::orderBy('created_at', 'DESC')
+            ->where(['friend_id' => auth()->user()->id, 'accepted' => 1])
+            ->get();
+
+        return view('friends.my-friends', [
+            'friends' => $friends
+        ]);
+    }
+
+    public function unconfirmedFriends()
+    {
+        $requests = Friend::orderBy('created_at', 'DESC')
             ->where(['friend_id' => auth()->user()->id, 'accepted' => 0])
             ->get();
 
         return view('friends.unconfirmed-friends', [
-            'unconfirmedFriends' => $unconfirmedFriends
+            'unconfirmedFriends' => $requests
         ]);
     }
+
+    public function sendFriendRequest(User $user, int $id)
+    {
+        $user = $user->find($id);
+        $user_id = auth()->user()->id;
+        $friend_id = $user->id;
+        $friend = new Friend();
+        $friend->user_id = $user_id;
+        $friend->friend_id = $friend_id;
+
+        $friend->save();
+        return back()->with(['message' => 'Friend request sent to ' . $user->name . '!']);
+    }
+
+
+    public function acceptFriend(Friend $friend, int $id)
+    {
+        $friendRequest = $friend->getFriendRequest($id);
+        $friendRequest->accepted = 1;
+        $friendRequest->save();
+        return back();
+    }
+
+
+    public function unacceptFriend(Friend $friend, int $id)
+    {
+        $friend->getFriendRequest($id)->delete();
+        return back();
+    }
+
+
+    public static function friendsCount(int $id)
+    {
+        $friend = Friend::getFriendsCount($id);
+        return $friend;
+    }
+
+
+    public static function checkIfFriends(int $id)
+    {
+        $friendStatus = self::checkFriendRequest($id);
+        if ($friendStatus['accepted'] != 0) {
+            return true;
+        }
+    }
+
+    public static function checkFriendRequest(int $receiver_id)
+    {
+        $friendshipRequest = Friend::where([
+            'user_id' => auth()->user()->id,
+            'friend_id' => $receiver_id])->first();
+
+        return $friendshipRequest;
+    }
+
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -90,60 +159,6 @@ class FriendsController extends Controller
         //
     }
 
-    public function sendFriendRequest(User $user, int $id)
-    {
-        $user = $user->find($id);
-        $user_id = auth()->user()->id;
-        $friend_id = $user->id;
-        $friend = new Friend();
-        $friend->user_id = $user_id;
-        $friend->friend_id = $friend_id;
 
-        $friend->save();
-        return back()->with(['message' => 'Friend request sent to ' . $user->name . '!']);
-    }
-
-
-    public function acceptFriend(Friend $friend, int $id)
-    {
-        $friendRequest = $friend->getFriendRequest($id);
-        $friendRequest->accepted = 1;
-        $friendRequest->save();
-        return back();
-    }
-
-
-    public function unacceptFriend(Friend $friend, int $id)
-    {
-        $friend->getFriendRequest($id)->delete();
-        return back();
-    }
-
-
-    public function friendsCount(Friend $friend, int $id)
-    {
-        $friend = $friend->getFriendsCount($id);
-        return $friend;
-    }
-
-//    public function checkFriendRequest(int $receiver_id)
-//    {
-//        $friendshipRequest = Friend::where([
-//            'user_id' => auth()->user()->id,
-//            'friend_id' => $receiver_id])->first();
-//
-//        return $friendshipRequest;
-//    }
-
-
-//    public function getFriends()
-//    {
-//        $user = User::find(21);
-//        $friend = Friend::getUserFriends();
-//        var_dump($friend);
-//
-//
-////        return $friend;
-//    }
 
 }

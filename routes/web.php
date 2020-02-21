@@ -29,7 +29,8 @@ Route::post('add-friend/{id}','FriendsController@checkIfFriends')->name('friends
 
 Route::post('accept-friend/{id}','FriendsController@acceptFriend')->name('friends.acceptFriend');
 Route::post('unaccept-friend/{id}','FriendsController@unacceptFriend')->name('friends.unacceptFriend');
-Route::get('friends/unconfirmed-friends','FriendsController@index')->name('friends.unconfirmedFriends');
+Route::get('friends/unconfirmed-friends','FriendsController@unconfirmedFriends')->name('friends.unconfirmedFriends');
+Route::get('friends/my-friends','FriendsController@index')->name('friends.my-friends');
 
 Route::get('posts', 'PostsController@index')->name('posts.index');  // visi posti
 Route::get('posts/create-post', 'PostsController@createPost')->name('posts.create-post'); // jauna posta izveides lapa

@@ -9,14 +9,14 @@
         @include('includes.message-block')
         <div class="col-md-3 pt-4">
 
-            <div class="form-group">
-                <form action={{action('FriendsController@friendsCount', [$user->id])}} method="post">
+            {{--            <div class="form-group">--}}
+            {{--                <form action={{action('FriendsController@friendsCount', [$user->id])}} method="post">--}}
 
 
-                    <button type="submit" class="btn btn-info btn-sm profile-image-button">Friends Count
-                    </button>
-                </form>
-            </div>
+            {{--                    <button type="submit" class="btn btn-info btn-sm profile-image-button">Friends Count--}}
+            {{--                    </button>--}}
+            {{--                </form>--}}
+            {{--            </div>--}}
 
             @if($user->image)
                 <img class="profile-image" src="{{asset('storage/'.$user->image)}}"
@@ -26,31 +26,30 @@
             @endif
             @if ($user != auth()->user())
 
+                @if(\App\Http\Controllers\FriendsController::checkIfFriends($user->id) == false)
 
-                {{--                @if(\App\Http\Controllers\FriendsController::checkIfFriends($user->id) == false)--}}
-
-                {{--                    @if(\App\Http\Controllers\FriendsController::checkFriendRequest($user->id) == false)--}}
-                <form action="{{route('friends.sendFriendRequest',[$user->id])}}" method="post">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-info btn-sm profile-image-button">Send friend
-                            request
+                    @if(\App\Http\Controllers\FriendsController::checkFriendRequest($user->id) == false)
+                        <form action="{{route('friends.sendFriendRequest',[$user->id])}}" method="post">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info btn-sm profile-image-button">Send friend
+                                    request
+                                </button>
+                            </div>
+                        </form>
+                    @else
+                        <button class="btn btn-info btn-sm profile-image-button" disabled="disabled">
+                            Friend request sent
                         </button>
-                    </div>
-                </form>
-            @else
-                <button class="btn btn-info btn-sm profile-image-button" disabled="disabled">
-                    Friend request sent
-                </button>
+                    @endif
+                @else
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info btn-sm profile-image-button">Unfriend
+                            </button>
+                        </div>
+                    </form>
+                @endif
             @endif
-            {{--                @else--}}
-            <form action="" method="post">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-info btn-sm profile-image-button">Unfriend
-                    </button>
-                </div>
-            </form>
-            {{--                @endif--}}
-            {{--            @endif--}}
         </div>
         <ul class="col-md-3 pt-2">
             <div class="user-data">
@@ -75,7 +74,7 @@
             </div>
             <div class="user-data">
                 <label for="posts-count">Friends count:</label>
-                <li id="friends-count"></li>
+                <li id="friends-count">{{ App\Http\Controllers\FriendsController::friendsCount($user->id) }}</li>
             </div>
             <a href="{{route('users.posts',[$user,$user->name,$user->surname])}}"
                class="btn btn-success btn-md btn-block">Show
