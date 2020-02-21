@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Friend;
+use App\Http\Requests\ValidateImage;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
@@ -12,16 +13,18 @@ use Illuminate\Support\Facades\Redirect;
 
 class UsersController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+
     public function index()
     {
-        $ordered = User::orderBy('updated_at', 'DESC')->where('id', '>', 0)->simplePaginate(10);
+        $users = User::getUsersInOrder();
         return view('users.index', [
-            'users' => $ordered,
+            'users' => $users,
         ]);
     }
 
@@ -31,9 +34,9 @@ class UsersController extends Controller
         //
     }
 
-    public function show(int $id)
+    public function show(User $user, int $id)
     {
-        $user = User::find($id);
+        $user = $user->find($id);
         return view('users.show', ['user' => $user]);
     }
 
@@ -55,24 +58,20 @@ class UsersController extends Controller
     }
 
 
-    public function showPosts(int $id)
+    public function showPosts(User $user, int $id)
     {
-        $user = User::find($id);
-        $userPosts = $user->find($id)->posts->sortByDesc('updated_at');
+        $user = $user->find($id);
+        $userPosts = Post::getPostsByUserInOrder($id);
         return view('users.posts', [
             'userPosts' => $userPosts,
             'user' => $user
         ]);
     }
 
-    public function addProfileImage()
+    public function addProfileImage(User $user, ValidateImage $request)
     {
-        $user = User::find(auth()->user()->id);
-        request()->validate([
-            'image' => 'file|image|max:5000'
-        ]);
-        $user->update([
-            'image' => request()->image->store('uploads', 'public')
+        $user->find(auth()->user()->id)->update([
+            'image' => $request->image->store('uploads', 'public')
         ]);
 
         return back()->with(['message' => 'Profile picture changed!']);

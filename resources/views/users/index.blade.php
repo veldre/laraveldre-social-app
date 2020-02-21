@@ -20,7 +20,7 @@
             @foreach($users as $user)
                 <tr class="row text-center justify-content-center">
                     <td class="col-md-3"><a
-                            href={{route('users.show',[$user,$user->name,$user->surname])}}>{{$user->name}}</a></td>
+                            href={{route('users.show',[$user->id,$user->name,$user->surname])}}>{{$user->name}}</a></td>
                     <td class="col-md-3">{{$user->surname}}</td>
                     <td class="col-md-1 text-left"><a href={{route('users.posts',[$user->id,$user->name,$user->surname])}}>
                             <img id="posts-icon" src="/images/svg/paper-note.svg"

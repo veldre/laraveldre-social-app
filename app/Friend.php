@@ -8,21 +8,43 @@ class Friend extends Model
 {
     protected $guarded = [];
 
-    public static function checkFriendRequest(int $receiver_id)
+    public function user()
     {
-        $friendshipRequest = self::where([
-            'user_id' => auth()->user()->id,
-            'friend_id' => $receiver_id])->first();
-
-        return $friendshipRequest;
+        return $this->belongsTo(User::class);
     }
 
-    public function checkIfFriends(int $id)
+    public static function getFriendsCount(int $id)
     {
-        $friendStatus = Friend::checkFriendRequest($id);
-        if ($friendStatus['accepted'] != 0) {
-            return true;
-        }
+        $friendsCount = self::where(['user_id' => $id, 'accepted' => 1])->count();
+        return $friendsCount;
     }
+
+    public static function getFriendRequest(int $id)
+    {
+        $friendRequest = self::where(['user_id' => $id, 'friend_id' => auth()->user()->id])->first();
+        return $friendRequest;
+    }
+
+
+
+//
+//    public function checkIfFriends(int $id)
+//    {
+//
+//        $friendStatus = self::checkFriendRequest($id);
+//        if ($friendStatus['accepted'] != 0) {
+//            return true;
+//        }
+//    }
+//
+//    public function checkFriendRequest(int $receiver_id)
+//    {
+//        $friendshipRequest = self::where([
+//            'user_id' => auth()->user()->id,
+//            'friend_id' => $receiver_id])->first();
+//
+//        return $friendshipRequest;
+//    }
+
 
 }

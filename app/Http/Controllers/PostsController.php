@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ValidatePost;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
@@ -16,9 +17,9 @@ class PostsController extends Controller
 
     public function index()
     {
-        $ordered = Post::orderBy('updated_at', 'DESC')->where('id', '>', 0)->simplePaginate(10);
+        $posts = Post::getPostsInOrder();
         return view('posts.index', [
-            'posts' => $ordered
+            'posts' => $posts
         ]);
     }
 
@@ -27,34 +28,25 @@ class PostsController extends Controller
         return view('posts.create-post');
     }
 
-    public function storePost()
+    public function storePost(ValidatePost $request)
     {
-        request()->validate([
-            'post-title' => 'required|min:10|max:100',
-            'post-text' => 'required|min:10'
-        ]);
         $post = new Post();
-        $post->title = request('post-title');
-        $post->text = request('post-text');
-        if (request()->user()->posts()->save($post)) {
-            $message = 'Post was successfully created!';
-        }
-        return redirect()->route('posts.create-post')->with(['message' => $message]);  //redirekto kopā ar mesidžu
+        $post->title = $request['post-title'];
+        $post->text = $request['post-text'];
+        auth()->user()->posts()->save($post);
+
+        return redirect()->route('posts.create-post')->with(['message' => 'Post was successfully created!']);
     }
 
-    public function show(int $id)
+    public function show(Post $post, int $id)
     {
-        $post = Post::find($id);
-        $postedBy = $post->where('user_id', $post->user_id)->first()->user;
-        return view('posts.show',
-            ['post' => $post,
-                'postedBy' => $postedBy]);
-
+        $post = $post->find($id);
+        return view('posts.show', ['post' => $post]);
     }
 
-    public function edit(int $id)
+    public function edit(Post $post, int $id)
     {
-        $post = Post::find($id);
+        $post = $post->find($id);
         if (auth()->user()->id == $post->user_id) {
             return view('posts.edit-post', ['post' => $post]);
         } else {
@@ -62,30 +54,23 @@ class PostsController extends Controller
         }
     }
 
-    public function update(int $id)
+    public function update(Post $post, ValidatePost $request, int $id)
     {
-        request()->validate([
-            'post-title' => 'required|min:10|max:100',
-            'post-text' => 'required|min:10'
-        ]);
-        $post = Post::find($id);
-        $userPosts = $post->user->all()->where('id', $post->user_id);
-        $post->fill(['title' => request('post-title'), 'text' => request('post-text')]);
+        $post = $post->find($id);
+        $post->fill(['title' => $request['post-title'], 'text' => $request['post-text']]);
         $post->save();
 
         return redirect()->route('users.posts', [$post->user_id, $post->user->name, $post->user->surname])
-            ->with(['userPosts' => $userPosts,
-                'user' => $post->user, 'message' => 'Your post was successfully updated!']);
+            ->with(['user' => $post->user, 'message' => 'Your post was successfully updated!']);
     }
 
     public function destroy(Post $post)
     {
-        $userPosts = $post->user->all()->where('id', $post->user_id);
-        $deletablePost = $post->where('id', $post->id)->first();
-        $deletablePost->delete();
-
+        if (auth()->user()->id == $post->user_id) {
+            $deletablePost = $post->where('id', $post->id)->first();
+            $deletablePost->delete();
+        }
         return redirect()->route('users.posts', [$post->user_id, $post->user->name, $post->user->surname])
-            ->with(['userPosts' => $userPosts,
-                'user' => $post->user, 'message' => 'Your post was successfully deleted!']);
+            ->with(['user' => $post->user, 'message' => 'Your post was successfully deleted!']);
     }
 }

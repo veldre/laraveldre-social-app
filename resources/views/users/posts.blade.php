@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'My posts'])
+@extends('layouts.app', ['title' => $user->name . ' ' . $user->surname .' posts'])
 
 @section('content')
     <div class="container justify-content-center text-center">

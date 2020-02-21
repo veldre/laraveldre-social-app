@@ -11,23 +11,25 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
 
 Auth::routes(['verify' => true]);
 
+Route::post('users/{id}', 'FriendsController@friendsCount');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::patch('','UsersController@addProfileImage')->name('users.addProfileImage');  // pievieno profila bildi
-Route::post('users/add-friend/{id}','FriendsController@addFriend')->name('friends.addFriend');  // pievieno draugu
-Route::post('add-friend/{id}','FriendsController@checkIfFriends')->name('friends.checkIfFriends');
-
 Route::get('users', 'UsersController@index')->name('users.index');  // visi juzeri
 Route::get('users/{id}-{name}-{surname}', 'UsersController@show')->name('users.show'); // konkrets juzeris
 Route::get('users/{id}-{name}-{surname}/posts', 'UsersController@showPosts')->name('users.posts');  // visi viena juzera posti
+
+Route::post('users/add-friend/{id}','FriendsController@sendFriendRequest')->name('friends.sendFriendRequest');  // pievieno draugu
+Route::post('add-friend/{id}','FriendsController@checkIfFriends')->name('friends.checkIfFriends');
+
+Route::post('accept-friend/{id}','FriendsController@acceptFriend')->name('friends.acceptFriend');
+Route::post('unaccept-friend/{id}','FriendsController@unacceptFriend')->name('friends.unacceptFriend');
+Route::get('friends/unconfirmed-friends','FriendsController@index')->name('friends.unconfirmedFriends');
 
 Route::get('posts', 'PostsController@index')->name('posts.index');  // visi posti
 Route::get('posts/create-post', 'PostsController@createPost')->name('posts.create-post'); // jauna posta izveides lapa
