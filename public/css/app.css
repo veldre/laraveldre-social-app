@@ -145,9 +145,22 @@ p {
     border: none;
 }
 
-.user-image {
+.profile-image {
     height: 150px;
     margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.btn.btn-info.btn-sm.profile-image-button {
+    display: block;
+    width: 150px;
+    text-align: center;
+}
+
+.btn.btn-warning.btn-sm.profile-image-button {
+    display: block;
+    width: 150px;
+    text-align: center;
 }
 
 .alert {
@@ -172,9 +185,11 @@ p {
 textarea {
     min-height: 250px;
 }
-.ck.ck-content{
+
+.ck.ck-content {
     min-height: 250px;
 }
+
 abbr[title],
 abbr[data-original-title] {
     text-decoration: underline;
@@ -5675,6 +5690,7 @@ input[type=button].btn-block {
     padding-left: 0;
     list-style: none;
     border-radius: 0.25rem;
+    justify-content: center;
 }
 
 .page-link {

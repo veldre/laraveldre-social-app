@@ -1,4 +1,4 @@
-@extends('layouts/app')
+@extends('layouts/app',['title' => 'Edit post'])
 
 
 @section('content')

@@ -16,9 +16,11 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'surname', 'email', 'password',
-    ];
+
+    protected $guarded = [];
+//    protected $fillable = [
+//        'name', 'surname', 'email', 'password',
+//    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -42,5 +44,18 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Post::class); // tas pats, kas SELECT * FROM posts WHERE user_id = jūzera instances id (1, ja userim id ir 1)
     }
+
+    public function friends()
+    {
+        return $this->hasMany(Friend::class);
+    }
+
+    public static function getUsersInOrder()
+    {
+        $posts = self::orderBy('created_at', 'DESC')->where('id', '>', 0)->simplePaginate(10);
+        return $posts;
+    }
+
+
 
 }
