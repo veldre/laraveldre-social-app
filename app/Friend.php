@@ -13,11 +13,31 @@ class Friend extends Model
         return $this->belongsTo(User::class);
     }
 
+
+    public static function getFriendsInOrder()
+    {
+        $friends = self::orderBy('created_at', 'DESC')
+            ->where(['friend_id' => auth()->user()->id, 'accepted' => 1])
+            ->simplePaginate(10);;
+        return $friends;
+    }
+
+
+    public static function getUnconfirmedFriendsInOrder()
+    {
+        $friends = self::orderBy('created_at', 'DESC')
+            ->where(['friend_id' => auth()->user()->id, 'accepted' => 0])
+            ->simplePaginate(10);;
+        return $friends;
+    }
+
+
     public static function getFriendsCount(int $id)
     {
         $friendsCount = self::where(['friend_id' => $id, 'accepted' => 1])->count();
         return $friendsCount;
     }
+
 
     public static function getFriendRequest(int $id)
     {

@@ -15,7 +15,7 @@
     </title>
 {{--    <title>{{ config('app.name', 'Laraveldre Social') }}</title>--}}
 
-    <!-- Scripts -->
+<!-- Scripts -->
     <script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -80,6 +80,9 @@
                                 <a class="dropdown-item" id="posts" href="{{ route('users.index') }}"
                                    onclick="location.href = 'users'">{{'All users'}}
                                 </a>
+                                <a class="dropdown-item" id="posts" href="{{ route('friends.my-friends') }}"
+                                   onclick="location.href = 'users'">{{'My friends'}}
+                                </a>
                             </div>
                         </li>
 
@@ -92,7 +95,8 @@
                                 <a class="dropdown-item" id="all-posts" href="{{ route('posts.index') }}"
                                    onclick="location.href = 'posts'">{{'All posts'}}
                                 </a>
-                                <a class="dropdown-item" id="my-posts" href="{{ action('UsersController@showPosts',[auth()->user()->id, auth()->user()->name, auth()->user()->surname]) }}"
+                                <a class="dropdown-item" id="my-posts"
+                                   href="{{ action('UsersController@showPosts',[auth()->user()->id, auth()->user()->name, auth()->user()->surname]) }}"
                                    onclick="location.href ='posts/redirect'">{{'My posts'}}
                                 </a>
                                 <a class="dropdown-item" id="create-post" href="{{ route('posts.create-post') }}"
@@ -142,7 +146,7 @@
 <script>
     ClassicEditor
         .create(document.querySelector('#editor'));
-           config.fillEmptyBlocks = false;
+    config.fillEmptyBlocks = false;
     config.fillEmptyBlocks = function (element) {
         if (element.attributes['class'].indexOf('clear-both') !== -1)
             return false;

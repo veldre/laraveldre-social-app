@@ -16,9 +16,7 @@ class FriendsController extends Controller
 
     public function index()
     {
-        $friends = Friend::orderBy('created_at', 'DESC')
-            ->where(['friend_id' => auth()->user()->id, 'accepted' => 1])
-            ->get();
+        $friends = Friend::getFriendsInOrder();
 
         return view('friends.my-friends', [
             'friends' => $friends
@@ -27,9 +25,7 @@ class FriendsController extends Controller
 
     public function unconfirmedFriends()
     {
-        $requests = Friend::orderBy('created_at', 'DESC')
-            ->where(['friend_id' => auth()->user()->id, 'accepted' => 0])
-            ->get();
+        $requests = Friend::getUnconfirmedFriendsInOrder();
 
         return view('friends.unconfirmed-friends', [
             'unconfirmedFriends' => $requests
@@ -44,8 +40,8 @@ class FriendsController extends Controller
         $friend = new Friend();
         $friend->user_id = $user_id;
         $friend->friend_id = $friend_id;
-
         $friend->save();
+
         return back()->with(['message' => 'Friend request sent to ' . $user->name . '!']);
     }
 
@@ -55,6 +51,7 @@ class FriendsController extends Controller
         $friendRequest = $friend->getFriendRequest($id);
         $friendRequest->accepted = 1;
         $friendRequest->save();
+
         return back();
     }
 
@@ -62,6 +59,7 @@ class FriendsController extends Controller
     public function unacceptFriend(Friend $friend, int $id)
     {
         $friend->getFriendRequest($id)->delete();
+
         return back();
     }
 
@@ -89,9 +87,6 @@ class FriendsController extends Controller
 
         return $friendshipRequest;
     }
-
-
-
 
 
     /**
@@ -158,7 +153,6 @@ class FriendsController extends Controller
     {
         //
     }
-
 
 
 }

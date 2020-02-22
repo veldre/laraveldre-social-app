@@ -45,7 +45,7 @@
         </table>
         <div class="row">
             <div class="col-12 text-center">
-                {{--                {{$users->links()}}--}}
+                                {{$unconfirmedFriends->links()}}
             </div>
         </div>
     </div>

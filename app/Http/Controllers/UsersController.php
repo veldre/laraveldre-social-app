@@ -23,6 +23,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::getUsersInOrder();
+
         return view('users.index', [
             'users' => $users,
         ]);
@@ -37,6 +38,7 @@ class UsersController extends Controller
     public function show(User $user, int $id)
     {
         $user = $user->find($id);
+
         return view('users.show', ['user' => $user]);
     }
 
@@ -62,6 +64,7 @@ class UsersController extends Controller
     {
         $user = $user->find($id);
         $userPosts = Post::getPostsByUserInOrder($id);
+
         return view('users.posts', [
             'userPosts' => $userPosts,
             'user' => $user
@@ -76,7 +79,6 @@ class UsersController extends Controller
 
         return back()->with(['message' => 'Profile picture changed!']);
     }
-
 
 
 }

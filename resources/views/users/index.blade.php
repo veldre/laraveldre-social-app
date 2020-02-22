@@ -24,7 +24,10 @@
                     <td class="col-md-3">{{$user->surname}}</td>
                     <td class="col-md-1 text-left"><a href={{route('users.posts',[$user->id,$user->name,$user->surname])}}>
                             <img id="posts-icon" src="/images/svg/paper-note.svg"
-                                 alt="posts_icon">({{$user->posts->count('post')}})</a></td>
+                                 alt="posts_icon" title="Posts">({{$user->posts->count('post')}})</a>
+                  <a href="#">
+                            <img id="posts-icon" src="/images/fists.png"
+                                 alt="posts_icon" title="Friends"></a></td>
                     <td class="col-md-3 text-left">{{$user->email}}</td>
                     <td class="col-md-2">{{  strftime("%d %b %Y",strtotime($user->created_at)) }}</td>
                 </tr>
