@@ -20,9 +20,10 @@ class UsersController extends Controller
     }
 
 
+
     public function index()
     {
-        $users = User::getUsersInOrder();
+        $users = User::getUsersInOrder()->simplePaginate(10);
 
         return view('users.index', [
             'users' => $users,
@@ -48,7 +49,7 @@ class UsersController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         //
     }
@@ -71,6 +72,20 @@ class UsersController extends Controller
         ]);
     }
 
+    public function showFriends(User $user, int $id)
+    {
+        $user = $user->find($id);
+
+        $friends = Friend::getFriendsInOrder($id)->simplePaginate(10);
+
+        return view('friends.my-friends', [
+            'friends' => $friends,
+            'user' => $user
+        ]);
+    }
+
+
+
     public function addProfileImage(User $user, ValidateImage $request)
     {
         $user->find(auth()->user()->id)->update([
@@ -79,6 +94,5 @@ class UsersController extends Controller
 
         return back()->with(['message' => 'Profile picture changed!']);
     }
-
 
 }

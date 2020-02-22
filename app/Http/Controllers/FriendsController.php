@@ -16,16 +16,11 @@ class FriendsController extends Controller
 
     public function index()
     {
-        $friends = Friend::getFriendsInOrder();
-
-        return view('friends.my-friends', [
-            'friends' => $friends
-        ]);
     }
 
     public function unconfirmedFriends()
     {
-        $requests = Friend::getUnconfirmedFriendsInOrder();
+        $requests = Friend::getUnconfirmedFriendsInOrder()->simplePaginate(10);
 
         return view('friends.unconfirmed-friends', [
             'unconfirmedFriends' => $requests
@@ -61,31 +56,6 @@ class FriendsController extends Controller
         $friend->getFriendRequest($id)->delete();
 
         return back();
-    }
-
-
-    public static function friendsCount(int $id)
-    {
-        $friend = Friend::getFriendsCount($id);
-        return $friend;
-    }
-
-
-    public static function checkIfFriends(int $id)
-    {
-        $friendStatus = self::checkFriendRequest($id);
-        if ($friendStatus['accepted'] != 0) {
-            return true;
-        }
-    }
-
-    public static function checkFriendRequest(int $receiver_id)
-    {
-        $friendshipRequest = Friend::where([
-            'user_id' => auth()->user()->id,
-            'friend_id' => $receiver_id])->first();
-
-        return $friendshipRequest;
     }
 
 

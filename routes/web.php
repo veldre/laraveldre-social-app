@@ -24,6 +24,8 @@ Route::get('users', 'UsersController@index')->name('users.index');  // visi juze
 Route::get('users/{id}-{name}-{surname}', 'UsersController@show')->name('users.show'); // konkrets juzeris
 Route::get('users/{id}-{name}-{surname}/posts', 'UsersController@showPosts')->name('users.posts');  // visi viena juzera posti
 
+Route::get('users/{id}-{name}-{surname}/friends', 'UsersController@showFriends')->name('users.friends');  //visi juzera draugi
+
 Route::post('users/add-friend/{id}','FriendsController@sendFriendRequest')->name('friends.sendFriendRequest');  // pievieno draugu
 Route::post('add-friend/{id}','FriendsController@checkIfFriends')->name('friends.checkIfFriends');
 

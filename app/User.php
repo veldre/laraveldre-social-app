@@ -52,9 +52,34 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static function getUsersInOrder()
     {
-        $posts = self::orderBy('created_at', 'DESC')->where('id', '>', 0)->simplePaginate(10);
+        $posts = self::orderBy('created_at', 'DESC')->where('id', '>', 0);
         return $posts;
     }
+
+    public function checkIfFriends(User $user)
+    {
+        $friendStatus = self::checkFriendRequest($user);
+        if ($friendStatus['accepted'] != 0) {
+            return true;
+        }
+    }
+
+    public function checkFriendRequest(User $user)
+    {
+        $friendshipRequest = Friend::where([
+            'user_id' => auth()->user()->id,
+            'friend_id' => $user->id])->first();
+
+        return $friendshipRequest;
+    }
+
+    public function getFriendsCount(User $user)
+    {
+        $friendsCount = Friend::where(['friend_id' => $user->id, 'accepted' => 1])->count();
+        return $friendsCount;
+    }
+
+
 
 
 

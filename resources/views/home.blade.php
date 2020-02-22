@@ -33,8 +33,8 @@
                     </button>
                 </div>
             </form>
-            <a href="/friends/my-friends" class="btn btn-success btn-sm btn-block">My friends
-                ({{ App\Http\Controllers\FriendsController::friendsCount(auth()->user()->id)}})</a>
+            <a href={{route('users.friends',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}} class="btn btn-success btn-sm btn-block">My friends
+                ({{ auth()->user()->getFriendsCount(auth()->user())}})</a>
             <a href="{{route('users.posts', [auth()->user()->id,auth()->user()->name,auth()->user()->surname])}}"
                class="btn btn-success btn-sm btn-block">Show all
                 my posts</a>
