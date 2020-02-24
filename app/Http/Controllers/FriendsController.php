@@ -37,7 +37,7 @@ class FriendsController extends Controller
         $friend->friend_id = $friend_id;
         $friend->save();
 
-        return back()->with(['message' => 'Friend request sent to ' . $user->name . '!']);
+        return back()->with(['message' => 'Friend request sent to ' . $user->name . ' ' . $user->surname . '!']);
     }
 
 

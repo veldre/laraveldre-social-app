@@ -32,14 +32,9 @@ class Friend extends Model
     }
 
 
-
-
     public static function getFriendRequest(int $id)
     {
         $friendRequest = self::where(['user_id' => $id, 'friend_id' => auth()->user()->id])->first();
         return $friendRequest;
     }
-
-
-
 }

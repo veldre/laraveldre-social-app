@@ -35,8 +35,10 @@ class UsersController extends Controller
     public function show(int $id)
     {
         $user = User::findOrFail($id);
-
-        return view('users.show', ['user' => $user]);
+        if ($user != auth()->user()) {
+            return view('users.show', ['user' => $user]);
+        }
+        return redirect('home');
     }
 
 
@@ -109,6 +111,20 @@ class UsersController extends Controller
         $record->delete();
 
         return redirect()->back()->with(['message' => 'You unfollowed ' . $user->name . ' ' . $user->surname . '!']);
+    }
+
+    public function unfriendUser(int $id)
+    {
+        $user = User::findOrFail($id);
+        $record1 = Friend::where(['friend_id' => $id, 'user_id' => auth()->user()->id])->first();
+        $record2 = Friend::where(['user_id' => $id, 'friend_id' => auth()->user()->id])->first();
+        if ($record1 != null) {
+            $record1->delete();
+        } else {
+            $record2->delete();
+        }
+
+        return redirect()->back()->with(['message' => 'You unfriended ' . $user->name . ' ' . $user->surname . '!']);
     }
 
 

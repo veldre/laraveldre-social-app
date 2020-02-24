@@ -69,26 +69,51 @@ class User extends Authenticatable implements MustVerifyEmail
         return $posts;
     }
 
+
     public function checkIfFriends(User $user)
     {
-        $friendStatus = self::checkFriendRequest($user);
-        if ($friendStatus['accepted'] != 0) {
-            return true;
-        }
+        $status = Friend::where([
+                'user_id' => auth()->user()->id,
+                'friend_id' => $user->id, 'accepted' => 1])->first() || Friend::where([
+                'friend_id' => auth()->user()->id,
+                'user_id' => $user->id, 'accepted' => 1])
+                ->first();
+
+        return $status;
+
     }
+
 
     public function checkFriendRequest(User $user)
     {
         $friendshipRequest = Friend::where([
-            'user_id' => auth()->user()->id,
-            'friend_id' => $user->id])->first();
+                'user_id' => auth()->user()->id,
+                'friend_id' => $user->id])->first() || Friend::where([
+                'friend_id' => auth()->user()->id,
+                'user_id' => $user->id])
+                ->first();
 
         return $friendshipRequest;
     }
 
+
+    public function checkIfFollowing(User $user)
+    {
+        if (Following::where([
+            'follower_id' => auth()->user()->id,
+            'leader_id' => $user->id])->first()) {
+
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     public function getFriendsCount(User $user)
     {
-        $friendsCount = Friend::where(['friend_id' => $user->id, 'accepted' => 1])->count();
+        $friendsCount = Friend::where(['friend_id' => $user->id, 'accepted' => 1])->count() ||
+            Friend::where(['user_id' => $user->id, 'accepted' => 1])->count();
         return $friendsCount;
     }
 
@@ -100,7 +125,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getFollowersCount(User $user)
     {
-        $followersCount = Follower::where('leader_id',$user->id)->count();
+        $followersCount = Follower::where('leader_id', $user->id)->count();
         return $followersCount;
     }
 

@@ -30,6 +30,9 @@ Route::get('users/{id}-{name}-{surname}/followings', 'UsersController@showFollow
 
 Route::post('users/add-friend/{id}','FriendsController@sendFriendRequest')->name('friends.sendFriendRequest');  // pievieno draugu
 Route::post('add-friend/{id}','FriendsController@checkIfFriends')->name('friends.checkIfFriends');
+Route::post('users/{id}/unfriend', 'UsersController@unfriendUser')->name('users.unfriend');
+
+
 
 Route::post('accept-friend/{id}','FriendsController@acceptFriend')->name('friends.acceptFriend');
 Route::post('unaccept-friend/{id}','FriendsController@unacceptFriend')->name('friends.unacceptFriend');

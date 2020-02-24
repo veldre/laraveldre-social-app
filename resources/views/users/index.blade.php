@@ -9,8 +9,8 @@
             <thead class="thead-dark">
             <tr class="row text-center justify-content-center">
                 <th class="header col-md-2">Name</th>
-                <th class="header col-md-3">Surname</th>
-                <th class="header col-md-2">Activity</th>
+                <th class="header col-md-2">Surname</th>
+                <th class="header col-md-3">Activity</th>
                 <th class="header col-md-3">Email</th>
                 <th class="header col-md-2">Registered</th>
             </tr>
@@ -18,19 +18,23 @@
 
             <tbody>
             @foreach($users as $user)
-                <tr class="row text-center justify-content-center">
+                <tr class="row text-left justify-content-around">
                     <td class="col-md-2"><a
                             href={{route('users.show',[$user->id,$user->name,$user->surname])}}>{{$user->name}}</a></td>
-                    <td class="col-md-3">{{$user->surname}}</td>
-                    <td class="col-md-2 text-left align-content-center"><a
+                    <td class="col-md-2">{{$user->surname}}</td>
+                    <td class="col-md-3 text-center align-content-center"><a
                             href={{route('users.posts',[$user->id,$user->name,$user->surname])}}>
-                            <img id="posts-icon" src="/images/svg/paper-note.svg"
-                                 alt="posts_icon" title="Posts">  ({{$user->posts->count('post')}})</a>
-
-{{--                        <a href="#">--}}
+                            <img class="mini-icon" src="/images/svg/paper-note.svg"
+                                 alt="posts icon" title="Posts"> ({{$user->posts->count('post')}})</a>
                         <a href={{route('users.friends',[$user->id,$user->name,$user->surname])}}>
-                            <img id="posts-icon" src="/images/fists.png"
-                                 alt="posts_icon" title="Friends">  ({{auth()->user()->getFriendsCount($user)}})</a></td>
+                            <img class="mini-icon" src="/images/fists.png"
+                                 alt="friends icon" title="Friends"> ({{auth()->user()->getFriendsCount($user)}})</a>
+                        <a href={{route('users.friends',[$user->id,$user->name,$user->surname])}}>
+                            <img class="mini-icon" src="/images/svg/follower.svg"
+                                 alt="followers icon" title="Followers"> ({{auth()->user()->getFollowersCount($user)}})</a>
+                        <a href={{route('users.friends',[$user->id,$user->name,$user->surname])}}>
+                            <img class="mini-icon" src="/images/svg/following.svg"
+                                 alt="followings icon" title="Following"> ({{auth()->user()->getFollowingsCount($user)}})</a></td>
                     <td class="col-md-3 text-left">{{$user->email}}</td>
                     <td class="col-md-2">{{  strftime("%d %b %Y",strtotime($user->created_at)) }}</td>
                 </tr>
