@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Follower;
+use App\Following;
 use App\Friend;
 use App\Http\Requests\ValidateImage;
 use App\Post;
@@ -20,7 +22,6 @@ class UsersController extends Controller
     }
 
 
-
     public function index()
     {
         $users = User::getUsersInOrder()->simplePaginate(10);
@@ -31,39 +32,17 @@ class UsersController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function show(int $id)
     {
-        //
-    }
-
-    public function show(User $user, int $id)
-    {
-        $user = $user->find($id);
+        $user = User::findOrFail($id);
 
         return view('users.show', ['user' => $user]);
     }
 
-    public function edit($id)
+
+    public function showPosts(int $id)
     {
-        //
-    }
-
-
-    public function update(Request $request, int $id)
-    {
-        //
-    }
-
-
-    public function destroy($id)
-    {
-        //
-    }
-
-
-    public function showPosts(User $user, int $id)
-    {
-        $user = $user->find($id);
+        $user = User::findOrFail($id);
         $userPosts = Post::getPostsByUserInOrder($id);
 
         return view('users.posts', [
@@ -72,23 +51,70 @@ class UsersController extends Controller
         ]);
     }
 
-    public function showFriends(User $user, int $id)
+    public function showFriends(int $id)
     {
-        $user = $user->find($id);
-
+        $user = User::findOrFail($id);
         $friends = Friend::getFriendsInOrder($id)->simplePaginate(10);
 
-        return view('friends.my-friends', [
+        return view('friends.friends', [
             'friends' => $friends,
             'user' => $user
         ]);
     }
 
 
+    public function showFollowers(int $id)
+    {
+        $user = User::findOrFail($id);
+
+        $followers = Follower::getFollowersInOrder($id)->simplePaginate(10);
+
+        return view('followers.followers', [
+            'user' => $user,
+            'followers' => $followers
+        ]);
+    }
+
+    public function showFollowings(int $id)
+    {
+        $user = User::findOrFail($id);
+
+        $followings = Following::getFollowingsInOrder($id)->simplePaginate(10);;
+
+        return view('followers.followings', [
+            'user' => $user,
+            'followings' => $followings
+        ]);
+    }
+
+    public function followUser(int $id)
+    {
+        $leader = User::findOrFail($id);
+
+        $follower_id = auth()->user()->id;
+        $leader_id = $leader->id;
+        $follower = new Follower();
+        $follower->follower_id = $follower_id;
+        $follower->leader_id = $leader_id;
+        $follower->save();
+
+        return back()->with(['message' => 'You now follow ' . $leader->name . ' ' . $leader->surname . '!']);
+    }
+
+
+    public function unFollowUser(int $id)
+    {
+        $user = User::findOrFail($id);
+        $record = Following::where(['leader_id' => $id, 'follower_id' => auth()->user()->id])->first();
+        $record->delete();
+
+        return redirect()->back()->with(['message' => 'You unfollowed ' . $user->name . ' ' . $user->surname . '!']);
+    }
+
 
     public function addProfileImage(User $user, ValidateImage $request)
     {
-        $user->find(auth()->user()->id)->update([
+        $user->findOrFail(auth()->user()->id)->update([
             'image' => $request->image->store('uploads', 'public')
         ]);
 

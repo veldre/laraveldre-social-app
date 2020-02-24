@@ -29,12 +29,16 @@
             <form action={{route('friends.unconfirmedFriends')}} method="get">
                 <div class="form-group">
                     <button type="submit" class="btn btn-warning btn-sm profile-image-button font-weight-bold">Incoming
-                        friend requests
+                        friend requests ({{auth()->user()->getFriendRequestsCount()}})
                     </button>
                 </div>
             </form>
-            <a href={{route('users.friends',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}} class="btn btn-success btn-sm btn-block">My friends
+            <a href="{{route('users.friends',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}" class="btn btn-success btn-sm btn-block">My friends
                 ({{ auth()->user()->getFriendsCount(auth()->user())}})</a>
+                <a href="{{route('users.followers',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}" class="btn btn-success btn-sm btn-block">My followers
+                    ({{ auth()->user()->getFollowersCount(auth()->user())}})</a>
+                <a href="{{route('users.followings',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}" class="btn btn-success btn-sm btn-block">Following
+                    ({{ auth()->user()->getFollowingsCount(auth()->user())}})</a>
             <a href="{{route('users.posts', [auth()->user()->id,auth()->user()->name,auth()->user()->surname])}}"
                class="btn btn-success btn-sm btn-block">Show all
                 my posts</a>

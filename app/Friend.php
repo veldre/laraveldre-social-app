@@ -14,10 +14,10 @@ class Friend extends Model
     }
 
 
-    public static function getFriendsInOrder()
+    public static function getFriendsInOrder(int $id)
     {
         $friends = self::orderBy('created_at', 'DESC')
-            ->where(['friend_id' => auth()->user()->id, 'accepted' => 1]);
+            ->where(['friend_id' => $id, 'accepted' => 1]);
 
         return $friends;
     }

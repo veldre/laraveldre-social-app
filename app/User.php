@@ -42,13 +42,26 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function posts()
     {
-        return $this->hasMany(Post::class); // tas pats, kas SELECT * FROM posts WHERE user_id = jūzera instances id (1, ja userim id ir 1)
+        return $this->hasMany(Post::class);
     }
 
     public function friends()
     {
         return $this->hasMany(Friend::class);
     }
+
+
+    public function followers()
+    {
+        return $this->hasMany(Follower::class);
+    }
+
+
+    public function followings()
+    {
+        return $this->hasMany(Following::class);
+    }
+
 
     public static function getUsersInOrder()
     {
@@ -79,8 +92,23 @@ class User extends Authenticatable implements MustVerifyEmail
         return $friendsCount;
     }
 
+    public function getFriendRequestsCount()
+    {
+        $friendRequestsCount = Friend::where(['friend_id' => auth()->user()->id, 'accepted' => 0])->count();
+        return $friendRequestsCount;
+    }
 
+    public function getFollowersCount(User $user)
+    {
+        $followersCount = Follower::where('leader_id',$user->id)->count();
+        return $followersCount;
+    }
 
+    public function getFollowingsCount(User $user)
+    {
+        $followingsCount = Following::where('follower_id', $user->id)->count();
+        return $followingsCount;
+    }
 
 
 }

@@ -22,6 +22,18 @@
             @else
                 <img class="profile-image" src="/images/yourAd.png" alt="profile image">
             @endif
+            <form action="{{ route('users.follow', [$user->id,$user->name,$user->surname]) }}" method="post">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info btn-sm profile-image-button">Follow
+                    </button>
+                </div>
+            </form>
+            <form action="{{ route('users.unfollow', [$user->id,$user->name,$user->surname]) }}" method="post">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-info btn-sm profile-image-button">Unfollow
+                    </button>
+                </div>
+            </form>
             @if ($user != auth()->user())
                 @if(auth()->user()->checkIfFriends($user) ==  false)
 
@@ -67,12 +79,20 @@
                 <li id="registered-at">{{  strftime("%d %b %Y",strtotime($user->created_at)) }}</li>
             </div>
             <div class="user-data">
-                <label for="posts-count">Posts count:</label>
+                <label for="posts-count">Posts:</label>
                 <li id="posts-count">{{  $user->posts->count() }}</li>
             </div>
             <div class="user-data">
-                <label for="posts-count">Friends count:</label>
+                <label for="posts-count">Friends:</label>
                 <li id="friends-count">{{ auth()->user()->getFriendsCount($user) }}</li>
+            </div>
+            <div class="user-data">
+                <label for="posts-count">Followers:</label>
+                <li id="friends-count">{{ auth()->user()->getFollowersCount($user) }}</li>
+            </div>
+            <div class="user-data">
+                <label for="posts-count">Following:</label>
+                <li id="friends-count">{{ auth()->user()->getFollowingsCount($user) }}</li>
             </div>
             <a href="{{route('users.posts',[$user,$user->name,$user->surname])}}"
                class="btn btn-success btn-md btn-block">Show
