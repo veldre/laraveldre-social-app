@@ -103,9 +103,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getFriendsCount(User $user)
     {
-        $friendsCount = Friend::where(['friend_id' => $user->id, 'accepted' => 1])->count();
-//            Friend::where(['user_id' => $user->id, 'accepted' => 1])->count();
-        return $friendsCount;
+//        dd($user);
+        return $user->friends->count();
+//        $friendsCount = Friend::where(['friend_id' => $user->id, 'accepted' => 1])->count();
+////            Friend::where(['user_id' => $user->id, 'accepted' => 1])->count();
+//        return $friendsCount;
     }
 
     public function getFriendRequestsCount()

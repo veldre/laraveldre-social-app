@@ -15,16 +15,17 @@ class FriendsController extends Controller
     }
 
 
-    public function unconfirmedFriends()
+    public function unconfirmedFriends()  //strādā
     {
-        $requests = Friend::getUnconfirmedFriendsInOrder()->simplePaginate(10);
+        $user = User::findOrFail(auth()->user()->id);
+        $requests = $user->friends->where('accepted', 0);
 
         return view('friends.unconfirmed-friends', [
             'unconfirmedFriends' => $requests
         ]);
     }
 
-    public function sendFriendRequest(int $id)
+    public function sendFriendRequest(int $id)  // strādā
     {
         $user = User::find($id);
         auth()->user()->friends()->create([
@@ -36,19 +37,19 @@ class FriendsController extends Controller
     }
 
 
-    public function acceptFriend(Friend $friend, int $id)
+    public function acceptFriend(int $id)  // strādā
     {
-        $friendRequest = $friend->getFriendRequest($id);
-        $friendRequest->accepted = 1;
-        $friendRequest->save();
+        $request = Friend::where(['friend_id' => $id, 'user_id' => auth()->user()->id])->first();
+        $request->accepted = 1;
+        $request->save();
 
         return back();
     }
 
 
-    public function unacceptFriend(Friend $friend, int $id)
+    public function unacceptFriend(int $id)  //strādā
     {
-        $friend->getFriendRequest($id)->delete();
+        Friend::where(['friend_id' => $id, 'user_id' => auth()->user()->id])->first()->delete();
 
         return back();
     }

@@ -28,6 +28,7 @@
 
             <tbody>
             @foreach($friends as $friend)
+
                 @if($friend->user->id != $user->id)
                     <tr class="row text-center justify-content-center">
                         @if (auth()->user()->id == $user->id)

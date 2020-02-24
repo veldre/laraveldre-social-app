@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Follower;
-use App\Following;
 use App\Friend;
 use App\Http\Requests\ValidateImage;
 use App\Post;
@@ -57,8 +56,17 @@ class UsersController extends Controller
     public function showFriends(int $id)
     {
         $user = User::findOrFail($id);
-        $friends = Friend::getFriendsInOrder($id);
-
+//        dd($user->friends);
+        $friends = Friend::where([
+            [ 'user_id', $user->id],
+            ['accepted', 1]
+        ])
+            ->orWhere([
+                ['friend_id', $user->id],
+                ['accepted', 1]
+            ])
+            ->with('user')->get();
+//dd($friends);
         return view('friends.friends', [
             'friends' => $friends,
             'user' => $user
@@ -66,7 +74,7 @@ class UsersController extends Controller
     }
 
 
-    public function showFollowers(int $id)  //strādā
+    public function showFollowers(int $id)
     {
         $user = User::findOrFail($id);
         $followers = $user->followers;
@@ -89,7 +97,7 @@ class UsersController extends Controller
     }
 
 
-    public function followUser(int $id)  //strādā
+    public function followUser(int $id)
     {
         $user = User::findOrFail($id);
         $user->followers()->attach(auth()->user()->id);
@@ -98,7 +106,7 @@ class UsersController extends Controller
     }
 
 
-    public function unFollowUser(int $id)  //strādā
+    public function unFollowUser(int $id)
     {
         $user = User::findOrFail($id);
         $user->followers()->detach(auth()->user()->id);

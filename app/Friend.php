@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Friend extends Model
 {
 
-    protected $fillable = ['friend_id', 'accepted'];
+    protected $fillable = ['friend_id','accepted'];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'friend_id');
     }
 
 
@@ -25,19 +25,19 @@ class Friend extends Model
 
 
 
-    public static function getUnconfirmedFriendsInOrder()
-    {
-        $friends = self::orderBy('created_at', 'DESC')
-            ->where(['friend_id' => auth()->user()->id, 'accepted' => 0]);
+//    public static function getUnconfirmedFriendsInOrder()
+//    {
+//        $friends = self::orderBy('created_at', 'DESC')
+//            ->where(['friend_id' => auth()->user()->id, 'accepted' => 0]);
+//
+//        return $friends;
+//    }
 
-        return $friends;
-    }
 
-
-    public static function getFriendRequest(int $id)
-    {
-        $friendRequest = self::where(['user_id' => $id, 'friend_id' => auth()->user()->id])->first();
-
-        return $friendRequest;
-    }
+//    public static function getFriendRequest(int $id)
+//    {
+//        $friendRequest = self::where(['user_id' => $id, 'friend_id' => auth()->user()->id])->first();
+//
+//        return $friendRequest;
+//    }
 }
