@@ -14,7 +14,6 @@
 
 Auth::routes(['verify' => true]);
 
-Route::post('users/{id}', 'FriendsController@friendsCount');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('home');

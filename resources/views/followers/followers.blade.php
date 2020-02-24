@@ -25,17 +25,17 @@
 
                 <tr class="row text-center justify-content-center">
                     <td class="col-md-4">
-                        <a href={{route('users.show',[$follower->user->id,$follower->user->name,$follower->user->surname])}}>{{$follower->user->name}}</a>
+                        <a href={{route('users.show',[$follower->id,$follower->name,$follower->surname])}}>{{$follower->name}}</a>
                     </td>
-                    <td class="col-md-4">{{$follower->user->surname}}</td>
-                    <td class="col-md-4">{{ strftime("%d %b %Y",strtotime($follower->user->created_at))}}</td>
+                    <td class="col-md-4">{{$follower->surname}}</td>
+                    <td class="col-md-4">{{ strftime("%d %b %Y",strtotime($follower->created_at))}}</td>
                 </tr>
             @endforeach
             </tbody>
         </table>
         <div class="row">
             <div class="col-12 text-center">
-                {{$followers->links()}}
+{{--                {{$followers->links()}}--}}
             </div>
         </div>
     </div>

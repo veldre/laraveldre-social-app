@@ -33,13 +33,13 @@
                 <tr class="row text-center justify-content-center">
                     @if (auth()->user()->id == $user->id)
                         <td class="col-md-4">
-                            <a href={{route('users.show',[$following->user->id,$following->user->name,$following->user->surname])}}>{{$following->user->name}}</a>
+                            <a href={{route('users.show',[$following->id,$following->name,$following->surname])}}>{{$following->name}}</a>
                         </td>
-                        <td class="col-md-4">{{$following->user->surname}}</td>
-                        <td class="col-md-3">{{ strftime("%d %b %Y",strtotime($following->user->created_at))}}</td>
+                        <td class="col-md-4">{{$following->surname}}</td>
+                        <td class="col-md-3">{{ strftime("%d %b %Y",strtotime($following->created_at))}}</td>
                         <td class="col-md-1 text-center d-flex p-0 justify-content-center">
                             <form onclick="return confirm('Are you sure?')"
-                                  action={{action('UsersController@unFollowUser', [$following->user->id])}} method="post">
+                                  action={{action('UsersController@unFollowUser', [$following->id])}} method="post">
                                 <button class="btn btn-default" type="submit">
                                     <i class="fa fa-times-circle" aria-hidden="true"
                                        style="font-size:24px; color: indianred" type="submit"></i>
@@ -49,10 +49,10 @@
                         </td>
                     @else
                         <td class="col-md-4">
-                            <a href={{route('users.show',[$following->user->id,$following->user->name,$following->user->surname])}}>{{$following->user->name}}</a>
+                            <a href={{route('users.show',[$following->id,$following->name,$following->surname])}}>{{$following->name}}</a>
                         </td>
-                        <td class="col-md-4">{{$following->user->surname}}</td>
-                        <td class="col-md-4">{{ strftime("%d %b %Y",strtotime($following->user->created_at))}}</td>
+                        <td class="col-md-4">{{$following->surname}}</td>
+                        <td class="col-md-4">{{ strftime("%d %b %Y",strtotime($following->created_at))}}</td>
                     @endif
                 </tr>
             @endforeach
@@ -60,7 +60,7 @@
         </table>
         <div class="row">
             <div class="col-12 text-center">
-                {{$followings->links()}}
+{{--                {{$followings->links()}}--}}
             </div>
         </div>
     </div>

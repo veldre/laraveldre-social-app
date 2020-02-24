@@ -37,6 +37,7 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         if ($user != auth()->user()) {
             return view('users.show', ['user' => $user]);
+//                'picture' => $this->checkUserPicture($user)]);
         }
         return redirect('home');
     }
@@ -56,7 +57,7 @@ class UsersController extends Controller
     public function showFriends(int $id)
     {
         $user = User::findOrFail($id);
-        $friends = Friend::getFriendsInOrder($id)->simplePaginate(10);
+        $friends = Friend::getFriendsInOrder($id);
 
         return view('friends.friends', [
             'friends' => $friends,
@@ -65,11 +66,10 @@ class UsersController extends Controller
     }
 
 
-    public function showFollowers(int $id)
+    public function showFollowers(int $id)  //strādā
     {
         $user = User::findOrFail($id);
-
-        $followers = Follower::getFollowersInOrder($id)->simplePaginate(10);
+        $followers = $user->followers;
 
         return view('followers.followers', [
             'user' => $user,
@@ -80,8 +80,7 @@ class UsersController extends Controller
     public function showFollowings(int $id)
     {
         $user = User::findOrFail($id);
-
-        $followings = Following::getFollowingsInOrder($id)->simplePaginate(10);;
+        $followings = $user->followings;
 
         return view('followers.followings', [
             'user' => $user,
@@ -89,26 +88,20 @@ class UsersController extends Controller
         ]);
     }
 
-    public function followUser(int $id)
+
+    public function followUser(int $id)  //strādā
     {
-        $leader = User::findOrFail($id);
+        $user = User::findOrFail($id);
+        $user->followers()->attach(auth()->user()->id);
 
-        $follower_id = auth()->user()->id;
-        $leader_id = $leader->id;
-        $follower = new Follower();
-        $follower->follower_id = $follower_id;
-        $follower->leader_id = $leader_id;
-        $follower->save();
-
-        return back()->with(['message' => 'You now follow ' . $leader->name . ' ' . $leader->surname . '!']);
+        return back()->with(['message' => 'You now follow ' . $user->name . ' ' . $user->surname . '!']);
     }
 
 
-    public function unFollowUser(int $id)
+    public function unFollowUser(int $id)  //strādā
     {
         $user = User::findOrFail($id);
-        $record = Following::where(['leader_id' => $id, 'follower_id' => auth()->user()->id])->first();
-        $record->delete();
+        $user->followers()->detach(auth()->user()->id);
 
         return redirect()->back()->with(['message' => 'You unfollowed ' . $user->name . ' ' . $user->surname . '!']);
     }
@@ -136,5 +129,17 @@ class UsersController extends Controller
 
         return back()->with(['message' => 'Profile picture changed!']);
     }
+
+
+//    public function checkUserPicture(User $user)
+//    {
+//        if ($user->image) {
+//            $picture = '<img class="profile-image" src="{{asset(\'storage/\'.$user->image)}}"
+//                     alt="profile image">';
+//        } else {
+//            $picture = '<img class="profile-image" src="/images/yourAd.png" alt="profile image">';
+//        }
+//        return $picture;
+//    }
 
 }

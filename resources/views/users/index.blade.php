@@ -29,14 +29,14 @@
                         <a href={{route('users.friends',[$user->id,$user->name,$user->surname])}}>
                             <img class="mini-icon" src="/images/fists.png"
                                  alt="friends icon" title="Friends"> ({{auth()->user()->getFriendsCount($user)}})</a>
-                        <a href={{route('users.friends',[$user->id,$user->name,$user->surname])}}>
+                        <a href={{route('users.followers',[$user->id,$user->name,$user->surname])}}>
                             <img class="mini-icon" src="/images/svg/follower.svg"
                                  alt="followers icon" title="Followers"> ({{auth()->user()->getFollowersCount($user)}})</a>
-                        <a href={{route('users.friends',[$user->id,$user->name,$user->surname])}}>
+                        <a href={{route('users.followings',[$user->id,$user->name,$user->surname])}}>
                             <img class="mini-icon" src="/images/svg/following.svg"
                                  alt="followings icon" title="Following"> ({{auth()->user()->getFollowingsCount($user)}})</a></td>
                     <td class="col-md-3 text-left">{{$user->email}}</td>
-                    <td class="col-md-2">{{  strftime("%d %b %Y",strtotime($user->created_at)) }}</td>
+                    <td class="col-md-2 text-center">{{  strftime("%d %b %Y",strtotime($user->created_at)) }}</td>
                 </tr>
             @endforeach
             </tbody>

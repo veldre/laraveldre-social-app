@@ -47,11 +47,11 @@ class PostsController extends Controller
     public function edit(Post $post, int $id)
     {
         $post = $post->find($id);
-        if (auth()->user()->id == $post->user_id) {
+        if (auth()->user()->id === $post->user_id) {
             return view('posts.edit-post', ['post' => $post]);
-        } else {
-            return redirect('home');
         }
+
+        return redirect('home');
     }
 
     public function update(Post $post, ValidatePost $request, int $id)

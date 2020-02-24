@@ -14,9 +14,6 @@ class FriendsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
-    }
 
     public function unconfirmedFriends()
     {
@@ -27,15 +24,13 @@ class FriendsController extends Controller
         ]);
     }
 
-    public function sendFriendRequest(User $user, int $id)
+    public function sendFriendRequest(int $id)
     {
-        $user = $user->find($id);
-        $user_id = auth()->user()->id;
-        $friend_id = $user->id;
-        $friend = new Friend();
-        $friend->user_id = $user_id;
-        $friend->friend_id = $friend_id;
-        $friend->save();
+        $user = User::find($id);
+        auth()->user()->friends()->create([
+            'friend_id' => $user->id,
+            'accepted' => 0
+        ]);
 
         return back()->with(['message' => 'Friend request sent to ' . $user->name . ' ' . $user->surname . '!']);
     }

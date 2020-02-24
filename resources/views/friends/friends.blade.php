@@ -28,38 +28,41 @@
 
             <tbody>
             @foreach($friends as $friend)
+                @if($friend->user->id != $user->id)
+                    <tr class="row text-center justify-content-center">
+                        @if (auth()->user()->id == $user->id)
+                            <td class="col-md-4">
+                                <a href={{route('users.show',[$friend->user->id,$friend->user->name,$friend->user->surname])}}>{{$friend->user->name}}</a>
+                            </td>
+                            <td class="col-md-4">{{$friend->user->surname}}</td>
+                            <td class="col-md-3">{{ strftime("%d %b %Y",strtotime($friend->user->created_at))}}</td>
+                            <td class="col-md-1 text-center d-flex p-0 justify-content-center">
+                                <form onclick="return confirm('Are you sure?')"
+                                      action="{{action('FriendsController@unacceptFriend', [$friend->user->id])}}"
+                                      method="post">
+                                    <button class="btn btn-default" type="submit">
+                                        <i class="fa fa-times-circle" aria-hidden="true"
+                                           style="font-size:24px; color: indianred" type="submit"></i>
+                                    </button>
+                                </form>
 
-                <tr class="row text-center justify-content-center">
-                    @if (auth()->user()->id == $user->id)
-                        <td class="col-md-4">
-                            <a href={{route('users.show',[$friend->user->id,$friend->user->name,$friend->user->surname])}}>{{$friend->user->name}}</a>
-                        </td>
-                        <td class="col-md-4">{{$friend->user->surname}}</td>
-                        <td class="col-md-3">{{ strftime("%d %b %Y",strtotime($friend->user->created_at))}}</td>
-                        <td class="col-md-1 text-center d-flex p-0 justify-content-center">
-                            <form onclick="return confirm('Are you sure?')"
-                                  action={{action('FriendsController@unacceptFriend', [$friend->user->id])}} method="post">
-                                <button class="btn btn-default" type="submit">
-                                    <i class="fa fa-times-circle" aria-hidden="true"
-                                       style="font-size:24px; color: indianred" type="submit"></i>
-                                </button>
-                            </form>
-
-                        </td>
-                    @else
-                        <td class="col-md-4">
-                            <a href={{route('users.show',[$friend->user->id,$friend->user->name,$friend->user->surname])}}>{{$friend->user->name}}</a>
-                        </td>
-                        <td class="col-md-4">{{$friend->user->surname}}</td>
-                        <td class="col-md-4">{{ strftime("%d %b %Y",strtotime($friend->user->created_at))}}</td>
-                    @endif
-                </tr>
+                            </td>
+                        @else
+                            <td class="col-md-4">
+                                <a href={{route('users.show',[$friend->user->id,$friend->user->name,$friend->user->surname])}}>{{$friend->user->name}}</a>
+                            </td>
+                            <td class="col-md-4">{{$friend->user->surname}}</td>
+                            <td class="col-md-4">{{ strftime("%d %b %Y",strtotime($friend->user->created_at))}}</td>
+                        @endif
+                    </tr>
+                @endif
             @endforeach
+
             </tbody>
         </table>
         <div class="row">
             <div class="col-12 text-center">
-                {{$friends->links()}}
+                {{--                {{$friends->links()}}--}}
             </div>
         </div>
     </div>

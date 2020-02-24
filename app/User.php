@@ -11,97 +11,63 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
 
     protected $guarded = [];
 //    protected $fillable = [
 //        'name', 'surname', 'email', 'password',
 //    ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
     public function posts()
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class)->orderBy('updated_at');
     }
 
     public function friends()
     {
-        return $this->hasMany(Friend::class);
+        return $this->hasMany(Friend::class)->orderBy('created_at');
     }
 
 
     public function followers()
     {
-        return $this->hasMany(Follower::class);
+        return $this->belongsToMany(User::class, 'followers', 'leader_id', 'user_id')
+            ->withTimestamps()
+            ->orderBy('created_at');
     }
 
 
     public function followings()
     {
-        return $this->hasMany(Following::class);
+        return $this->belongsToMany(User::class, 'followers', 'user_id', 'leader_id')
+            ->withTimestamps()
+            ->orderBy('created_at');
     }
 
 
     public static function getUsersInOrder()
     {
-        $posts = self::orderBy('created_at', 'DESC')->where('id', '>', 0);
-        return $posts;
+        return self::orderBy('created_at', 'DESC')->where('id', '>', 0);
     }
 
 
     public function checkIfFriends(User $user)
     {
-        $status = Friend::where([
+        if (Friend::where([
                 'user_id' => auth()->user()->id,
                 'friend_id' => $user->id, 'accepted' => 1])->first() || Friend::where([
                 'friend_id' => auth()->user()->id,
                 'user_id' => $user->id, 'accepted' => 1])
-                ->first();
-
-        return $status;
-
-    }
-
-
-    public function checkFriendRequest(User $user)
-    {
-        $friendshipRequest = Friend::where([
-                'user_id' => auth()->user()->id,
-                'friend_id' => $user->id])->first() || Friend::where([
-                'friend_id' => auth()->user()->id,
-                'user_id' => $user->id])
-                ->first();
-
-        return $friendshipRequest;
-    }
-
-
-    public function checkIfFollowing(User $user)
-    {
-        if (Following::where([
-            'follower_id' => auth()->user()->id,
-            'leader_id' => $user->id])->first()) {
+                ->first()) {
 
             return true;
         } else {
@@ -110,10 +76,35 @@ class User extends Authenticatable implements MustVerifyEmail
 
     }
 
+
+    public function checkFriendRequest(User $user)
+    {
+        if (Friend::where([
+                'user_id' => auth()->user()->id,
+                'friend_id' => $user->id])->first() || Friend::where([
+                'friend_id' => auth()->user()->id,
+                'user_id' => $user->id])
+                ->first()) {
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public function checkIfFollowing(User $user): bool
+    {
+        return (bool)Follower::where([
+            'user_id' => auth()->user()->id,
+            'leader_id' => $user->id])->first();
+    }
+
+
     public function getFriendsCount(User $user)
     {
-        $friendsCount = Friend::where(['friend_id' => $user->id, 'accepted' => 1])->count() ||
-            Friend::where(['user_id' => $user->id, 'accepted' => 1])->count();
+        $friendsCount = Friend::where(['friend_id' => $user->id, 'accepted' => 1])->count();
+//            Friend::where(['user_id' => $user->id, 'accepted' => 1])->count();
         return $friendsCount;
     }
 
@@ -125,15 +116,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getFollowersCount(User $user)
     {
-        $followersCount = Follower::where('leader_id', $user->id)->count();
-        return $followersCount;
+        return $user->followers->count();
     }
 
     public function getFollowingsCount(User $user)
     {
-        $followingsCount = Following::where('follower_id', $user->id)->count();
-        return $followingsCount;
+        return $user->followings->count();
     }
-
 
 }

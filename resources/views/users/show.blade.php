@@ -9,6 +9,8 @@
         @include('includes.message-block')
         <div class="col-md-3 pt-4">
 
+
+{{--            {!!$picture!!}--}}
             @if($user->image)
                 <img class="profile-image" src="{{asset('storage/'.$user->image)}}"
                      alt="profile image">
@@ -16,9 +18,9 @@
                 <img class="profile-image" src="/images/yourAd.png" alt="profile image">
             @endif
 
-            @if(auth()->user()->checkIfFriends($user) ==  false)
+            @if(!auth()->user()->checkIfFriends($user))
 
-                @if(auth()->user()->checkFriendRequest($user) ==  false)
+                @if(!auth()->user()->checkFriendRequest($user))
 
                     <form action="{{route('friends.sendFriendRequest',$user->id)}}" method="post">
                         <div class="form-group">
@@ -29,12 +31,14 @@
                     </form>
 
                 @else
-                    <button class="btn btn-info btn-sm profile-image-button" disabled="disabled">
-                        Friend request sent
-                    </button>
+                    <div class="form-group">
+                        <button class="btn btn-info btn-sm profile-image-button" disabled="disabled">
+                            Friend request sent
+                        </button>
+                    </div>
                 @endif
             @endif
-            @if(auth()->user()->checkIfFriends($user) == true)
+            @if(auth()->user()->checkIfFriends($user))
                 <form action="{{action('UsersController@unfriendUser', $user->id)}}" method="post">
                     <div class="form-group">
                         <button type="submit" onclick="return confirm('Are you sure?')"
@@ -105,9 +109,6 @@
                         {{ $user->getFollowingsCount($user)}}</a>
                 </li>
             </div>
-            <a href="{{route('users.posts',[$user,$user->name,$user->surname])}}"
-               class="btn btn-success btn-md btn-block">Show
-                all posts by {{$user->name}}</a>
         </ul>
     </div>
 
