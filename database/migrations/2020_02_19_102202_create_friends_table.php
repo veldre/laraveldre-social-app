@@ -12,9 +12,13 @@ class CreateFriendsTable extends Migration
         Schema::create('friends', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();    // id of user who sent request
-            $table->integer('friend_id');   // id of user who got request
-            $table->tinyInteger('accepted')->default(0);
+            $table->integer('friend_id')->unsigned();   // id of user who got request
+            $table->string('status');
             $table->timestamps();
+
+            $table->unique((['user_id','friend_id']));
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('friend_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

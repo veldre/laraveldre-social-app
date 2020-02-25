@@ -92,8 +92,9 @@ body {
     padding-bottom: 9px;
 }
 
-#posts-icon {
+.mini-icon {
     height: 20px;
+    margin-left: 12px;
 }
 
 #main-nav {

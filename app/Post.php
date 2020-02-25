@@ -16,7 +16,7 @@ class Post extends Model
 
     public static function getPostsInOrder()
     {
-        $posts = self::orderBy('updated_at', 'DESC')->where('id', '>', 0)->simplePaginate(10);
+        $posts = self::orderBy('updated_at', 'DESC')->where('id', '>', 0);
         return $posts;
     }
 

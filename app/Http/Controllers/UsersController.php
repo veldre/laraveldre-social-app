@@ -6,10 +6,6 @@ use App\Friend;
 use App\Http\Requests\ValidateImage;
 use App\Post;
 use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 
 class UsersController extends Controller
 {
@@ -22,7 +18,7 @@ class UsersController extends Controller
 
     public function index()
     {
-        $users = User::getUsersInOrder();
+        $users = User::getUsersInOrder()->simplePaginate(10);
 
         return view('users.index', [
             'users' => $users,
@@ -30,39 +26,20 @@ class UsersController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function show(int $id)
     {
-        //
-    }
-
-    public function show(User $user, int $id)
-    {
-        $user = $user->find($id);
-
-        return view('users.show', ['user' => $user]);
-    }
-
-    public function edit($id)
-    {
-        //
+        $user = User::findOrFail($id);
+        if ($user != auth()->user()) {
+            return view('users.show', ['user' => $user]);
+//                'picture' => $this->checkUserPicture($user)]);
+        }
+        return redirect('home');
     }
 
 
-    public function update(Request $request, $id)
+    public function showPosts(int $id)
     {
-        //
-    }
-
-
-    public function destroy($id)
-    {
-        //
-    }
-
-
-    public function showPosts(User $user, int $id)
-    {
-        $user = $user->find($id);
+        $user = User::findOrFail($id);
         $userPosts = Post::getPostsByUserInOrder($id);
 
         return view('users.posts', [
@@ -71,14 +48,80 @@ class UsersController extends Controller
         ]);
     }
 
+    public function showFriends(int $id)
+    {
+        $user = User::findOrFail($id);
+        $friends1 = $user->friendOf;
+        $friends2 = $user->myFriends;
+        $friends = $friends1->merge($friends2);
+
+        return view('friends.friends', [
+            'friends' => $friends,
+            'user' => $user
+        ]);
+    }
+
+
+    public function showFollowers(int $id)
+    {
+        $user = User::findOrFail($id);
+        $followers = $user->followers;
+
+        return view('followers.followers', [
+            'user' => $user,
+            'followers' => $followers
+        ]);
+    }
+
+    public function showFollowings(int $id)
+    {
+        $user = User::findOrFail($id);
+        $followings = $user->followings;
+
+        return view('followers.followings', [
+            'user' => $user,
+            'followings' => $followings
+        ]);
+    }
+
+
+    public function followUser(int $id)
+    {
+        $user = User::findOrFail($id);
+        $user->followers()->attach(auth()->user()->id);
+
+        return back()->with(['message' => 'You now follow ' . $user->name . ' ' . $user->surname . '!']);
+    }
+
+
+    public function unFollowUser(int $id)
+    {
+        $user = User::findOrFail($id);
+        $user->followers()->detach(auth()->user()->id);
+
+        return redirect()->back()->with(['message' => 'You unfollowed ' . $user->name . ' ' . $user->surname . '!']);
+    }
+
+
     public function addProfileImage(User $user, ValidateImage $request)
     {
-        $user->find(auth()->user()->id)->update([
+        $user->findOrFail(auth()->user()->id)->update([
             'image' => $request->image->store('uploads', 'public')
         ]);
 
         return back()->with(['message' => 'Profile picture changed!']);
     }
 
+
+//    public function checkUserPicture(User $user)
+//    {
+//        if ($user->image) {
+//            $picture = '<img class="profile-image" src="{{asset(\'storage/\'.$user->image)}}"
+//                     alt="profile image">';
+//        } else {
+//            $picture = '<img class="profile-image" src="/images/yourAd.png" alt="profile image">';
+//        }
+//        return $picture;
+//    }
 
 }

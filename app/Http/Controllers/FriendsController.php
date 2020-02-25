@@ -14,144 +14,69 @@ class FriendsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
-        $friends = Friend::getFriendsInOrder();
 
-        return view('friends.my-friends', [
-            'friends' => $friends
-        ]);
-    }
-
-    public function unconfirmedFriends()
+    public function unconfirmedFriends()  // ies uz user controller
     {
-        $requests = Friend::getUnconfirmedFriendsInOrder();
+        $requests = auth()->user()->friendRequestsToThisUser()
+            ->where('friend_id', auth()->user()->id)
+            ->where('status', 'pending')
+            ->get();
 
         return view('friends.unconfirmed-friends', [
             'unconfirmedFriends' => $requests
         ]);
     }
 
-    public function sendFriendRequest(User $user, int $id)
+    public function sendFriendRequest(int $id)
     {
-        $user = $user->find($id);
-        $user_id = auth()->user()->id;
-        $friend_id = $user->id;
-        $friend = new Friend();
-        $friend->user_id = $user_id;
-        $friend->friend_id = $friend_id;
-        $friend->save();
+        $friend = User::findOrFail($id);
+        $friend->friendRequestsToThisUser()->attach(auth()->user()->id, [
+            'status' => 'pending'
+        ]);
 
-        return back()->with(['message' => 'Friend request sent to ' . $user->name . '!']);
+        return back()->with(['message' => 'Friend request sent to ' . $friend->name . ' ' . $friend->surname . '!']);
     }
 
 
-    public function acceptFriend(Friend $friend, int $id)
+    public function acceptFriend(int $id)
     {
-        $friendRequest = $friend->getFriendRequest($id);
-        $friendRequest->accepted = 1;
-        $friendRequest->save();
+        $request = auth()->user()->friendRequestsToThisUser()
+            ->where('friend_id', auth()->user()->id)
+            ->where('user_id', $id)
+            ->where('status', 'pending')
+            ->first();
+        auth()->user()->friendRequestsToThisUser()->updateExistingPivot($request, [
+            'status' => 'confirmed'
+        ]);
 
         return back();
     }
 
 
-    public function unacceptFriend(Friend $friend, int $id)
+    public function unacceptFriend(int $id)
     {
-        $friend->getFriendRequest($id)->delete();
+        auth()->user()->friendRequestsToThisUser()
+            ->where('friend_id', auth()->user()->id)
+            ->where('user_id', $id)
+            ->where('status', 'pending')
+            ->first()
+            ->delete();
 
         return back();
     }
 
-
-    public static function friendsCount(int $id)
+    public function unfriend(int $id)
     {
-        $friend = Friend::getFriendsCount($id);
-        return $friend;
-    }
-
-
-    public static function checkIfFriends(int $id)
-    {
-        $friendStatus = self::checkFriendRequest($id);
-        if ($friendStatus['accepted'] != 0) {
-            return true;
+        $user = User::findOrFail($id);
+        $record1 = Friend::where(['friend_id' => $id, 'user_id' => auth()->user()->id])->first();
+        $record2 = Friend::where(['user_id' => $id, 'friend_id' => auth()->user()->id])->first();
+        if ($record1 != null) {
+            $record1->delete();
+        } else {
+            $record2->delete();
         }
-    }
 
-    public static function checkFriendRequest(int $receiver_id)
-    {
-        $friendshipRequest = Friend::where([
-            'user_id' => auth()->user()->id,
-            'friend_id' => $receiver_id])->first();
-
-        return $friendshipRequest;
-    }
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Friend $friend
-     * @return \Illuminate\Http\Response
-     */
-    public static function show(Friend $friend)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Friend $friend
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Friend $friend)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Friend $friend
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Friend $friend)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Friend $friend
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Friend $friend)
-    {
-        //
+        return redirect()->back()->with(['message' => 'You unfriended ' . $user->name . ' ' . $user->surname . '!']);
     }
 
 

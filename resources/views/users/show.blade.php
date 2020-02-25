@@ -9,47 +9,62 @@
         @include('includes.message-block')
         <div class="col-md-3 pt-4">
 
-            {{--            <div class="form-group">--}}
-            {{--                <form action={{action('FriendsController@friendsCount', [$user->id])}} method="post">--}}
 
-
-            {{--                    <button type="submit" class="btn btn-info btn-sm profile-image-button">Friends Count--}}
-            {{--                    </button>--}}
-            {{--                </form>--}}
-            {{--            </div>--}}
-
+            {{--            {!!$picture!!}--}}
             @if($user->image)
                 <img class="profile-image" src="{{asset('storage/'.$user->image)}}"
                      alt="profile image">
             @else
                 <img class="profile-image" src="/images/yourAd.png" alt="profile image">
             @endif
-            @if ($user != auth()->user())
 
-                @if(\App\Http\Controllers\FriendsController::checkIfFriends($user->id) == false)
+            @if(!auth()->user()->checkIfFriends($user))
 
-                    @if(\App\Http\Controllers\FriendsController::checkFriendRequest($user->id) == false)
-                        <form action="{{route('friends.sendFriendRequest',[$user->id])}}" method="post">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-info btn-sm profile-image-button">Send friend
-                                    request
-                                </button>
-                            </div>
-                        </form>
-                    @else
-                        <button class="btn btn-info btn-sm profile-image-button" disabled="disabled">
-                            Friend request sent
-                        </button>
-                    @endif
-                @else
-                    <form action="" method="post">
+                @if(!auth()->user()->checkFriendRequest($user))
+                    <form action="{{route('friends.sendFriendRequest',$user->id)}}" method="post">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-info btn-sm profile-image-button">Unfriend
+                            <button type="submit" class="btn btn-info btn-sm profile-image-button">Send friend
+                                request
                             </button>
                         </div>
                     </form>
+
+                @else
+                    <div class="form-group">
+                        <button class="btn btn-info btn-sm profile-image-button" disabled="disabled">
+                            Friend request sent
+                        </button>
+                    </div>
                 @endif
             @endif
+            @if(auth()->user()->checkIfFriends($user))
+
+                <form action="{{route('friends.unfriend', [$user->id,$user->name,$user->surname])}}" method="post">
+                    <div class="form-group">
+                        <button type="submit" onclick="return confirm('Are you sure?')"
+                                class="btn btn-info btn-sm profile-image-button">Unfriend
+                        </button>
+                    </div>
+                </form>
+            @endif
+
+            @if (!auth()->user()->checkIfFollowing($user))
+                <form action="{{ route('users.follow', [$user->id,$user->name,$user->surname]) }}" method="post">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-info btn-sm profile-image-button">Follow
+                        </button>
+                    </div>
+                </form>
+            @else
+                <form action="{{ route('users.unfollow', [$user->id,$user->name,$user->surname]) }}" method="post">
+                    <div class="form-group">
+                        <button type="submit" onclick="return confirm('Are you sure?')"
+                                class="btn btn-info btn-sm profile-image-button">Unfollow
+                        </button>
+                    </div>
+                </form>
+            @endif
+
         </div>
         <ul class="col-md-3 pt-2">
             <div class="user-data">
@@ -69,16 +84,31 @@
                 <li id="registered-at">{{  strftime("%d %b %Y",strtotime($user->created_at)) }}</li>
             </div>
             <div class="user-data">
-                <label for="posts-count">Posts count:</label>
-                <li id="posts-count">{{  $user->posts->count() }}</li>
+                <label for="posts-count">Posts:</label>
+                <li id="posts-count"><a href="{{route('users.posts',[ $user->id, $user->name, $user->surname])}}">
+                        {{  $user->posts->count() }}</a>
+                </li>
             </div>
             <div class="user-data">
-                <label for="posts-count">Friends count:</label>
-                <li id="friends-count">{{ App\Http\Controllers\FriendsController::friendsCount($user->id) }}</li>
+                <label for="friends-count">Friends:</label>
+                <li id="friends-count"><a href="{{route('users.friends',[ $user->id, $user->name, $user->surname])}}">
+                        {{ $user->getFriendsCount($user)}}</a>
+                </li>
             </div>
-            <a href="{{route('users.posts',[$user,$user->name,$user->surname])}}"
-               class="btn btn-success btn-md btn-block">Show
-                all posts by {{$user->name}}</a>
+            <div class="user-data">
+                <label for="followers-count">Followers:</label>
+                <li id="followers-count"><a
+                        href="{{route('users.followers',[ $user->id, $user->name, $user->surname])}}">
+                        {{ $user->getFollowersCount($user)}}</a>
+                </li>
+            </div>
+            <div class="user-data">
+                <label for="followings-count">Following:</label>
+                <li id="followings-count"><a
+                        href="{{route('users.followings',[ $user->id, $user->name, $user->surname])}}">
+                        {{ $user->getFollowingsCount($user)}}</a>
+                </li>
+            </div>
         </ul>
     </div>
 

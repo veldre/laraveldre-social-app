@@ -80,7 +80,8 @@
                                 <a class="dropdown-item" id="posts" href="{{ route('users.index') }}"
                                    onclick="location.href = 'users'">{{'All users'}}
                                 </a>
-                                <a class="dropdown-item" id="posts" href="{{ route('friends.my-friends') }}"
+                                <a class="dropdown-item" id="posts"
+                                   href="{{route('users.friends',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}"
                                    onclick="location.href = 'users'">{{'My friends'}}
                                 </a>
                             </div>
