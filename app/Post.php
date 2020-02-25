@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
 
-    protected $guarded = [];
+    protected $fillable = ['title', 'text'];
 
     public function user()
     {
-        return $this->belongsTo(User::class); // tas pats, kas SELECT * FROM post WHERE user_id = konkrēta jūzera id
+        return $this->belongsTo(User::class);
     }
 
     public static function getPostsInOrder()
@@ -25,6 +25,8 @@ class Post extends Model
         $userPosts = self::where('user_id', $userId)->get()->sortByDesc('updated_at');
         return $userPosts;
     }
+
+
 
 
 

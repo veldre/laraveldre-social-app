@@ -30,23 +30,23 @@ class PostsController extends Controller
 
     public function storePost(ValidatePost $request)
     {
-        $post = new Post();
-        $post->title = $request['post-title'];
-        $post->text = $request['post-text'];
-        auth()->user()->posts()->save($post);
+        auth()->user()->posts()->create([
+            'title' => $request['post-title'],
+            'text' => $request['post-text']
+        ]);
 
         return redirect()->route('posts.create-post')->with(['message' => 'Post was successfully created!']);
     }
 
     public function show(Post $post, int $id)
     {
-        $post = $post->find($id);
+        $post = $post->findOrFail($id);
         return view('posts.show', ['post' => $post]);
     }
 
     public function edit(Post $post, int $id)
     {
-        $post = $post->find($id);
+        $post = $post->findOrFail($id);
         if (auth()->user()->id === $post->user_id) {
             return view('posts.edit-post', ['post' => $post]);
         }
@@ -56,7 +56,7 @@ class PostsController extends Controller
 
     public function update(Post $post, ValidatePost $request, int $id)
     {
-        $post = $post->find($id);
+        $post = $post->findOrFail($id);
         $post->fill(['title' => $request['post-title'], 'text' => $request['post-text']]);
         $post->save();
 

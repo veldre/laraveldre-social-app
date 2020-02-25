@@ -80,6 +80,12 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+    public function getFollowingsIds()
+    {
+        return $this->followings()->allRelatedIds();
+    }
+
+
     public static function getUsersInOrder()
     {
         return self::orderBy('created_at', 'DESC')->where('id', '>', 0);
@@ -117,35 +123,47 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+//    public function checkUserPicture(User $user)
+//    {
+//        if ($user->image) {
+//            $picture = 'asset(\'storage/uploads/\'.$user->image)';
+//
+//        } else {
+//            $picture = '/images/yourAd.png';
+//        }
+//        return $picture;
+//    }
+
+
     public function checkIfFollowing(User $user): bool
     {
-        return (bool)Follower::where([
-            'user_id' => auth()->user()->id,
-            'leader_id' => $user->id])->first();
+        return auth()->user()->followings->contains($user->id);
     }
 
 
-    public function getFriendsCount(User $user)
+    public function getFriendsCount(User $user): int
     {
         return $user->myFriends->count() + $user->friendOf->count();
     }
 
 
-    public function getFriendRequestsCount()
+    public function getFriendRequestsCount(): int
     {
         return auth()->user()->friendRequestsToThisUser->count();
     }
 
 
-    public function getFollowersCount(User $user)
+    public function getFollowersCount(User $user): int
     {
         return $user->followers->count();
     }
 
 
-    public function getFollowingsCount(User $user)
+    public function getFollowingsCount(User $user): int
     {
         return $user->followings->count();
     }
+
+
 
 }

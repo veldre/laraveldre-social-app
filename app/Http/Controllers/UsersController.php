@@ -29,9 +29,14 @@ class UsersController extends Controller
     public function show(int $id)
     {
         $user = User::findOrFail($id);
+        $followingsIds = $user->getFollowingsIds();
+        $posts = Post::whereIn('user_id', $followingsIds)->paginate(5);
         if ($user != auth()->user()) {
-            return view('users.show', ['user' => $user]);
-//                'picture' => $this->checkUserPicture($user)]);
+            return view('users.show', [
+                'user' => $user,
+                'posts' => $posts
+            ]);
+//                'picture' => $user->checkUserPicture($user)]);
         }
         return redirect('home');
     }
@@ -112,16 +117,5 @@ class UsersController extends Controller
         return back()->with(['message' => 'Profile picture changed!']);
     }
 
-
-//    public function checkUserPicture(User $user)
-//    {
-//        if ($user->image) {
-//            $picture = '<img class="profile-image" src="{{asset(\'storage/\'.$user->image)}}"
-//                     alt="profile image">';
-//        } else {
-//            $picture = '<img class="profile-image" src="/images/yourAd.png" alt="profile image">';
-//        }
-//        return $picture;
-//    }
 
 }

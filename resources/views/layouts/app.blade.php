@@ -84,6 +84,15 @@
                                    href="{{route('users.friends',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}"
                                    onclick="location.href = 'users'">{{'My friends'}}
                                 </a>
+                                <a class="dropdown-item" id="posts"
+                                   href="{{route('users.followers',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}"
+                                   onclick="location.href = 'users'">{{'My followers'}}
+                                </a>
+                                <a class="dropdown-item" id="posts"
+                                   href="{{route('users.followings',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}"
+                                   onclick="location.href = 'users'">{{'Following'}}
+                                </a>
+
                             </div>
                         </li>
 

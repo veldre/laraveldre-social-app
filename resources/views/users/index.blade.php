@@ -28,7 +28,7 @@
                                  alt="posts icon" title="Posts"> ({{$user->posts->count('post')}})</a>
                         <a href={{route('users.friends',[$user->id,$user->name,$user->surname])}}>
                             <img class="mini-icon" src="/images/fists.png"
-                                 alt="friends icon" title="Friends"> friends</a>
+                                 alt="friends icon" title="Friends">  ({{ $user->getFriendsCount($user)}})</a>
                         <a href={{route('users.followers',[$user->id,$user->name,$user->surname])}}>
                             <img class="mini-icon" src="/images/svg/follower.svg"
                                  alt="followers icon" title="Followers"> ({{auth()->user()->getFollowersCount($user)}})</a>
