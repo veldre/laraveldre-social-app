@@ -27,9 +27,10 @@ Route::get('users/{id}-{name}-{surname}/followers', 'UsersController@showFollowe
 Route::get('users/{id}-{name}-{surname}/followings', 'UsersController@showFollowings')->name('users.followings');  //visim kuriem juzeris seko
 
 
+Route::post('users/{id}-{name}-{surname}/unfriend', 'FriendsController@unfriend')->name('friends.unfriend');
+
 Route::post('users/add-friend/{id}','FriendsController@sendFriendRequest')->name('friends.sendFriendRequest');  // pievieno draugu
-Route::post('add-friend/{id}','FriendsController@checkIfFriends')->name('friends.checkIfFriends');
-Route::post('users/{id}/unfriend', 'UsersController@unfriendUser')->name('users.unfriend');
+
 
 
 
@@ -51,8 +52,6 @@ Route::put('posts/{id}/update', 'PostsController@update')->name('posts.update-po
 Route::delete('posts/{post}', 'PostsController@destroy')->name('posts.destroy');  // konkrēta posta dzēšana
 
 
-//Route::resource('users', 'UsersController');
-//Route::resource('posts', 'PostsController');
 
 
 

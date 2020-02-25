@@ -15,29 +15,5 @@ class Friend extends Model
     }
 
 
-    public static function getFriendsInOrder(int $id)
-    {
-        $friends = self::orderBy('created_at', 'DESC')
-            ->where(['friend_id' => $id, 'accepted' => 1])->get();
 
-        return $friends;
-    }
-
-
-
-//    public static function getUnconfirmedFriendsInOrder()
-//    {
-//        $friends = self::orderBy('created_at', 'DESC')
-//            ->where(['friend_id' => auth()->user()->id, 'accepted' => 0]);
-//
-//        return $friends;
-//    }
-
-
-//    public static function getFriendRequest(int $id)
-//    {
-//        $friendRequest = self::where(['user_id' => $id, 'friend_id' => auth()->user()->id])->first();
-//
-//        return $friendRequest;
-//    }
 }

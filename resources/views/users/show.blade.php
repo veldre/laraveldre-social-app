@@ -10,7 +10,7 @@
         <div class="col-md-3 pt-4">
 
 
-{{--            {!!$picture!!}--}}
+            {{--            {!!$picture!!}--}}
             @if($user->image)
                 <img class="profile-image" src="{{asset('storage/'.$user->image)}}"
                      alt="profile image">
@@ -21,7 +21,6 @@
             @if(!auth()->user()->checkIfFriends($user))
 
                 @if(!auth()->user()->checkFriendRequest($user))
-
                     <form action="{{route('friends.sendFriendRequest',$user->id)}}" method="post">
                         <div class="form-group">
                             <button type="submit" class="btn btn-info btn-sm profile-image-button">Send friend
@@ -39,7 +38,8 @@
                 @endif
             @endif
             @if(auth()->user()->checkIfFriends($user))
-                <form action="{{action('UsersController@unfriendUser', $user->id)}}" method="post">
+
+                <form action="{{route('friends.unfriend', [$user->id,$user->name,$user->surname])}}" method="post">
                     <div class="form-group">
                         <button type="submit" onclick="return confirm('Are you sure?')"
                                 class="btn btn-info btn-sm profile-image-button">Unfriend

@@ -21,17 +21,17 @@
 
                 <tr class="row text-center justify-content-center">
                     <td class="col-md-4">
-                        <a href={{route('users.show',[$friend->user->id,$friend->user->name,$friend->user->surname])}}>{{$friend->user->name}}</a>
+                        <a href={{route('users.show',[$friend->id,$friend->name,$friend->surname])}}>{{$friend->name}}</a>
                     </td>
-                    <td class="col-md-4">{{$friend->user->surname}}</td>
-                    <td class="col-md-3">{{$friend->user->created_at}}</td>
+                    <td class="col-md-4">{{$friend->surname}}</td>
+                    <td class="col-md-3">{{$friend->created_at}}</td>
                     <td class="col-md-1 text-center d-flex p-0 justify-content-center">
-                        <form action={{action('FriendsController@acceptFriend', [$friend->user->id])}} method="post">
+                        <form action={{action('FriendsController@acceptFriend', [$friend->id])}} method="post">
                             <button class="btn btn-default" type="submit">
                                 <i class="fa fa-check-circle" aria-hidden="true" style="font-size:24px"></i>
                             </button>
                         </form>
-                        <form action={{action('FriendsController@unacceptFriend', [$friend->user->id])}} method="post">
+                        <form action={{action('FriendsController@unacceptFriend', [$friend->id])}} method="post">
                             <button class="btn btn-default" type="submit">
                                 <i class="fa fa-times-circle" aria-hidden="true"
                                    style="font-size:24px; color: indianred" type="submit"></i>

@@ -34,14 +34,14 @@
                 </div>
             </form>
             <a href="{{route('users.friends',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}" class="btn btn-success btn-sm btn-block">My friends
-                ({{ auth()->user()->getFriendsCount(auth()->user())}})</a>
+                ({{ auth()->user()->getFriendsCount(auth()->user())}})
+          </a>
                 <a href="{{route('users.followers',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}" class="btn btn-success btn-sm btn-block">My followers
                     ({{ auth()->user()->getFollowersCount(auth()->user())}})</a>
                 <a href="{{route('users.followings',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}" class="btn btn-success btn-sm btn-block">Following
                     ({{ auth()->user()->getFollowingsCount(auth()->user())}})</a>
             <a href="{{route('users.posts', [auth()->user()->id,auth()->user()->name,auth()->user()->surname])}}"
-               class="btn btn-success btn-sm btn-block">Show all
-                my posts</a>
+               class="btn btn-success btn-sm btn-block">My posts ({{ auth()->user()->posts->count('post')}})</a>
             <a href="/posts" class="btn btn-success btn-sm btn-block">Show all posts</a>
             <a href="/users" class="btn btn-success btn-sm btn-block">Show all users</a>
             <a href="/posts/create-post" class="btn btn-info btn-md btn-block font-weight-bold">Create post</a>

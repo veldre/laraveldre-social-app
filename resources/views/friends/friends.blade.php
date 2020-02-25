@@ -10,6 +10,7 @@
                 <h1>{{$user->name}} {{$user->surname}} friends</h1>
             @endif
         </div>
+        @include('includes.message-block')
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr class="row text-center justify-content-center">
@@ -29,17 +30,17 @@
             <tbody>
             @foreach($friends as $friend)
 
-                @if($friend->user->id != $user->id)
+                @if($friend->id != $user->id)
                     <tr class="row text-center justify-content-center">
                         @if (auth()->user()->id == $user->id)
                             <td class="col-md-4">
-                                <a href={{route('users.show',[$friend->user->id,$friend->user->name,$friend->user->surname])}}>{{$friend->user->name}}</a>
+                                <a href={{route('users.show',[$friend->id,$friend->name,$friend->surname])}}>{{$friend->name}}</a>
                             </td>
-                            <td class="col-md-4">{{$friend->user->surname}}</td>
-                            <td class="col-md-3">{{ strftime("%d %b %Y",strtotime($friend->user->created_at))}}</td>
+                            <td class="col-md-4">{{$friend->surname}}</td>
+                            <td class="col-md-3">{{ strftime("%d %b %Y",strtotime($friend->created_at))}}</td>
                             <td class="col-md-1 text-center d-flex p-0 justify-content-center">
                                 <form onclick="return confirm('Are you sure?')"
-                                      action="{{action('FriendsController@unacceptFriend', [$friend->user->id])}}"
+                                      action="{{route('friends.unfriend', [$friend->id, $friend->name, $friend->surname])}}"
                                       method="post">
                                     <button class="btn btn-default" type="submit">
                                         <i class="fa fa-times-circle" aria-hidden="true"
@@ -50,10 +51,10 @@
                             </td>
                         @else
                             <td class="col-md-4">
-                                <a href={{route('users.show',[$friend->user->id,$friend->user->name,$friend->user->surname])}}>{{$friend->user->name}}</a>
+                                <a href={{route('users.show',[$friend->id,$friend->name,$friend->surname])}}>{{$friend->name}}</a>
                             </td>
-                            <td class="col-md-4">{{$friend->user->surname}}</td>
-                            <td class="col-md-4">{{ strftime("%d %b %Y",strtotime($friend->user->created_at))}}</td>
+                            <td class="col-md-4">{{$friend->surname}}</td>
+                            <td class="col-md-4">{{ strftime("%d %b %Y",strtotime($friend->created_at))}}</td>
                         @endif
                     </tr>
                 @endif

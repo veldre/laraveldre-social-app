@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Follower;
 use App\Friend;
 use App\Http\Requests\ValidateImage;
 use App\Post;
 use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 
 class UsersController extends Controller
 {
@@ -56,17 +51,10 @@ class UsersController extends Controller
     public function showFriends(int $id)
     {
         $user = User::findOrFail($id);
-//        dd($user->friends);
-        $friends = Friend::where([
-            [ 'user_id', $user->id],
-            ['accepted', 1]
-        ])
-            ->orWhere([
-                ['friend_id', $user->id],
-                ['accepted', 1]
-            ])
-            ->with('user')->get();
-//dd($friends);
+        $friends1 = $user->friendOf;
+        $friends2 = $user->myFriends;
+        $friends = $friends1->merge($friends2);
+
         return view('friends.friends', [
             'friends' => $friends,
             'user' => $user
@@ -112,20 +100,6 @@ class UsersController extends Controller
         $user->followers()->detach(auth()->user()->id);
 
         return redirect()->back()->with(['message' => 'You unfollowed ' . $user->name . ' ' . $user->surname . '!']);
-    }
-
-    public function unfriendUser(int $id)
-    {
-        $user = User::findOrFail($id);
-        $record1 = Friend::where(['friend_id' => $id, 'user_id' => auth()->user()->id])->first();
-        $record2 = Friend::where(['user_id' => $id, 'friend_id' => auth()->user()->id])->first();
-        if ($record1 != null) {
-            $record1->delete();
-        } else {
-            $record2->delete();
-        }
-
-        return redirect()->back()->with(['message' => 'You unfriended ' . $user->name . ' ' . $user->surname . '!']);
     }
 
 

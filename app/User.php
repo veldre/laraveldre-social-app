@@ -29,12 +29,38 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function posts()
     {
-        return $this->hasMany(Post::class)->orderBy('updated_at');
+        return $this->hasMany(Post::class)->orderBy('updated_at', 'DESC');
     }
 
-    public function friends()
+
+    public function myFriends()
     {
-        return $this->hasMany(Friend::class)->orderBy('created_at');
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
+            ->withPivot('status')
+            ->wherePivot('status', 'confirmed')
+            ->orderBy('updated_at', 'DESC')
+            ->withTimestamps();
+
+    }
+
+    public function friendOf()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id')
+            ->withPivot('status')
+            ->wherePivot('status', 'confirmed')
+            ->orderBy('updated_at', 'DESC')
+            ->withTimestamps();
+
+    }
+
+
+    public function friendRequestsToThisUser()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id')
+            ->withPivot('status')
+            ->wherePivot('status', 'pending')
+            ->orderBy('updated_at', 'DESC')
+            ->withTimestamps();
     }
 
 
@@ -42,7 +68,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(User::class, 'followers', 'leader_id', 'user_id')
             ->withTimestamps()
-            ->orderBy('created_at');
+            ->orderBy('updated_at', 'DESC');
     }
 
 
@@ -50,7 +76,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(User::class, 'followers', 'user_id', 'leader_id')
             ->withTimestamps()
-            ->orderBy('created_at');
+            ->orderBy('created_at', 'DESC');
     }
 
 
@@ -64,15 +90,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         if (Friend::where([
                 'user_id' => auth()->user()->id,
-                'friend_id' => $user->id, 'accepted' => 1])->first() || Friend::where([
+                'friend_id' => $user->id, 'status' => 'confirmed'])->first() || Friend::where([
                 'friend_id' => auth()->user()->id,
-                'user_id' => $user->id, 'accepted' => 1])
+                'user_id' => $user->id, 'status' => 'confirmed'])
                 ->first()) {
 
             return true;
-        } else {
-            return false;
         }
+        return false;
 
     }
 
@@ -87,9 +112,8 @@ class User extends Authenticatable implements MustVerifyEmail
                 ->first()) {
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
 
@@ -103,23 +127,21 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getFriendsCount(User $user)
     {
-//        dd($user);
-        return $user->friends->count();
-//        $friendsCount = Friend::where(['friend_id' => $user->id, 'accepted' => 1])->count();
-////            Friend::where(['user_id' => $user->id, 'accepted' => 1])->count();
-//        return $friendsCount;
+        return $user->myFriends->count() + $user->friendOf->count();
     }
+
 
     public function getFriendRequestsCount()
     {
-        $friendRequestsCount = Friend::where(['friend_id' => auth()->user()->id, 'accepted' => 0])->count();
-        return $friendRequestsCount;
+        return auth()->user()->friendRequestsToThisUser->count();
     }
+
 
     public function getFollowersCount(User $user)
     {
         return $user->followers->count();
     }
+
 
     public function getFollowingsCount(User $user)
     {
