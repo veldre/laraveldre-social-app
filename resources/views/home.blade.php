@@ -3,24 +3,15 @@
 @section('content')
     @include('includes.message-block')
     <div class="row justify-content-center">
-        <h1>Hello, {{ auth()->user()->name }}!</h1>
+        <h1>My wall</h1>
     </div>
-
     <div class="container-fluid d-inline-flex">
         <div class="col-md-2 pt-4">
-
-            @if(auth()->user()->image)
-                <img class="profile-image" src="{{asset('storage/'. auth()->user()->image)}}" alt="profile image">
-            @else
-                <img class="profile-image" src="/images/yourAd.png" alt="profile image">
-            @endif
-
-
-            {{--                <img class="profile-image" src="{!!auth()->user()->checkUserPicture(auth()->user())!!}" alt="profile image">--}}
-
+            <img class="profile-image" src="{{auth()->user()->checkUserPicture(auth()->user())}}" alt="profile image">
 
             <form action="{{action('UsersController@addProfileImage')}}" method="post"
                   enctype="multipart/form-data">
+                {{csrf_field()}}
                 @method('PATCH')
                 <div class="form-group">
                     <label for="image" class="text-muted">Profile image</label>
@@ -72,13 +63,19 @@
                             <tr class="row text-center justify-content-left">
                                 <td class="col-md-2"><a
                                         href={{route('users.show',[$post->user_id,$post->user->name,$post->user->surname])}}>
-                                        {{$post->user->name}} {{$post->user->surname}}</a>
+                                        {{$post->user->name}} {{$post->user->surname}}
+
+                                        <img class="small-profile-image"
+                                             src="{{$post->user->checkUserPicture($post->user)}}"></a>
                                 </td>
                                 <td class="col-md-3 text-left">
                                     {{$post->title}}
                                 </td>
 
-                                <td class="col-md-5 text-left">{!!$post->text!!}
+                                <td class="col-md-5 text text-left">
+                                    <p>{{Str::limit($post->text, $limit = 200, $end = '...')}}
+                                        <a href="{{route('posts.show',[$post->id,$post->title])}}"
+                                           class="stretched-link">read more</a></p>
                                 </td>
                                 <td class="col-md-2 text-center">{{$post->updated_at}}</td>
                             </tr>

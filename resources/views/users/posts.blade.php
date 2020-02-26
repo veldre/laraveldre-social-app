@@ -29,7 +29,9 @@
                         <td class="col-md-3 text-left"><a
                                 href={{route('posts.show',[$post->id,$post->title])}}>{{$post->title}}</a>
                         </td>
-                        <td class="col-md-5 text-left">{!!$post->text!!}</td>
+                        <td class="col-md-5 text-left"> <p>{!!Str::limit($post->text, $limit = 200, $end = '...')!!}
+                                <a href="{{route('posts.show',[$post->id,$post->title])}}"
+                                   class="stretched-link">read more</a></p></td>
                         <td class="col-md-2">{{  strftime("%d %b %Y %H:%M",strtotime($post->created_at)) }}</td>
                         <th class="col-md-2 action-buttons">
                             <form action={{route('posts.edit-post',[$post->id,$post->title])}} method="get">
@@ -45,7 +47,9 @@
                         <td class="col-md-4 text-left"><a
                                 href={{route('posts.show',[$post->id,$post->title])}}>{{$post->title}}</a>
                         </td>
-                        <td class="col-md-6 text-left">{{$post->text}}</td>
+                        <td class="col-md-6 text-left"> <p>{!!Str::limit($post->text, $limit = 200, $end = '...')!!}
+                                <a href="{{route('posts.show',[$post->id,$post->title])}}"
+                                   class="stretched-link">read more</a></p></td>
                         <td class="col-md-2">{{  strftime("%d %b %Y %H:%M",strtotime($post->created_at)) }}</td>
                     @endif
                 </tr>

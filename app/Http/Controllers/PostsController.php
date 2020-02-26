@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ValidatePost;
 use App\Post;
-use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+
 
 class PostsController extends Controller
 {
@@ -17,7 +15,7 @@ class PostsController extends Controller
 
     public function index()
     {
-        $posts = Post::getPostsInOrder()->simplePaginate(10);;
+        $posts = Post::getPostsInOrder()->paginate(10);;
         return view('posts.index', [
             'posts' => $posts
         ]);

@@ -5,20 +5,13 @@
     @include('includes.message-block')
 
     <div class="row justify-content-center">
-        <h1>{{$user->name}} {{$user->surname}}</h1>
+        <h1>{{$user->name}} {{$user->surname}}`s wall</h1>
     </div>
 
     <div class="container-fluid d-inline-flex">
         <div class="col-md-2 pt-4">
-            {{--            {!!$picture!!}--}}
-            @if($user->image)
-                <img class="profile-image" src="{{asset('storage/'.$user->image)}}"
-                     alt="profile image">
-            @else
-                <img class="profile-image" src="/images/yourAd.png" alt="profile image">
-            @endif
 
-            {{--            <img class="profile-image" src="{{$picture}}" alt="profile image">--}}
+            <img class="profile-image" src="{{$user->checkUserPicture($user)}}" alt="profile image">
 
             @if(!auth()->user()->checkIfFriends($user))
 

@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use App\User;
-use Illuminate\Http\Request;
+
 
 class HomeController extends Controller
 {
@@ -17,8 +16,8 @@ class HomeController extends Controller
 
     public function index()
     {
-        $followingsIds = auth()->user()->getFollowingsIds();
-        $posts = Post::whereIn('user_id', $followingsIds)->paginate(5);
+        $wallPostsIds = auth()->user()->getWallPostsIds();
+        $posts = Post::whereIn('user_id', $wallPostsIds)->orderBy('updated_at','DESC')->paginate(5);
 
         return view('home', [
             'posts' => $posts

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Friend;
 use App\Http\Requests\ValidateImage;
 use App\Post;
 use App\User;
@@ -18,7 +17,7 @@ class UsersController extends Controller
 
     public function index()
     {
-        $users = User::getUsersInOrder()->simplePaginate(10);
+        $users = User::getUsersInOrder()->paginate(10);
 
         return view('users.index', [
             'users' => $users,
@@ -108,10 +107,10 @@ class UsersController extends Controller
     }
 
 
-    public function addProfileImage(User $user, ValidateImage $request)
+    public function addProfileImage(ValidateImage $request)
     {
-        $user->findOrFail(auth()->user()->id)->update([
-            'image' => $request->image->store('uploads', 'public')
+        auth()->user()->update([
+            'image' => $request->image->store('avatars', 'public')
         ]);
 
         return back()->with(['message' => 'Profile picture changed!']);

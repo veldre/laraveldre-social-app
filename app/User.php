@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -12,10 +13,9 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
 
 
-    protected $guarded = [];
-//    protected $fillable = [
-//        'name', 'surname', 'email', 'password',
-//    ];
+    protected $fillable = [
+        'name', 'surname', 'email', 'password', 'image',
+    ];
 
 
     protected $hidden = [
@@ -86,9 +86,28 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+    public function getFriendsIds()
+    {
+        $myFriendsIds = $this->myFriends()->allRelatedIds();
+        $friendOfIds = $this->friendOf()->allRelatedIds();
+        $friendsIds = $myFriendsIds->merge($friendOfIds);
+        return $friendsIds;
+    }
+
+    public function getWallPostsIds()
+    {
+        return $this->getFriendsIds()->merge($this->getFollowingsIds());
+    }
+
     public static function getUsersInOrder()
     {
         return self::orderBy('created_at', 'DESC')->where('id', '>', 0);
+    }
+
+
+    public function getProfilePicture(User $user)
+    {
+        return Storage::url($user->image);
     }
 
 
@@ -123,16 +142,16 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-//    public function checkUserPicture(User $user)
-//    {
-//        if ($user->image) {
-//            $picture = 'asset(\'storage/uploads/\'.$user->image)';
-//
-//        } else {
-//            $picture = '/images/yourAd.png';
-//        }
-//        return $picture;
-//    }
+    public function checkUserPicture(User $user)
+    {
+        if ($user->image) {
+            $picture = $user->getProfilePicture($user);
+
+        } else {
+            $picture = '/images/yourAd.png';
+        }
+        return $picture;
+    }
 
 
     public function checkIfFollowing(User $user): bool
@@ -163,7 +182,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $user->followings->count();
     }
-
 
 
 }
