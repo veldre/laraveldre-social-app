@@ -126,6 +126,9 @@
                                 <a class="dropdown-item" id="profile" href="{{ route('users.profile') }}"
                                    onclick="location.href = 'home'">{{'My profile'}}
                                 </a>
+                                <a class="dropdown-item" id="change-password" href="{{ route('users.change-password-form') }}"
+                                   onclick="location.href = 'home'">{{'Change password'}}
+                                </a>
 
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"

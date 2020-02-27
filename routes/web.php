@@ -27,7 +27,6 @@ Route::patch('users/profile/update', 'ProfilesController@update')->name('users.p
 Route::get('users/change-password', 'ProfilesController@changePasswordForm')->name('users.change-password-form');  // paroles maiņas lapa
 Route::patch('users/change-password', 'ProfilesController@changePassword')->name('users.change-password');  //nomaina paroli
 
-
 Route::patch('','UsersController@addProfileImage')->name('users.addProfileImage');  // pievieno profila bildi
 Route::get('users', 'UsersController@index')->name('users.index');  // visi juzeri
 Route::get('users/{id}-{name}-{surname}', 'UsersController@show')->name('users.show'); // konkrets juzeris
@@ -35,23 +34,15 @@ Route::get('users/{id}-{name}-{surname}/posts', 'UsersController@showPosts')->na
 Route::get('users/{id}-{name}-{surname}/friends', 'UsersController@showFriends')->name('users.friends');  //visi juzera draugi
 Route::get('users/{id}-{name}-{surname}/followers', 'UsersController@showFollowers')->name('users.followers');  //visi juzera sekotaji
 Route::get('users/{id}-{name}-{surname}/followings', 'UsersController@showFollowings')->name('users.followings');  //visim kuriem juzeris seko
-
+Route::post('users/{id}-{name}-{surname}/follow', 'UsersController@followUser')->name('users.follow');
+Route::post('users/{id}/unfollow', 'UsersController@unFollowUser')->name('users.unfollow');
 
 Route::post('users/{id}-{name}-{surname}/unfriend', 'FriendsController@unfriend')->name('friends.unfriend');
-
 Route::post('users/add-friend/{id}','FriendsController@sendFriendRequest')->name('friends.sendFriendRequest');  // pievieno draugu
-
-
-
-
 Route::post('accept-friend/{id}','FriendsController@acceptFriend')->name('friends.acceptFriend');
 Route::post('unaccept-friend/{id}','FriendsController@unacceptFriend')->name('friends.unacceptFriend');
 Route::get('friends/unconfirmed-friends','FriendsController@unconfirmedFriends')->name('friends.unconfirmedFriends');
 Route::get('friends/my-friends','FriendsController@index')->name('friends.my-friends');
-
-Route::post('users/{id}-{name}-{surname}/follow', 'UsersController@followUser')->name('users.follow');
-Route::post('users/{id}/unfollow', 'UsersController@unFollowUser')->name('users.unfollow');
-
 
 Route::get('posts', 'PostsController@index')->name('posts.index');  // visi posti
 Route::get('posts/create-post', 'PostsController@createPost')->name('posts.create-post'); // jauna posta izveides lapa
@@ -60,6 +51,9 @@ Route::get('posts/{id}-{title}', 'PostsController@show')->name('posts.show');  /
 Route::get('posts/edit/{id}-{title}', 'PostsController@edit')->name('posts.edit-post');
 Route::put('posts/{id}/update', 'PostsController@update')->name('posts.update-post');
 Route::delete('posts/{post}', 'PostsController@destroy')->name('posts.destroy');  // konkrēta posta dzēšana
+
+Route::get('albums', 'AlbumsController@index')->name('albums.index');
+Route::get('albums/create', 'AlbumsController@create')->name('albums.create');
 
 
 

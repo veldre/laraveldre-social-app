@@ -18,7 +18,7 @@
 
             <tbody>
             @foreach($users as $user)
-                <tr class="row text-left justify-content-around">
+                <tr class="row text-center justify-content-around">
                     <td class="col-md-2"><a
                             href={{route('users.show',[$user->id,$user->name,$user->surname])}}>{{$user->name}}</a></td>
                     <td class="col-md-2">{{$user->surname}}</td>
@@ -35,7 +35,7 @@
                         <a href={{route('users.followings',[$user->id,$user->name,$user->surname])}}>
                             <img class="mini-icon" src="/images/svg/following.svg"
                                  alt="followings icon" title="Following"> ({{auth()->user()->getFollowingsCount($user)}})</a></td>
-                    <td class="col-md-3 text-left">{{$user->email}}</td>
+                    <td class="col-md-3 text-center">{{$user->email}}</td>
                     <td class="col-md-2 text-center">{{  strftime("%d %b %Y",strtotime($user->created_at)) }}</td>
                 </tr>
             @endforeach

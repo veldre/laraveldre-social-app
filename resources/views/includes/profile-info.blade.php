@@ -38,5 +38,6 @@
             <label for="about">About:</label>
             <li id="about">{{ $user->about }}</li>
         </div>
+        <br>
 @endif
 

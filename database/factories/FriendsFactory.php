@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 $factory->define(Friend::class, function (Faker $faker) {
     return [
-        'friend_id' => rand(1, 20),
-        'user_id' => rand(1, 20),
+        'friend_id' => App\User::all()->random()->id,
+        'user_id' => App\User::all()->random()->id,
         'status' => 'confirmed'
     ];
 });

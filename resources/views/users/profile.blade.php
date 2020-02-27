@@ -11,8 +11,10 @@
     <div class="container-fluid d-inline-flex">
         <div class="col-md-3 pt-4 profile-info">
             @include('includes.profile-info')
-            <button href="{{route('users.change-password-form')}}"
-               class="btn btn-success btn-sm btn-block text-uppercase mt-3">Change password</button>
+            <form action="{{route('users.change-password-form')}}" method="get" class="form-group">
+                <button class="btn btn-success btn-sm btn-block text-uppercase mt-3" type="submit">Change password
+                </button>
+            </form>
         </div>
         <div class="col-md-6 pt-4">
             <div class="panel-body">

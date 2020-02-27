@@ -1,11 +1,11 @@
-@extends('layouts.app', ['title' => 'Change password'])
+@extends('layouts.app', ['title' => 'Create album'])
 
 @section('content')
     @include('includes.message-block')
 
 
     <div class="row justify-content-center">
-        <h1>Change password</h1>
+        <h1>Create new album</h1>
     </div>
     <div class="container-fluid d-inline-flex justify-content-center">
 
