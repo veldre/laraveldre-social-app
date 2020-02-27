@@ -24,6 +24,9 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('users/profile', 'ProfilesController@index')->name('users.profile'); //edit profile page
 Route::patch('users/profile/update', 'ProfilesController@update')->name('users.profile.update');  //update profile
+Route::get('users/change-password', 'ProfilesController@changePasswordForm')->name('users.change-password-form');  // paroles maiņas lapa
+Route::patch('users/change-password', 'ProfilesController@changePassword')->name('users.change-password');  //nomaina paroli
+
 
 Route::patch('','UsersController@addProfileImage')->name('users.addProfileImage');  // pievieno profila bildi
 Route::get('users', 'UsersController@index')->name('users.index');  // visi juzeri

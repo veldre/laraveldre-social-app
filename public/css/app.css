@@ -159,6 +159,11 @@ p {
     border-radius: 5px;
 }
 
+.profile-info {
+    background-color: #f5e4c4;
+    border-radius: 5px;
+}
+
 
 .btn.btn-info.btn-sm.profile-image-button {
     display: block;

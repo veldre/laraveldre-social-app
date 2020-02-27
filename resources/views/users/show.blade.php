@@ -60,75 +60,35 @@
                 </form>
             @endif
 
+            @include('includes.profile-info')
 
-            <ul class="p-0">
-                <div class="user-data">
-                    <label for="name">Name:</label>
-                    <li id="name">{{ $user->name }}</li>
-                </div>
-                <div class="user-data">
-                    <label for="surname">Surname:</label>
-                    <li id="name">{{ $user->surname }}</li>
-                </div>
-                <div class="user-data">
-                    <label for="email">Email:</label>
-                    <li id="email">{{ $user->email }}</li>
-                </div>
-                @isset($user->phone)
-                    <div class="user-data">
-                        <label for="phone">Phone:</label>
-                        <li id="phone">{{ $user->phone }}</li>
-                    </div>
-                @endif
-                @isset($user->address)
-                    <div class="user-data">
-                        <label for="address">Address:</label>
-                        <li id="address">{{ $user->address }}</li>
-                    </div>
-                @endif
-                @isset($user->birthday)
-                    <div class="user-data">
-                        <label for="birthday">Birthday:</label>
-                        <li id="birthday">{{ $user->birthday }}</li>
-                    </div>
-                @endif
-                @isset($user->about)
-                    <div class="user-data">
-                        <label for="about">About:</label>
-                        <li id="about">{{ $user->about }}</li>
-                    </div>
-                @endif
-                <div class="user-data">
-                    <label for="registered-at">Registered:</label>
-                    <li id="registered-at">{{  strftime("%d %b %Y",strtotime($user->created_at)) }}</li>
-                </div>
-                <div class="user-data">
-                    <label for="posts-count">Posts:</label>
-                    <li id="posts-count"><a href="{{route('users.posts',[ $user->id, $user->name, $user->surname])}}">
-                            {{  $user->posts->count() }}</a>
-                    </li>
-                </div>
-                <div class="user-data">
-                    <label for="friends-count">Friends:</label>
-                    <li id="friends-count"><a
-                            href="{{route('users.friends',[ $user->id, $user->name, $user->surname])}}">
-                            {{ $user->getFriendsCount($user)}}</a>
-                    </li>
-                </div>
-                <div class="user-data">
-                    <label for="followers-count">Followers:</label>
-                    <li id="followers-count"><a
-                            href="{{route('users.followers',[ $user->id, $user->name, $user->surname])}}">
-                            {{ $user->getFollowersCount($user)}}</a>
-                    </li>
-                </div>
-                <div class="user-data">
-                    <label for="followings-count">Following:</label>
-                    <li id="followings-count"><a
-                            href="{{route('users.followings',[ $user->id, $user->name, $user->surname])}}">
-                            {{ $user->getFollowingsCount($user)}}</a>
-                    </li>
-                </div>
+            <div class="user-data">
+                <label for="posts-count">Posts:</label>
+                <li id="posts-count"><a href="{{route('users.posts',[ $user->id, $user->name, $user->surname])}}">
+                        {{  $user->posts->count() }}</a>
+                </li>
+            </div>
+            <div class="user-data">
+                <label for="friends-count">Friends:</label>
+                <li id="friends-count"><a
+                        href="{{route('users.friends',[ $user->id, $user->name, $user->surname])}}">
+                        {{ $user->getFriendsCount($user)}}</a>
+                </li>
+            </div>
+            <div class="user-data">
+                <label for="followers-count">Followers:</label>
+                <li id="followers-count"><a
+                        href="{{route('users.followers',[ $user->id, $user->name, $user->surname])}}">
+                        {{ $user->getFollowersCount($user)}}</a>
+                </li>
+            </div>
+            <div class="user-data">
+                <label for="followings-count">Following:</label>
+                <li id="followings-count"><a
+                        href="{{route('users.followings',[ $user->id, $user->name, $user->surname])}}">
+                        {{ $user->getFollowingsCount($user)}}</a>
+                </li>
+            </div>
             </ul>
         </div>
 

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ValidateProfile extends FormRequest
+class ValidateNewPassword extends FormRequest
 {
 
     public function authorize()
@@ -19,11 +19,9 @@ class ValidateProfile extends FormRequest
     public function rules()
     {
         return [
-            'phone' => 'nullable|min:8|max:20',
-            'address' => 'nullable|min:10|max:100',
-            'about' => 'nullable|min:10|max:500',
-            'birthday' => 'nullable|date',
+            'current-password' => 'required',
+            'new-password' => 'required|min:8|string',
+            'confirm-new-password' => 'required|min:8|string|same:new-password'
         ];
-
     }
 }
