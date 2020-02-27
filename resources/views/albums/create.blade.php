@@ -11,31 +11,33 @@
 
         <div class="col-md-6 pt-4">
             <div class="panel-body">
-                <form action="{{route('users.change-password')}}" method="post">
-                    {{csrf_field()}}
-                    @method('PATCH')
+                <form action="{{route('albums.store')}}" method="post" enctype="multipart/form-data">
+                    @csrf
 
                     <div class="form-group">
-                        <label for="current-password">Current password</label>
-                        <input type="password" name="current-password" class="form-control">
+                        <label for="album-name">Album name</label>
+                        <input type="text" name="album-name" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="new-password">New password</label>
-                        <input type="password" name="new-password" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="confirm-new-password">Confirm new password</label>
-                        <input type="password" name="confirm-new-password" class="form-control">
+                        <label for="album-description">Description</label>
+                        <input type="text" name="album-description" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <div class="text-center">
-                            <button class="btn btn-success btn-block text-uppercase" type="submit">
-                                Save changes
-                            </button>
+                        <div class="col-3 p-0">
+                            <label for="cover-image" class="text-muted">Album cover image</label>
+                            <input type="file" name="cover-image" class="mb-3 text-muted">
+
+
                         </div>
+
+                        <button class="btn btn-success btn-block text-uppercase" type="submit">
+                            Upload album
+                        </button>
                     </div>
                 </form>
+
+
             </div>
         </div>
     </div>

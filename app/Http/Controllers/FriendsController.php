@@ -8,52 +8,52 @@ use App\User;
 
 class FriendsController extends Controller
 {
-    private $friendModel = null;
-
     public function __construct()
     {
         $this->middleware('auth');
-        $this->friendModel = new Friend();
     }
 
 
-    public function unconfirmedFriends()
+    public function unconfirmedFriends()  // ies uz user controller
     {
-        $requests = $this->friendModel->getUnconfirmedFriends();
+        $requests = auth()->user()->friendRequestsToThisUser()
+            ->where('friend_id', auth()->user()->id)
+            ->where('status', 'pending')
+            ->get();
 
         return view('friends.unconfirmed-friends', [
             'unconfirmedFriends' => $requests
         ]);
     }
 
-    public function sendFriendRequest(int $id)
-    {
-        $friend = User::findOrFail($id);
-        $this->friendModel->sendRequest($friend);
-
-        return back()->with(['message' => 'Friend request sent to ' . $friend->name . ' ' . $friend->surname . '!']);
-    }
-
-
-    public function acceptFriend(int $id)
-    {
-        $this->friendModel->acceptFriendRequest($id);
-
-        return back();
-    }
-
-
-    public function unacceptFriend(int $id)
-    {
-        $this->friendModel->unacceptFriendRequest($id);
-
-        return back();
-    }
-
-    public function unfriend(int $id)
+    public function sendFriendRequest(Friend $friend, int $id)
     {
         $user = User::findOrFail($id);
-        $this->friendModel->unfriendUser($id);
+        $friend->sendRequest($user);
+
+        return back()->with(['message' => 'Friend request sent to ' . $user->name . ' ' . $user->surname . '!']);
+    }
+
+
+    public function acceptFriend(Friend $friend, int $id)
+    {
+        $friend->acceptFriendRequest($id);
+
+        return back();
+    }
+
+
+    public function unacceptFriend(Friend $friend, int $id)
+    {
+        $friend->unacceptFriendRequest($id);
+
+        return back();
+    }
+
+    public function unfriend(Friend $friend, int $id)
+    {
+        $user = User::findOrFail($id);
+        $friend->unfriendUser($id);
 
         return redirect()->back()->with(['message' => 'You unfriended ' . $user->name . ' ' . $user->surname . '!']);
     }

@@ -32,6 +32,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Post::class)->orderBy('updated_at', 'DESC');
     }
 
+    public function albums()
+    {
+        return $this->hasMany(Album::class);
+    }
+
+
 
     public function myFriends()
     {
@@ -40,8 +46,8 @@ class User extends Authenticatable implements MustVerifyEmail
             ->wherePivot('status', 'confirmed')
             ->orderBy('updated_at', 'DESC')
             ->withTimestamps();
-
     }
+
 
     public function friendOf()
     {

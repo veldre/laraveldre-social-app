@@ -54,6 +54,7 @@ Route::delete('posts/{post}', 'PostsController@destroy')->name('posts.destroy');
 
 Route::get('albums', 'AlbumsController@index')->name('albums.index');
 Route::get('albums/create', 'AlbumsController@create')->name('albums.create');
+Route::post('albums/store', 'AlbumsController@store')->name('albums.store');
 
 
 

@@ -2,7 +2,7 @@
 
 <form action="{{action('UsersController@addProfileImage')}}" method="post"
       enctype="multipart/form-data">
-    {{csrf_field()}}
+    @csrf
     @method('PATCH')
     <div class="form-group">
         <label for="image" class="text-muted">Profile image</label>

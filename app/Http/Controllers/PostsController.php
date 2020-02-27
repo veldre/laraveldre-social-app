@@ -15,7 +15,7 @@ class PostsController extends Controller
 
     public function index()
     {
-        $posts = Post::getPostsInOrder()->paginate(10);;
+        $posts = Post::getPostsInOrder();
         return view('posts.index', [
             'posts' => $posts
         ]);

@@ -11,30 +11,29 @@
 
         <div class="col-md-6 pt-4">
             <div class="panel-body">
-                <form action="{{route('users.change-password')}}" method="post">
-                    {{csrf_field()}}
-                    @method('PATCH')
+                @csrf
+                @method('PATCH')
 
-                    <div class="form-group">
-                        <label for="current-password">Current password</label>
-                        <input type="password" name="current-password" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="new-password">New password</label>
-                        <input type="password" name="new-password" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="confirm-new-password">Confirm new password</label>
-                        <input type="password" name="confirm-new-password" class="form-control">
-                    </div>
+                <div class="form-group">
+                    <label for="current-password">Current password</label>
+                    <input type="password" name="current-password" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="new-password">New password</label>
+                    <input type="password" name="new-password" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-new-password">Confirm new password</label>
+                    <input type="password" name="confirm-new-password" class="form-control">
+                </div>
 
-                    <div class="form-group">
-                        <div class="text-center">
-                            <button class="btn btn-success btn-block text-uppercase" type="submit">
-                                Save changes
-                            </button>
-                        </div>
+                <div class="form-group">
+                    <div class="text-center">
+                        <button class="btn btn-success btn-block text-uppercase" type="submit">
+                            Save changes
+                        </button>
                     </div>
+                </div>
                 </form>
             </div>
         </div>

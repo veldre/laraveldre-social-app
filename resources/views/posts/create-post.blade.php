@@ -8,6 +8,7 @@
         <h1>Create a post</h1>
         @include('includes.message-block')
         <form action="" method="post">
+            @csrf
             <div class="form-group">
                 <label for="post-title">Title:</label>
                 <input type="text" class="form-control" name="post-title" id="post-title" value="{{old('post-title')}}"

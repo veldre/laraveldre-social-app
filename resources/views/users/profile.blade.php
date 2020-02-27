@@ -20,7 +20,7 @@
         <div class="col-md-6 pt-4">
             <div class="panel-body">
                 <form action="{{route('users.profile.update')}}" method="post">
-                    {{csrf_field()}}
+                    @csrf
                     @method('PATCH')
 
                     <div class="form-group">
