@@ -110,8 +110,9 @@
                             <tr class="row text-center justify-content-left">
                                 <td class="col-md-2"><a
                                         href={{route('users.show',[$post->user_id,$post->user->name,$post->user->surname])}}>
-                                        {{$post->user->name}} {{$post->user->surname}}</a>
-                                </td>
+                                        {{$post->user->name}} {{$post->user->surname}}
+                                        <img class="small-profile-image"
+                                             src="{{$post->user->checkUserPicture($post->user)}}"></a></td>
                                 <td class="col-md-3 text-left">
                                     {{$post->title}}
                                 </td>
