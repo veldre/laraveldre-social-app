@@ -12,11 +12,18 @@
 */
 
 
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 Auth::routes(['verify' => true]);
 
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('users/profile', 'ProfilesController@index')->name('users.profile'); //edit profile page
+Route::patch('users/profile/update', 'ProfilesController@update')->name('users.profile.update');  //update profile
 
 Route::patch('','UsersController@addProfileImage')->name('users.addProfileImage');  // pievieno profila bildi
 Route::get('users', 'UsersController@index')->name('users.index');  // visi juzeri

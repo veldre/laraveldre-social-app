@@ -14,7 +14,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
 
     protected $fillable = [
-        'name', 'surname', 'email', 'password', 'image',
+        'name', 'surname', 'email', 'password', 'image', 'phone', 'address', 'about', 'birthday'
     ];
 
 
@@ -96,7 +96,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getWallPostsIds()
     {
-        return $this->getFriendsIds()->merge($this->getFollowingsIds());
+        return $this->getFriendsIds()->merge($this->getFollowingsIds())->merge(auth()->user()->id);
     }
 
     public static function getUsersInOrder()

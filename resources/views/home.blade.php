@@ -5,6 +5,7 @@
     <div class="row justify-content-center">
         <h1>My wall</h1>
     </div>
+
     <div class="container-fluid d-inline-flex">
         <div class="col-md-2 pt-4">
             <img class="profile-image" src="{{auth()->user()->checkUserPicture(auth()->user())}}" alt="profile image">

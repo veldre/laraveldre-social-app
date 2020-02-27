@@ -114,9 +114,19 @@
                                 </a>
                             </div>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">My account</a>
-                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                My account <span class="caret"></span> </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" id="wall" href="{{ route('home') }}"
+                                   onclick="location.href = 'home'">{{'My wall'}}
+                                </a>
+                                <a class="dropdown-item" id="profile" href="{{ route('users.profile') }}"
+                                   onclick="location.href = 'home'">{{'My profile'}}
+                                </a>
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -8,18 +8,18 @@ use App\User;
 
 class FriendsController extends Controller
 {
+    private $friendModel = null;
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->friendModel = new Friend();
     }
 
 
-    public function unconfirmedFriends()  // ies uz user controller
+    public function unconfirmedFriends()
     {
-        $requests = auth()->user()->friendRequestsToThisUser()
-            ->where('friend_id', auth()->user()->id)
-            ->where('status', 'pending')
-            ->get();
+        $requests = $this->friendModel->getUnconfirmedFriends();
 
         return view('friends.unconfirmed-friends', [
             'unconfirmedFriends' => $requests
@@ -29,9 +29,7 @@ class FriendsController extends Controller
     public function sendFriendRequest(int $id)
     {
         $friend = User::findOrFail($id);
-        $friend->friendRequestsToThisUser()->attach(auth()->user()->id, [
-            'status' => 'pending'
-        ]);
+        $this->friendModel->sendRequest($friend);
 
         return back()->with(['message' => 'Friend request sent to ' . $friend->name . ' ' . $friend->surname . '!']);
     }
@@ -39,14 +37,7 @@ class FriendsController extends Controller
 
     public function acceptFriend(int $id)
     {
-        $request = auth()->user()->friendRequestsToThisUser()
-            ->where('friend_id', auth()->user()->id)
-            ->where('user_id', $id)
-            ->where('status', 'pending')
-            ->first();
-        auth()->user()->friendRequestsToThisUser()->updateExistingPivot($request, [
-            'status' => 'confirmed'
-        ]);
+        $this->friendModel->acceptFriendRequest($id);
 
         return back();
     }
@@ -54,12 +45,7 @@ class FriendsController extends Controller
 
     public function unacceptFriend(int $id)
     {
-        auth()->user()->friendRequestsToThisUser()
-            ->where('friend_id', auth()->user()->id)
-            ->where('user_id', $id)
-            ->where('status', 'pending')
-            ->first()
-            ->delete();
+        $this->friendModel->unacceptFriendRequest($id);
 
         return back();
     }
@@ -67,13 +53,7 @@ class FriendsController extends Controller
     public function unfriend(int $id)
     {
         $user = User::findOrFail($id);
-        $record1 = Friend::where(['friend_id' => $id, 'user_id' => auth()->user()->id])->first();
-        $record2 = Friend::where(['user_id' => $id, 'friend_id' => auth()->user()->id])->first();
-        if ($record1 != null) {
-            $record1->delete();
-        } else {
-            $record2->delete();
-        }
+        $this->friendModel->unfriendUser($id);
 
         return redirect()->back()->with(['message' => 'You unfriended ' . $user->name . ' ' . $user->surname . '!']);
     }

@@ -74,6 +74,30 @@
                     <label for="email">Email:</label>
                     <li id="email">{{ $user->email }}</li>
                 </div>
+                @isset($user->phone)
+                    <div class="user-data">
+                        <label for="phone">Phone:</label>
+                        <li id="phone">{{ $user->phone }}</li>
+                    </div>
+                @endif
+                @isset($user->address)
+                    <div class="user-data">
+                        <label for="address">Address:</label>
+                        <li id="address">{{ $user->address }}</li>
+                    </div>
+                @endif
+                @isset($user->birthday)
+                    <div class="user-data">
+                        <label for="birthday">Birthday:</label>
+                        <li id="birthday">{{ $user->birthday }}</li>
+                    </div>
+                @endif
+                @isset($user->about)
+                    <div class="user-data">
+                        <label for="about">About:</label>
+                        <li id="about">{{ $user->about }}</li>
+                    </div>
+                @endif
                 <div class="user-data">
                     <label for="registered-at">Registered:</label>
                     <li id="registered-at">{{  strftime("%d %b %Y",strtotime($user->created_at)) }}</li>
@@ -131,7 +155,10 @@
                                     {{$post->title}}
                                 </td>
 
-                                <td class="col-md-5 text-left">{!!$post->text!!}
+                                <td class="col-md-5 text-left">
+                                    <p>{{Str::limit($post->text, $limit = 200, $end = '...')}}
+                                        <a href="{{route('posts.show',[$post->id,$post->title])}}"
+                                           class="stretched-link">read more</a></p>
                                 </td>
                                 <td class="col-md-2 text-center">{{$post->updated_at}}</td>
                             </tr>

@@ -35,7 +35,6 @@ class UsersController extends Controller
                 'user' => $user,
                 'posts' => $posts
             ]);
-//                'picture' => $user->checkUserPicture($user)]);
         }
         return redirect('home');
     }
