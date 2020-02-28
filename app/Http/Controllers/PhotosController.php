@@ -55,7 +55,7 @@ class PhotosController extends Controller
     public function destroy(int $id)
     {
         $photo = Photo::findOrFail($id);
-        if (Storage::delete('/storage/albums/' . $photo->album_id . '/' . $photo->photo)) ;
+        if (Storage::delete('/public/albums/' . $photo->album_id . '/' . $photo->photo)) ;
 
         $photo->delete();
 

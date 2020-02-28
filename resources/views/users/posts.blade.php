@@ -34,7 +34,7 @@
                                    class="stretched-link">read more</a></p></td>
                         <td class="col-md-2">{{  strftime("%d %b %Y %H:%M",strtotime($post->created_at)) }}</td>
                         <th class="col-md-2 action-buttons">
-                            <form action={{route('posts.edit-post',[$post->id,$post->title])}} method="get">
+                            <form action={{route('posts.edit',[$post->id,$post->title])}} method="get">
                                 <input class="btn-dark btn-sm" type="submit" value="Edit">
                             </form>
                             <form action={{route('posts.destroy',$post->id)}} method="post">

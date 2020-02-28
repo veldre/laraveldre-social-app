@@ -28,11 +28,15 @@
             <a href="{{route('users.followings',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}"
                class="btn btn-success btn-sm btn-block">Following
                 ({{ auth()->user()->getFollowingsCount(auth()->user())}})</a>
+            <a href="{{route('users.albums', [auth()->user()->id,auth()->user()->name,auth()->user()->surname])}}"
+               class="btn btn-success btn-sm btn-block">My albums ({{ auth()->user()->getAlbumsCount(auth()->user())}})</a>
             <a href="{{route('users.posts', [auth()->user()->id,auth()->user()->name,auth()->user()->surname])}}"
-               class="btn btn-success btn-sm btn-block">My posts ({{ auth()->user()->posts->count('post')}})</a>
+               class="btn btn-success btn-sm btn-block">My posts ({{ auth()->user()->getPostsCount(auth()->user())}})</a>
+
             <a href="/posts" class="btn btn-success btn-sm btn-block">Show all posts</a>
             <a href="/users" class="btn btn-success btn-sm btn-block">Show all users</a>
-            <a href="/posts/create-post" class="btn btn-info btn-md btn-block font-weight-bold">Create post</a>
+            <a href="/posts/create" class="btn btn-info btn-md btn-block font-weight-bold">Create post</a>
+            <a href="/albums/create" class="btn btn-info btn-md btn-block font-weight-bold">Create album</a>
 
         </div>
         <div class="container border-dark">
@@ -62,7 +66,7 @@
                                 </td>
 
                                 <td class="col-md-5 text text-left">
-                                    <p>{{Str::limit($post->text, $limit = 200, $end = '...')}}
+                                    <p>{!!Str::limit($post->text, $limit = 200, $end = '...')!!}
                                         <a href="{{route('posts.show',[$post->id,$post->title])}}"
                                            class="stretched-link">read more</a></p>
                                 </td>

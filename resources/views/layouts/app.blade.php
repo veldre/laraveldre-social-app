@@ -109,8 +109,27 @@
                                    href="{{ action('UsersController@showPosts',[auth()->user()->id, auth()->user()->name, auth()->user()->surname]) }}"
                                    onclick="location.href ='posts/redirect'">{{'My posts'}}
                                 </a>
-                                <a class="dropdown-item" id="create-post" href="{{ route('posts.create-post') }}"
-                                   onclick="location.href = 'posts/create-post'">{{'Create new post'}}
+                                <a class="dropdown-item" id="create-post" href="{{ route('posts.create') }}"
+                                   onclick="location.href = 'posts/create'">{{'Create new post'}}
+                                </a>
+                            </div>
+
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Albums <span class="caret"></span> </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" id="all-posts" href="{{ route('albums.index') }}"
+                                   onclick="location.href = 'albums'">{{'All albums'}}
+                                </a>
+                                <a class="dropdown-item" id="my-albums"
+                                   href="{{ action('UsersController@showAlbums',[auth()->user()->id, auth()->user()->name, auth()->user()->surname]) }}"
+                                   onclick="location.href ='posts/redirect'">{{'My albums'}}
+                                </a>
+                                <a class="dropdown-item" id="create-album" href="{{ route('albums.create') }}"
+                                   onclick="location.href = 'albums/create'">{{'Create new album'}}
                                 </a>
                             </div>
 

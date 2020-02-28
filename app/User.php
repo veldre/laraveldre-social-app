@@ -166,6 +166,12 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+    public function getPostsCount(User $user): int
+    {
+        return $user->posts->count();
+    }
+
+
     public function getFriendsCount(User $user): int
     {
         return $user->myFriends->count() + $user->friendOf->count();
@@ -187,6 +193,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getFollowingsCount(User $user): int
     {
         return $user->followings->count();
+    }
+
+
+    public function getAlbumsCount(User $user): int
+    {
+        return $user->albums->count();
     }
 
 

@@ -23,7 +23,7 @@ class PostsController extends Controller
 
     public function createPost()
     {
-        return view('posts.create-post');
+        return view('posts.create');
     }
 
     public function storePost(ValidatePost $request)
@@ -33,7 +33,7 @@ class PostsController extends Controller
             'text' => $request['post-text']
         ]);
 
-        return redirect()->route('posts.create-post')->with(['message' => 'Post was successfully created!']);
+        return redirect()->route('posts.create')->with(['message' => 'Post was successfully created!']);
     }
 
     public function show(Post $post, int $id)
@@ -46,7 +46,7 @@ class PostsController extends Controller
     {
         $post = $post->findOrFail($id);
         if (auth()->user()->id === $post->user_id) {
-            return view('posts.edit-post', ['post' => $post]);
+            return view('posts.edit', ['post' => $post]);
         }
 
         return redirect('home');

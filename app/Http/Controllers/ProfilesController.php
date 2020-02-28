@@ -57,9 +57,4 @@ class ProfilesController extends Controller
         return back()->with(['message' => 'Your password was successfully changed!']);
     }
 
-
-    public function destroy($id)
-    {
-
-    }
 }

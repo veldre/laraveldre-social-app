@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Albums'])
+@extends('layouts.app', ['title' => $user->name. ' '. $user->surname. ' albums'])
 
 @section('content')
     @include('includes.message-block')
@@ -9,7 +9,7 @@
         </div>
     @else
         <div class="row justify-content-center">
-            <h1>All albums</h1>
+            <h1>All {{$user->name}} {{$user->surname}}`s albums </h1>
         </div>
 
         <div class="container">

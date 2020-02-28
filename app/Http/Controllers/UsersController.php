@@ -88,6 +88,18 @@ class UsersController extends Controller
     }
 
 
+    public function showAlbums(int $id)
+    {
+        $user = User::findOrFail($id);
+        $albums = $user->albums;
+
+        return view('users.albums', [
+            'user' => $user,
+            'albums' => $albums
+        ]);
+    }
+
+
     public function followUser(int $id)
     {
         $user = User::findOrFail($id);
@@ -113,6 +125,15 @@ class UsersController extends Controller
         ]);
 
         return back()->with(['message' => 'Profile picture changed!']);
+    }
+
+
+    public function destroy()
+    {
+        $user = User::find(auth()->user()->id);
+        $user->delete();
+
+        return redirect('/');
     }
 
 
