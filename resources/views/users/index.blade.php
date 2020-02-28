@@ -25,10 +25,10 @@
                     <td class="col-md-4 text-center align-content-center"><a
                             href={{route('users.posts',[$user->id,$user->name,$user->surname])}}>
                             <img class="mini-icon" src="/images/svg/paper-note.svg"
-                                 alt="posts icon" title="Posts"> ({{ auth()->user()->getPostsCount(auth()->user())}})</a>
+                                 alt="posts icon" title="Posts"> ({{$user->getPostsCount($user)}})</a>
                         <a href={{route('users.albums',[$user->id,$user->name,$user->surname])}}>
                             <img class="mini-icon" src="/images/svg/album.svg"
-                                 alt="albums icon" title="Albums"> ({{ auth()->user()->getAlbumsCount(auth()->user())}})</a>
+                                 alt="albums icon" title="Albums"> ({{ $user->getAlbumsCount($user)}})</a>
                         <a href={{route('users.friends',[$user->id,$user->name,$user->surname])}}>
                             <img class="mini-icon" src="/images/fists.png"
                                  alt="friends icon" title="Friends">  ({{ $user->getFriendsCount($user)}})</a>

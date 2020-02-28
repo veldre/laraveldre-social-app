@@ -20,7 +20,7 @@ class ValidatePhoto extends FormRequest
         return [
             'photo' => 'required|file|image|max:5000',
             'photo-title' => 'required|min:2|max:20',
-            'photo-description' =>'required|max:100'
+            'photo-description' =>'required|max:60'
         ];
     }
 }

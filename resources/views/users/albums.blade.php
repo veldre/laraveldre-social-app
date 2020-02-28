@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => $user->name. ' '. $user->surname. ' albums'])
+@extends('layouts.app', ['title' => $user->name. ' '. $user->surname. '`s albums'])
 
 @section('content')
     @include('includes.message-block')
