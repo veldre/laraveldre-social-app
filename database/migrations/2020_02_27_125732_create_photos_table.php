@@ -10,8 +10,8 @@ class CreatePhotosTable extends Migration
     public function up()
     {
         Schema::create('photos', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('album_id');
+            $table->increments('id');
+            $table->integer('album_id')->unsigned();
             $table->foreign('album_id')->references('id')->on('albums')->onDelete('cascade');
             $table->string('photo');
             $table->string('title');

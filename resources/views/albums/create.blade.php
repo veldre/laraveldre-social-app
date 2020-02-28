@@ -15,18 +15,18 @@
                     @csrf
 
                     <div class="form-group">
-                        <label for="album-name">Album name</label>
-                        <input type="text" name="album-name" class="form-control">
+                        <label for="album-name">Album name:</label>
+                        <input type="text" name="album-name" id="album-name" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="album-description">Description</label>
-                        <input type="text" name="album-description" class="form-control">
+                        <label for="album-description">Description:</label>
+                        <input type="text" name="album-description" id="album-description" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <div class="col-3 p-0">
-                            <label for="cover-image" class="text-muted">Album cover image</label>
-                            <input type="file" name="cover-image" class="mb-3 text-muted">
+                            <label for="cover-image" class="text-muted">Album cover image:</label>
+                            <input type="file" name="cover-image" id="cover-image" class="mb-3 text-muted">
 
 
                         </div>

@@ -52,14 +52,19 @@ Route::get('posts/edit/{id}-{title}', 'PostsController@edit')->name('posts.edit-
 Route::put('posts/{id}/update', 'PostsController@update')->name('posts.update-post');
 Route::delete('posts/{post}', 'PostsController@destroy')->name('posts.destroy');  // konkrēta posta dzēšana
 
-Route::get('albums', 'AlbumsController@index')->name('albums.index');
-Route::get('albums/create', 'AlbumsController@create')->name('albums.create');
-Route::post('albums/store', 'AlbumsController@store')->name('albums.store');
+//Route::get('albums', 'AlbumsController@index')->name('albums.index');
+//Route::get('albums/create', 'AlbumsController@create')->name('albums.create');
+//Route::post('albums/store', 'AlbumsController@store')->name('albums.store');
 
 
 
+Route::resource('albums','AlbumsController');
 
 
+Route::get('photos/create/{albumId}', 'PhotosController@create')->name('photos.create');
+Route::post('photos/store', 'PhotosController@store')->name('photos.store');
+Route::get('photos/{id}', 'PhotosController@show')->name('photos.show');
+Route::delete('photos/{id}', 'PhotosController@destroy')->name('photos.destroy');
 
 
 

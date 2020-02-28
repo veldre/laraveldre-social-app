@@ -15,7 +15,8 @@ class AlbumsController extends Controller
 
     public function index()
     {
-        return view('albums.index');
+        $albums = Album::with('photos')->get();
+        return view('albums.index', ['albums' => $albums]);
     }
 
 
@@ -29,7 +30,7 @@ class AlbumsController extends Controller
     {
         $fileNameWithExtension = $request->file('cover-image')->getClientOriginalName();  // filename with extension
 
-        $filename = pathinfo($fileNameWithExtension, PATHINFO_FILENAME); // filaname
+        $filename = pathinfo($fileNameWithExtension, PATHINFO_FILENAME); // filename
 
         $extension = $request->file('cover-image')->getClientOriginalExtension(); //extension
 
@@ -45,5 +46,13 @@ class AlbumsController extends Controller
         $album->save();
 
         return back()->with(['message' => 'Album uploaded successfully']);
+    }
+
+
+    public function show(int $id)
+    {
+        $album = Album::with('photos')->findOrFail($id);
+
+        return view('albums.show',['album' => $album]);
     }
 }

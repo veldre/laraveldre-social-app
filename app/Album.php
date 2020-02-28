@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Album extends Model
 {
@@ -18,5 +19,10 @@ class Album extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getAlbumCover(Album $album)
+    {
+        return Storage::url('album_covers/' . $album->cover_image);
     }
 }
