@@ -18,7 +18,7 @@ class ValidatePhoto extends FormRequest
     public function rules()
     {
         return [
-            'photo' => 'required|file|image|max:5000',
+            'photo' => 'required|file|image',
             'photo-title' => 'required|min:2|max:20',
             'photo-description' =>'required|max:60'
         ];

@@ -11,7 +11,7 @@
             <a href="/albums" class="btn btn-secondary ml-2">Back</a>
         </p>
     </section>
-
+    <hr>
     <div class="container-flex p-3 justify-content-center">
         <div class="row mt-4 pl-5 pr-5">
             @foreach($album->photos as $photo)
@@ -29,9 +29,9 @@
                                    class="btn btn-sm btn-outline-secondary">View</a>
                             </div>
                             <small class="text-muted px-2">{{$photo->description}}</small>
-                                                  <small class="text-muted">Uploaded
+                            <small class="text-muted">Uploaded
                                 by: {{$photo->album->user->name}} {{$photo->album->user->surname}}</small>
-                                     </div>
+                        </div>
                     </div>
                 </div>
             @endforeach

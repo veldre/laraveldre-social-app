@@ -11,7 +11,7 @@
         <div class="row justify-content-center">
             <h1>All albums</h1>
         </div>
-
+        <hr>
         <div class="container">
             <div class="row mt-4">
                 @foreach($albums as $album)
@@ -21,13 +21,13 @@
                              width="200px" class="album-image">
                         <div class="card-body">
 
-                            <p class="card-text">{{$album->description}}</p>
+                            <p class="card-text">{{$album->name}}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <a href="{{route('albums.show', $album->id)}}" type="button"
                                        class="btn btn-sm btn-outline-secondary">View</a>
                                 </div>
-                                <small class="text-muted">{{$album->name}}</small>
+                                <small class="text-muted">{{$album->description}}</small>
                             </div>
                         </div>
                     </div>
