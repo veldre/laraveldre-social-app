@@ -117,6 +117,16 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+    public function getFriends(User $user)
+    {
+        $friends1 = $user->friendOf;
+        $friends2 = $user->myFriends;
+        $friends = $friends1->merge($friends2);
+
+        return $friends;
+    }
+
+
     public function checkIfFriends(User $user)
     {
         if (Friend::where([

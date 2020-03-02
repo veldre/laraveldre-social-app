@@ -30,14 +30,19 @@
                                 @if($album->user ==auth()->user())
                                     <form class="btn-group" method="post"
                                           action="{{route('albums.destroy', $album->id)}}">
-                                        <button type="submit" class="btn btn-sm btn-outline-secondary">Delete</button>
+                                        <button type="submit" onclick="return confirm('Are you sure?')"
+                                                class="btn btn-sm btn-outline-secondary">Delete
+                                        </button>
                                         @method('DELETE')
                                     </form>
                                 @endif
                             </div>
                             <small class="text-muted">{{$album->description}}</small><br>
                             <small class="text-muted">Uploaded
-                                by: {{$album->user->name}} {{$album->user->surname}}</small>
+                                by: @if($album->user == auth()->user()) me
+                                @else
+                                    {{$album->user->name}} {{$album->user->surname}}
+                                @endif</small>
                         </div>
                     </div>
                 @endforeach

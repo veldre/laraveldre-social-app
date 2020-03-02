@@ -54,9 +54,7 @@ class UsersController extends Controller
     public function showFriends(int $id)
     {
         $user = User::findOrFail($id);
-        $friends1 = $user->friendOf;
-        $friends2 = $user->myFriends;
-        $friends = $friends1->merge($friends2);
+        $friends = $user->getFriends($user);
 
         return view('friends.friends', [
             'friends' => $friends,
@@ -105,7 +103,7 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         $user->followers()->attach(auth()->user()->id);
 
-        return back()->with(['message' => 'You now follow ' . $user->name . ' ' . $user->surname . '!']);
+        return back()->with(["message" => "You now follow $user->name $user->surname!"]);
     }
 
 
@@ -114,7 +112,7 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         $user->followers()->detach(auth()->user()->id);
 
-        return redirect()->back()->with(['message' => 'You unfollowed ' . $user->name . ' ' . $user->surname . '!']);
+        return redirect()->back()->with(["message" => "You unfollowed $user->name $user->surname!"]);
     }
 
 

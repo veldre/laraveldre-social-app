@@ -56,12 +56,9 @@ Route::delete('posts/{post}', 'PostsController@destroy')->name('posts.destroy');
 
 
 Route::resource('albums','AlbumsController');
-
-
+Route::resource('photos','PhotosController');
 Route::get('photos/create/{albumId}', 'PhotosController@create')->name('photos.create');
-Route::post('photos/store', 'PhotosController@store')->name('photos.store');
-Route::get('photos/{id}', 'PhotosController@show')->name('photos.show');
-Route::delete('photos/{id}', 'PhotosController@destroy')->name('photos.destroy');
+
 
 
 
