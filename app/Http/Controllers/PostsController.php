@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ValidatePost;
 use App\Post;
-use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+
 
 class PostsController extends Controller
 {
@@ -17,7 +15,7 @@ class PostsController extends Controller
 
     public function index()
     {
-        $posts = Post::getPostsInOrder()->simplePaginate(10);;
+        $posts = Post::getPostsInOrder();
         return view('posts.index', [
             'posts' => $posts
         ]);
@@ -25,30 +23,30 @@ class PostsController extends Controller
 
     public function createPost()
     {
-        return view('posts.create-post');
+        return view('posts.create');
     }
 
     public function storePost(ValidatePost $request)
     {
-        $post = new Post();
-        $post->title = $request['post-title'];
-        $post->text = $request['post-text'];
-        auth()->user()->posts()->save($post);
+        auth()->user()->posts()->create([
+            'title' => $request['post-title'],
+            'text' => $request['post-text']
+        ]);
 
-        return redirect()->route('posts.create-post')->with(['message' => 'Post was successfully created!']);
+        return redirect()->route('posts.create')->with(['message' => 'Post was successfully created!']);
     }
 
     public function show(Post $post, int $id)
     {
-        $post = $post->find($id);
+        $post = $post->findOrFail($id);
         return view('posts.show', ['post' => $post]);
     }
 
     public function edit(Post $post, int $id)
     {
-        $post = $post->find($id);
+        $post = $post->findOrFail($id);
         if (auth()->user()->id === $post->user_id) {
-            return view('posts.edit-post', ['post' => $post]);
+            return view('posts.edit', ['post' => $post]);
         }
 
         return redirect('home');
@@ -56,7 +54,7 @@ class PostsController extends Controller
 
     public function update(Post $post, ValidatePost $request, int $id)
     {
-        $post = $post->find($id);
+        $post = $post->findOrFail($id);
         $post->fill(['title' => $request['post-title'], 'text' => $request['post-text']]);
         $post->save();
 

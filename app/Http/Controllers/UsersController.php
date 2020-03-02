@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Friend;
 use App\Http\Requests\ValidateImage;
 use App\Post;
 use App\User;
@@ -18,7 +17,7 @@ class UsersController extends Controller
 
     public function index()
     {
-        $users = User::getUsersInOrder()->simplePaginate(10);
+        $users = User::getUsersInOrder()->paginate(10);
 
         return view('users.index', [
             'users' => $users,
@@ -29,9 +28,13 @@ class UsersController extends Controller
     public function show(int $id)
     {
         $user = User::findOrFail($id);
+        $followingsIds = $user->getFollowingsIds();
+        $posts = Post::whereIn('user_id', $followingsIds)->paginate(5);
         if ($user != auth()->user()) {
-            return view('users.show', ['user' => $user]);
-//                'picture' => $this->checkUserPicture($user)]);
+            return view('users.show', [
+                'user' => $user,
+                'posts' => $posts
+            ]);
         }
         return redirect('home');
     }
@@ -51,9 +54,7 @@ class UsersController extends Controller
     public function showFriends(int $id)
     {
         $user = User::findOrFail($id);
-        $friends1 = $user->friendOf;
-        $friends2 = $user->myFriends;
-        $friends = $friends1->merge($friends2);
+        $friends = $user->getFriends($user);
 
         return view('friends.friends', [
             'friends' => $friends,
@@ -85,12 +86,24 @@ class UsersController extends Controller
     }
 
 
+    public function showAlbums(int $id)
+    {
+        $user = User::findOrFail($id);
+        $albums = $user->albums;
+
+        return view('users.albums', [
+            'user' => $user,
+            'albums' => $albums
+        ]);
+    }
+
+
     public function followUser(int $id)
     {
         $user = User::findOrFail($id);
         $user->followers()->attach(auth()->user()->id);
 
-        return back()->with(['message' => 'You now follow ' . $user->name . ' ' . $user->surname . '!']);
+        return back()->with(["message" => "You now follow $user->name $user->surname!"]);
     }
 
 
@@ -99,29 +112,27 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         $user->followers()->detach(auth()->user()->id);
 
-        return redirect()->back()->with(['message' => 'You unfollowed ' . $user->name . ' ' . $user->surname . '!']);
+        return redirect()->back()->with(["message" => "You unfollowed $user->name $user->surname!"]);
     }
 
 
-    public function addProfileImage(User $user, ValidateImage $request)
+    public function addProfileImage(ValidateImage $request)
     {
-        $user->findOrFail(auth()->user()->id)->update([
-            'image' => $request->image->store('uploads', 'public')
+        auth()->user()->update([
+            'image' => $request->image->store('avatars', 'public')
         ]);
 
         return back()->with(['message' => 'Profile picture changed!']);
     }
 
 
-//    public function checkUserPicture(User $user)
-//    {
-//        if ($user->image) {
-//            $picture = '<img class="profile-image" src="{{asset(\'storage/\'.$user->image)}}"
-//                     alt="profile image">';
-//        } else {
-//            $picture = '<img class="profile-image" src="/images/yourAd.png" alt="profile image">';
-//        }
-//        return $picture;
-//    }
+    public function destroy()
+    {
+        $user = User::find(auth()->user()->id);
+        $user->delete();
+
+        return redirect('/');
+    }
+
 
 }

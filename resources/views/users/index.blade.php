@@ -8,9 +8,9 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr class="row text-center justify-content-center">
-                <th class="header col-md-2">Name</th>
+                <th class="header col-md-1">Name</th>
                 <th class="header col-md-2">Surname</th>
-                <th class="header col-md-3">Activity</th>
+                <th class="header col-md-4">Activity</th>
                 <th class="header col-md-3">Email</th>
                 <th class="header col-md-2">Registered</th>
             </tr>
@@ -18,17 +18,20 @@
 
             <tbody>
             @foreach($users as $user)
-                <tr class="row text-left justify-content-around">
-                    <td class="col-md-2"><a
+                <tr class="row text-center justify-content-around">
+                    <td class="col-md-1"><a
                             href={{route('users.show',[$user->id,$user->name,$user->surname])}}>{{$user->name}}</a></td>
                     <td class="col-md-2">{{$user->surname}}</td>
-                    <td class="col-md-3 text-center align-content-center"><a
+                    <td class="col-md-4 text-center align-content-center"><a
                             href={{route('users.posts',[$user->id,$user->name,$user->surname])}}>
                             <img class="mini-icon" src="/images/svg/paper-note.svg"
-                                 alt="posts icon" title="Posts"> ({{$user->posts->count('post')}})</a>
+                                 alt="posts icon" title="Posts"> ({{$user->getPostsCount($user)}})</a>
+                        <a href={{route('users.albums',[$user->id,$user->name,$user->surname])}}>
+                            <img class="mini-icon" src="/images/svg/album.svg"
+                                 alt="albums icon" title="Albums"> ({{ $user->getAlbumsCount($user)}})</a>
                         <a href={{route('users.friends',[$user->id,$user->name,$user->surname])}}>
                             <img class="mini-icon" src="/images/fists.png"
-                                 alt="friends icon" title="Friends"> friends</a>
+                                 alt="friends icon" title="Friends">  ({{ $user->getFriendsCount($user)}})</a>
                         <a href={{route('users.followers',[$user->id,$user->name,$user->surname])}}>
                             <img class="mini-icon" src="/images/svg/follower.svg"
                                  alt="followers icon" title="Followers"> ({{auth()->user()->getFollowersCount($user)}})</a>

@@ -8,6 +8,7 @@
         <h1>Edit your post</h1>
         @include('includes.message-block')
         <form action={{action('PostsController@update', [$post->id])}} method="post">
+            @csrf
             @method('PUT')
             <div class="form-group">
                 <label for="post-title">Title:</label>

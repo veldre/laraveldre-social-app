@@ -84,6 +84,15 @@
                                    href="{{route('users.friends',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}"
                                    onclick="location.href = 'users'">{{'My friends'}}
                                 </a>
+                                <a class="dropdown-item" id="posts"
+                                   href="{{route('users.followers',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}"
+                                   onclick="location.href = 'users'">{{'My followers'}}
+                                </a>
+                                <a class="dropdown-item" id="posts"
+                                   href="{{route('users.followings',[ auth()->user()->id, auth()->user()->name, auth()->user()->surname])}}"
+                                   onclick="location.href = 'users'">{{'Following'}}
+                                </a>
+
                             </div>
                         </li>
 
@@ -100,14 +109,46 @@
                                    href="{{ action('UsersController@showPosts',[auth()->user()->id, auth()->user()->name, auth()->user()->surname]) }}"
                                    onclick="location.href ='posts/redirect'">{{'My posts'}}
                                 </a>
-                                <a class="dropdown-item" id="create-post" href="{{ route('posts.create-post') }}"
-                                   onclick="location.href = 'posts/create-post'">{{'Create new post'}}
+                                <a class="dropdown-item" id="create-post" href="{{ route('posts.create') }}"
+                                   onclick="location.href = 'posts/create'">{{'Create new post'}}
                                 </a>
                             </div>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">My account</a>
-                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Albums <span class="caret"></span> </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" id="all-posts" href="{{ route('albums.index') }}"
+                                   onclick="location.href = 'albums'">{{'All albums'}}
+                                </a>
+                                <a class="dropdown-item" id="my-albums"
+                                   href="{{ action('UsersController@showAlbums',[auth()->user()->id, auth()->user()->name, auth()->user()->surname]) }}"
+                                   onclick="location.href ='posts/redirect'">{{'My albums'}}
+                                </a>
+                                <a class="dropdown-item" id="create-album" href="{{ route('albums.create') }}"
+                                   onclick="location.href = 'albums/create'">{{'Create new album'}}
+                                </a>
+                            </div>
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                My account <span class="caret"></span> </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" id="wall" href="{{ route('home') }}"
+                                   onclick="location.href = 'home'">{{'My wall'}}
+                                </a>
+                                <a class="dropdown-item" id="profile" href="{{ route('users.profile') }}"
+                                   onclick="location.href = 'home'">{{'My profile'}}
+                                </a>
+                                <a class="dropdown-item" id="change-password" href="{{ route('users.change-password-form') }}"
+                                   onclick="location.href = 'home'">{{'Change password'}}
+                                </a>
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -133,7 +174,7 @@
 
         </nav>
 
-        <main class="py-4">
+        <main class="pb-4">
             @yield('content')
         </main>
 

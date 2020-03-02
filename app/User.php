@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -12,10 +13,9 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
 
 
-    protected $guarded = [];
-//    protected $fillable = [
-//        'name', 'surname', 'email', 'password',
-//    ];
+    protected $fillable = [
+        'name', 'surname', 'email', 'password', 'image', 'phone', 'address', 'about', 'birthday'
+    ];
 
 
     protected $hidden = [
@@ -32,6 +32,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Post::class)->orderBy('updated_at', 'DESC');
     }
 
+    public function albums()
+    {
+        return $this->hasMany(Album::class);
+    }
+
+
 
     public function myFriends()
     {
@@ -40,8 +46,8 @@ class User extends Authenticatable implements MustVerifyEmail
             ->wherePivot('status', 'confirmed')
             ->orderBy('updated_at', 'DESC')
             ->withTimestamps();
-
     }
+
 
     public function friendOf()
     {
@@ -80,9 +86,44 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+    public function getFollowingsIds()
+    {
+        return $this->followings()->allRelatedIds();
+    }
+
+
+    public function getFriendsIds()
+    {
+        $myFriendsIds = $this->myFriends()->allRelatedIds();
+        $friendOfIds = $this->friendOf()->allRelatedIds();
+        $friendsIds = $myFriendsIds->merge($friendOfIds);
+        return $friendsIds;
+    }
+
+    public function getWallPostsIds()
+    {
+        return $this->getFriendsIds()->merge($this->getFollowingsIds())->merge(auth()->user()->id);
+    }
+
     public static function getUsersInOrder()
     {
         return self::orderBy('created_at', 'DESC')->where('id', '>', 0);
+    }
+
+
+    public function getProfilePicture(User $user)
+    {
+        return Storage::url($user->image);
+    }
+
+
+    public function getFriends(User $user)
+    {
+        $friends1 = $user->friendOf;
+        $friends2 = $user->myFriends;
+        $friends = $friends1->merge($friends2);
+
+        return $friends;
     }
 
 
@@ -117,35 +158,58 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-    public function checkIfFollowing(User $user): bool
+    public function checkUserPicture(User $user)
     {
-        return (bool)Follower::where([
-            'user_id' => auth()->user()->id,
-            'leader_id' => $user->id])->first();
+        if ($user->image) {
+            $picture = $user->getProfilePicture($user);
+
+        } else {
+            $picture = '/images/yourAd.png';
+        }
+        return $picture;
     }
 
 
-    public function getFriendsCount(User $user)
+    public function checkIfFollowing(User $user): bool
+    {
+        return auth()->user()->followings->contains($user->id);
+    }
+
+
+    public function getPostsCount(User $user): int
+    {
+        return $user->posts->count();
+    }
+
+
+    public function getFriendsCount(User $user): int
     {
         return $user->myFriends->count() + $user->friendOf->count();
     }
 
 
-    public function getFriendRequestsCount()
+    public function getFriendRequestsCount(): int
     {
         return auth()->user()->friendRequestsToThisUser->count();
     }
 
 
-    public function getFollowersCount(User $user)
+    public function getFollowersCount(User $user): int
     {
         return $user->followers->count();
     }
 
 
-    public function getFollowingsCount(User $user)
+    public function getFollowingsCount(User $user): int
     {
         return $user->followings->count();
     }
+
+
+    public function getAlbumsCount(User $user): int
+    {
+        return $user->albums->count();
+    }
+
 
 }
