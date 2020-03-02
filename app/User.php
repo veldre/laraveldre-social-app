@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -27,6 +28,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+
+    public function getSlug(User $user)
+    {
+        $slug = Str::slug($user->id . ' ' . $user->name . ' ' . $user->surname, "-");
+        return $slug;
+//        dd($slug);
+    }
+
     public function posts()
     {
         return $this->hasMany(Post::class)->orderBy('updated_at', 'DESC');
@@ -36,7 +45,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Album::class);
     }
-
 
 
     public function myFriends()
