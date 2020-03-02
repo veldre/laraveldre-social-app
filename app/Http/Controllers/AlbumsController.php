@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Album;
 use App\Http\Requests\ValidateAlbum;
+use Illuminate\Support\Facades\Storage;
 
 class AlbumsController extends Controller
 {
@@ -53,6 +54,22 @@ class AlbumsController extends Controller
     {
         $album = Album::with('photos')->findOrFail($id);
 
-        return view('albums.show',['album' => $album]);
+        return view('albums.show', ['album' => $album]);
+    }
+
+
+    public function destroy(int $id)
+    {
+        $album = Album::findOrFail($id);
+
+        Storage::deleteDirectory("/public/albums/$album->id");
+        Storage::delete("/public/album_covers/$album->cover_image");
+        $album->delete();
+
+        return redirect()->route('users.albums', ([
+            'id' => $album->user->id,
+            'name' => $album->user->name,
+            'surname' => $album->user->surname
+        ]))->with(["message" => "Album $album->name deleted successfully!"]);
     }
 }

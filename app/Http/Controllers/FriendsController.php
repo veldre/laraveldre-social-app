@@ -14,7 +14,7 @@ class FriendsController extends Controller
     }
 
 
-    public function unconfirmedFriends()  // ies uz user controller
+    public function unconfirmedFriends()
     {
         $requests = auth()->user()->friendRequestsToThisUser()
             ->where('friend_id', auth()->user()->id)
