@@ -53,6 +53,7 @@ Route::get('posts/{id}-{title}', 'PostsController@show')->name('posts.show');
 Route::get('posts/edit/{id}-{title}', 'PostsController@edit')->name('posts.edit');
 Route::put('posts/{id}/update', 'PostsController@update')->name('posts.update');
 Route::delete('posts/{post}', 'PostsController@destroy')->name('posts.destroy');
+Route::get('posts/{id}/like', 'PostsController@like')->name('posts.like');
 
 
 Route::resource('albums','AlbumsController');

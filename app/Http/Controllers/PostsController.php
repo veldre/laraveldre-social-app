@@ -71,4 +71,15 @@ class PostsController extends Controller
         return redirect()->route('users.posts', [$post->user_id, $post->user->name, $post->user->surname])
             ->with(['user' => $post->user, 'message' => 'Your post was successfully deleted!']);
     }
+
+
+    public function like(int $id)
+    {
+        $post = Post::findOrFail($id);
+        $post->likes()->create([
+            'user_id' => auth()->user()->id,
+            'like' => true
+        ]);
+        return back()->with(['message' => 'You liked a post!']);
+    }
 }
