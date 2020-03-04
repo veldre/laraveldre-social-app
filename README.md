@@ -1,6 +1,6 @@
 
 
-#Laraveldre social
+# Laraveldre social
 
 Laraveldre social is my mini social web-app project. Using PHP 7.2, Laravel 6.15., Composer 1.9.2. Constantly updating, refactoring and adding new features.
 
