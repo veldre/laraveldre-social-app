@@ -47,6 +47,12 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+
     public function myFriends()
     {
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
@@ -181,6 +187,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function checkIfFollowing(User $user): bool
     {
         return auth()->user()->followings->contains($user->id);
+    }
+
+
+    public function checkIfLiked(Post $post)
+    {
+        $like = $post->likes->where('user_id',auth()->user()->id)->first();
+
+        return $like ? "Unlike" : null;
     }
 
 

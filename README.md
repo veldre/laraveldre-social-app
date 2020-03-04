@@ -72,3 +72,4 @@ Option to delete or add new pictures in the gallery after a period of time.
 ![User`s profile](profile.png)
 ![User info](user.png)
 ![Gallery](gallery.png)
+![Likes](likes.png)
