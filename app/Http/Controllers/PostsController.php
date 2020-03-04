@@ -82,4 +82,14 @@ class PostsController extends Controller
         ]);
         return back()->with(['message' => 'You liked a post!']);
     }
+
+
+    public function unlike(int $id)
+    {
+        $post = Post::findOrFail($id);
+        $like = $post->likes->where('user_id',auth()->user()->id)->first();
+        $like->delete();
+//     dd($like);
+        return back()->with(['message' => 'You unliked a post!']);
+    }
 }

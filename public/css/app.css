@@ -106,6 +106,17 @@ body {
     padding-right: 195px;
 }
 
+.btn.btn-info.unlike {
+    height: 25px;
+    width: 60px;
+    padding: 0;
+    color: cornflowerblue;
+    border: none;
+    background-color: transparent;
+    font-weight: 900;
+}
+
+
 .navbar-brand {
     margin-left: 90px;
 }

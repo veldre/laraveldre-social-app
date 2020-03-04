@@ -54,12 +54,12 @@ Route::get('posts/edit/{id}-{title}', 'PostsController@edit')->name('posts.edit'
 Route::put('posts/{id}/update', 'PostsController@update')->name('posts.update');
 Route::delete('posts/{post}', 'PostsController@destroy')->name('posts.destroy');
 Route::get('posts/{id}/like', 'PostsController@like')->name('posts.like');
+Route::delete('posts/{id}/unlike', 'PostsController@unlike')->name('posts.unlike');
 
 
 Route::resource('albums','AlbumsController');
 Route::resource('photos','PhotosController');
 Route::get('photos/create/{albumId}', 'PhotosController@create')->name('photos.create');
-
 
 
 

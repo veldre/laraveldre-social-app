@@ -133,6 +133,4 @@ class UsersController extends Controller
 
         return redirect('/');
     }
-
-
 }

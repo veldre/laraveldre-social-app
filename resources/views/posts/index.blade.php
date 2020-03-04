@@ -33,13 +33,20 @@
                             <a href="{{route('posts.show',[$post->id,$post->title])}}"
                                class="stretched-link">read more</a></p></td>
                     <td class="col-md-2">{{  strftime("%d %b %Y %H:%M",strtotime($post->updated_at)) }}
-                        <a href={{route('posts.like',[$post->id])}}> <img class="w-25 mt-3"
-                                                                          src="{{$post->getLikeIcon($post)}}"
-                                                                          alt="like icon" title="Like"></a><br>
+
+                        <a @if(!auth()->user()->checkIfLiked($post)) href={{route('posts.like',[$post->id])}}@endif>
+                            <img class="w-25 mt-3"
+                                 src="{{$post->getLikeIcon($post)}}"
+                                 alt="like icon" title="Like"></a>
+                        <br>
                         ({{$post->getPostLikesCount($post)}})
-                        <p>{{auth()->user()->checkIfLiked($post)}}</p>
-
-
+                        <br>
+                        <form action={{route('posts.unlike',$post->id)}} method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-info unlike"
+                                    type="submit" title="Unlike">{{auth()->user()->checkIfLiked($post)}}</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
